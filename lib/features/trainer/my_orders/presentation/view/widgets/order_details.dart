@@ -21,11 +21,12 @@ const String defaultAvatar =
 class CardDetails extends StatelessWidget {
   final bool selectedCard;
   final BookingRequestModel bookingRequestModel;
-  final Function() ontap;
-  const CardDetails(this.ontap,
+  final BookingRequestCubit bloc;
+  const CardDetails(
       {super.key,
       required this.selectedCard,
-      required this.bookingRequestModel});
+      required this.bookingRequestModel,
+      required this.bloc});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class CardDetails extends StatelessWidget {
                     subtitle: Padding(
                       padding: EdgeInsets.only(top: 3.h),
                       child: CustomText(
-                        text: "# ${bookingRequestModel.id!}",
+                        text: "# ${bookingRequestModel.traineeId!}",
                         fontSize: AppConstants.textSize14,
                         fontWeight: FontWeight.w500,
                         color: AppColors.white,
@@ -105,12 +106,8 @@ class CardDetails extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         InkWell(
-                          onTap: () {
-                            BookingRequestCubit.of(context)
-                                .approveBookingRequest(
-                                    context, bookingRequestModel.id!);
-                            ontap();
-                          },
+                          onTap: () => bloc.approveBookingRequest(
+                              context, bookingRequestModel.id!),
                           child: const CircleAvatar(
                             backgroundColor: AppColors.green,
                             child: Icon(
@@ -121,9 +118,8 @@ class CardDetails extends StatelessWidget {
                         ),
                         Gaps.hGap12,
                         InkWell(
-                          onTap: () => BookingRequestCubit.of(context)
-                              .rejectBookingRequest(
-                                  context, bookingRequestModel.id!),
+                          onTap: () => bloc.rejectBookingRequest(
+                              context, bookingRequestModel.id!),
                           child: const CircleAvatar(
                             backgroundColor: AppColors.red,
                             child: Icon(

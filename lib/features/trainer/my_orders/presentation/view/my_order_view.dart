@@ -33,8 +33,7 @@ class _MyOrderViewState extends State<MyOrderView>
         title: Translation.of(context).my_orders,
       ),
       body: BlocProvider(
-          create: (context) =>
-              BookingRequestCubit()..getBookingRequests(context, 0),
+          create: (context) => BookingRequestCubit()..getBookingRequests(0),
           child: Column(
             children: [
               SizedBox(
@@ -49,7 +48,7 @@ class _MyOrderViewState extends State<MyOrderView>
                           setState(() {
                             BookingRequestCubit.of(context).updateCurrentTap(1);
                             BookingRequestCubit.of(context)
-                                .getBookingRequests(context, 0);
+                                .getBookingRequests(0);
                             tabController!.animateTo(0);
                           });
                         }),
@@ -61,7 +60,7 @@ class _MyOrderViewState extends State<MyOrderView>
                           setState(() {
                             BookingRequestCubit.of(context).updateCurrentTap(2);
                             BookingRequestCubit.of(context)
-                                .getBookingRequests(context, 1);
+                                .getBookingRequests(1);
                             tabController!.animateTo(1);
                           });
                         }),
@@ -69,14 +68,12 @@ class _MyOrderViewState extends State<MyOrderView>
                         index: 3,
                         label: LanguageHelper.getTranslation(context).cancelled,
                         tabbed: BookingRequestCubit.of(context).tabbed,
-                        onTap: () {
-                          setState(() {
-                            BookingRequestCubit.of(context).updateCurrentTap(3);
-                            BookingRequestCubit.of(context)
-                                .getBookingRequests(context, 2);
-                            tabController!.animateTo(2);
-                          });
-                        }),
+                        onTap: () => setState(() {
+                              BookingRequestCubit.of(context)
+                                ..updateCurrentTap(3)
+                                ..getBookingRequests(2);
+                              tabController!.animateTo(2);
+                            })),
                   ],
                 ),
               ),
@@ -85,15 +82,15 @@ class _MyOrderViewState extends State<MyOrderView>
                   physics: const NeverScrollableScrollPhysics(),
                   controller: tabController,
                   children: <Widget>[
-                    BookingList(selectedCard: false, () {
-                      tabController!.animateTo(0);
-                    }),
-                    BookingList(selectedCard: true, () {
-                      tabController!.animateTo(0);
-                    }),
-                    BookingList(selectedCard: true, () {
-                      tabController!.animateTo(0);
-                    })
+                    BookingList(
+                        selectedCard: false,
+                        bloc: BookingRequestCubit.of(context)),
+                    BookingList(
+                        selectedCard: true,
+                        bloc: BookingRequestCubit.of(context)),
+                    BookingList(
+                        selectedCard: true,
+                        bloc: BookingRequestCubit.of(context)),
                   ],
                 ),
               )

@@ -17,21 +17,20 @@ class BookingRequestCubit extends Cubit<BookingRequestState> {
   int tabbed = 1;
   updateCurrentTap(int index) {
     tabbed = index;
+
     emit(GetBookingResuestsUpdateTap());
   }
 
-  Future getBookingRequests(BuildContext context, int status) async {
+  Future getBookingRequests(int status) async {
     emit(GetBookingRequestsLoading());
     final res = await _bookingRequestRepo.getBookingRequests(status);
     res.fold(
       (err) {
-        print(err);
         Toast.show(err);
         emit(GetBookingRequestsError());
       },
       (res) {
         bookingRequests = res;
-
         emit(GetBookingRequestsLoaded(res));
       },
     );
@@ -44,13 +43,11 @@ class BookingRequestCubit extends Cubit<BookingRequestState> {
         await _bookingRequestRepo.approveBookingRequest(bookingRequestId);
     res.fold(
       (err) {
-        print(err);
         Toast.show(err);
         emit(ApproveBookingRequestError());
       },
       (res) async {
-        print(res);
-        getBookingRequests(context, 0);
+        getBookingRequests(0);
         emit(ApproveBookingRequestLoaded());
       },
     );
@@ -68,7 +65,7 @@ class BookingRequestCubit extends Cubit<BookingRequestState> {
         emit(RejectBookingRequestError());
       },
       (res) {
-        getBookingRequests(context, 0);
+        getBookingRequests(0);
         emit(RejectBookingRequestLoaded());
       },
     );
