@@ -5,6 +5,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get notifications => 'Notifications';
+
+  @override
   String get areYou => 'Are You';
 
   @override

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trainee_restaurantapp/core/common/app_colors.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 
 import '../../../../../core/ui/loader.dart';
 import '../../../../../core/ui/widgets/custom_appbar.dart';
@@ -13,8 +16,8 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const TransparentAppBar(
-          title: "الاشعارات",
+        appBar: TransparentAppBar(
+          title: LanguageHelper.getTranslation(context).notifications,
         ),
         body: BlocProvider(
           create: (context) => NotificationCubit()..getNotifications(context),
@@ -28,9 +31,12 @@ class NotificationScreen extends StatelessWidget {
                       itemCount:
                           NotificationCubit.of(context).notifications.length,
                       separatorBuilder: (context, index) {
-                        return const Divider(
-                          color: Colors.white,
+                        return Divider(
+                          indent: 25.w,
+                          endIndent: 20.w,
+                          color: AppColors.darkGrey50,
                           thickness: 2,
+                          height: 30.h,
                         );
                       },
                       itemBuilder: (context, index) {
@@ -39,7 +45,9 @@ class NotificationScreen extends StatelessWidget {
                                 .notifications[index]);
                       });
                 } else {
-                  return const Center(child: Text("لا يوجد اشعارات"));
+                  return Center(
+                      child: Text(LanguageHelper.getTranslation(context)
+                          .no_data_found));
                 }
               }
             },
@@ -57,18 +65,27 @@ class NotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          CircleAvatar(
+            radius: 22.w,
+            backgroundColor: Colors.white,
+            backgroundImage: const NetworkImage(defaultAvatar),
+          ),
+          SizedBox(width: 8.w),
           Expanded(
               child: Text(
-            notificationModel.message ?? "",
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+            LanguageHelper.isAr(context)
+                ? notificationModel.arMessage ?? ""
+                : notificationModel.enMessage ?? "",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12.sp),
           )),
-          const SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: 3.w),
           Text(
             notificationModel.creationTime!.substring(0, 10),
             style: const TextStyle(color: Colors.white, fontSize: 14),

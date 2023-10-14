@@ -93,6 +93,12 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
   /// No description provided for @areYou.
   ///
   /// In en, this message translates to:

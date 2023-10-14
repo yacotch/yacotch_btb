@@ -5,6 +5,9 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get notifications => 'الاشعارات';
+
+  @override
   String get areYou => 'هل أنت';
 
   @override
