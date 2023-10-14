@@ -228,6 +228,8 @@ class AuthRepo {
       body: await createRestaurantModel.toJson(),
     );
     try {
+      print(response.data);
+
       if (response.data['success'] == true) {
         return Right(UserModel.fromJson(response.data));
       } else {

@@ -51,9 +51,7 @@ class _CreateRestaurantScreenState extends State<CreateRestaurantScreen> {
                     key: AuthCubit.of(context).formKey,
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 55.h,
-                        ),
+                        SizedBox(height: 55.h),
 
                         _buildTextFiledWidget(
                             type: TextInputType.name,
@@ -106,13 +104,15 @@ class _CreateRestaurantScreenState extends State<CreateRestaurantScreen> {
                                 AuthCubit.of(context).phoneController),
                         Gaps.vGap24,
                         _buildTextFiledWidget(
-                            type: TextInputType.number,
-                            validator: (input) =>
-                                Validators.isNumber(input!, context),
-                            title: LanguageHelper.getTranslation(context)
-                                .commericalNumber,
-                            textEditingController: AuthCubit.of(context)
-                                .commercialRegisterNumberController),
+                          type: TextInputType.number,
+                          validator: (input) =>
+                              Validators.isNumber(input!, context),
+                          title: LanguageHelper.getTranslation(context)
+                              .commericalNumber,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .commercialRegisterNumberController,
+                        ),
                         Gaps.vGap24,
                         uploadSignUpFile(
                           text: LanguageHelper.getTranslation(context)
@@ -196,27 +196,47 @@ class _CreateRestaurantScreenState extends State<CreateRestaurantScreen> {
                         SizedBox(
                           height: 44.h,
                           width: 217.w,
-                          child: CustomElevatedButton(
-                            text: Translation.of(context).save,
-                            onTap: () {
-                              if (isHasAllFiles(context) &&
-                                  hasAllRequiredData(context)) {
-                                AuthCubit.of(context).createRestaurant(
-                                    email: widget.email,
-                                    password: widget.passsword,
-                                    context,
-                                    widget.userType,
-                                    widget.phone);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            trans.please_pick_all_img_files)));
-                              }
-                            },
-                            textSize: AppConstants.textSize20,
-                            borderRadius: AppConstants.borderRadius4,
-                          ),
+                          child: state is RegisterRestaurantLoading ||
+                                  state is UploadImageLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : CustomElevatedButton(
+                                  text: Translation.of(context).save,
+                                  onTap: () {
+                                    if (isHasAllFiles(context)) {
+                                      print(AuthCubit.of(context)
+                                          .formKey
+                                          .currentState!
+                                          .validate());
+                                      if (AuthCubit.of(context)
+                                          .formKey
+                                          .currentState!
+                                          .validate()) {
+                                        print("validate");
+                                        //todo
+                                        //need to add a manager email field
+                                        AuthCubit.of(context).createRestaurant(
+                                            email: "widget@gmail.com",
+                                            password: widget.passsword,
+                                            context,
+                                            commerical: BlocProvider.of<
+                                                    AuthCubit>(context)
+                                                .commercialRegisterNumberController
+                                                .text,
+                                            widget.userType,
+                                            widget.phone);
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(trans
+                                                  .please_pick_all_img_files)));
+                                    }
+                                  },
+                                  textSize: AppConstants.textSize20,
+                                  borderRadius: AppConstants.borderRadius4,
+                                ),
                         ),
                         Gaps.vGap24,
                       ],
@@ -230,11 +250,6 @@ class _CreateRestaurantScreenState extends State<CreateRestaurantScreen> {
       ),
     );
   }
-
-  bool hasAllRequiredData(BuildContext context) =>
-      AuthCubit.of(context).createRestaurantModel(
-          email: widget.email, password: widget.passsword) !=
-      null;
 
   bool isHasAllFiles(BuildContext context) {
     return AuthCubit.of(context).fileCommercialRegisterDoc != null &&

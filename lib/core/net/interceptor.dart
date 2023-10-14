@@ -13,14 +13,18 @@ class AuthInterceptor extends Interceptor {
       final os = AppConfig().os;
       final appVersion = AppConfig().appVersion;
       if (os != null) options.headers[AppConstants.HEADER_OS] = '$os';
-      if (appVersion != null)
+      if (appVersion != null) {
         options.headers[AppConstants.HEADER_APP_VERSION] = '$appVersion';
-      if (os != null)
+      }
+      if (os != null) {
         options.headers[AppConstants.HEADER_AUTH] = 'Bearer $token';
-      if (appVersion != null)
+      }
+      if (appVersion != null) {
         options.headers[AppConstants.HEADER_APP_VERSION] = '$appVersion';
-      if (os != null)
+      }
+      if (os != null) {
         options.headers[AppConstants.HEADER_AUTH] = 'Bearer $token';
+      }
       // options.headers[AppConstants.HEADER_AUTH] = '$apiKey';
       options.headers[AppConstants.HEADER_AUTH] = 'Bearer $token';
       options.headers[AppConstants.HEADER_LANGUAGE] = Intl.getCurrentLocale();

@@ -612,16 +612,21 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future createRestaurant(BuildContext context, int userType, String phone,
-      {required String email, password}) async {
-    await Future.wait([
-      uploadImage(context, fileCommercialRegisterDoc!),
-      uploadImage(context, fileLogoAr!),
-      uploadImage(context, fileLogoEn!),
-      uploadImage(context, fileCoveAr!),
-      uploadImage(context, fileCoveEn!),
-    ]);
-    CreateRestaurantModel model =
-        createRestaurantModel(email: email, password: password)!;
+      {required String email,
+      required String password,
+      required String commerical}) async {
+    print("in");
+    print(
+        "**********************************************************************");
+    //   await Future.wait([
+    //     uploadImage(context, fileCommercialRegisterDoc!),
+    //     uploadImage(context, fileLogoAr!),
+    //     uploadImage(context, fileLogoEn!),
+    //     uploadImage(context, fileCoveAr!),
+    //     uploadImage(context, fileCoveEn!),
+    //   ]);
+    CreateRestaurantModel model = createRestaurantModel(
+        email: email, password: password, commerical: commerical)!;
 
     if (formKey.currentState!.validate()) {
       unFocus(context);
@@ -647,10 +652,11 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   CreateRestaurantModel? createRestaurantModel(
-      {required String email, password}) {
+      {required String email,
+      required String password,
+      required String commerical}) {
     CreateRestaurantModel? model;
     try {
-      print(signUpRestaurantModel!.toJson());
       model = CreateRestaurantModel(
         email: email,
         password: password,
@@ -664,9 +670,8 @@ class AuthCubit extends Cubit<AuthState> {
         arDescription: descArController.text,
         enDescription: descEnController.text,
         commercialRegisterDocument: imgCommercialRegisterDoc!,
-        commercialRegisterNumber: commercialNumberController.text,
-        managerName:
-            mangerController.text, // signUpRestaurantModel!.managerName!,
+        commercialRegisterNumber: commerical,
+        managerName: mangerController.text,
         facebookUrl: facebookController.text,
         instagramUrl: instegramController.text,
         twitterUrl: twitterController.text,
@@ -676,6 +681,12 @@ class AuthCubit extends Cubit<AuthState> {
       );
     } catch (e) {
       print("$e  when making model");
+      print(imgLogoAr ?? "logo ar");
+
+      print(imgLogoEn ?? "logo en");
+      print(imgCoveAr ?? "cover ar");
+      print(imgCoveEn ?? "cover en");
+      print(imgCommercialRegisterDoc ?? "commerical");
     }
     print(model?.toJson());
     return model;

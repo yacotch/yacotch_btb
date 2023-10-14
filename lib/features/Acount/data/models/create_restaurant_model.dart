@@ -38,6 +38,7 @@ class CreateRestaurantModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['arName'] = arName;
     data['enName'] = enName;
+    data['phoneNumber'] = phone;
     data['arDescription'] = arDescription;
     data['enDescription'] = enDescription;
     data['arLogo'] = arLogo;
