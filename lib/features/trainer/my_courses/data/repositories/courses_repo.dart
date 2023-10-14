@@ -6,25 +6,19 @@ import '../../../../../core/dioHelper/dio_helper.dart';
 import '../../../../../core/models/review_model.dart';
 
 class CoursesRepo {
-  Future<Either<String, List<CourseModel>>> getCourses({bool? isActive,bool? isFinished}) async {
-
-    final response = await DioHelper.get(
-      APIUrls.API_GET_COURSES,
-      query:{
-        "IsActive" :isActive,
-        "IsFinished" : isFinished
-      }
-
-    );
-
+  Future<Either<String, List<CourseModel>>> getCourses(
+      {bool? isActive, bool? isFinished}) async {
+    final response = await DioHelper.get(APIUrls.API_GET_COURSES,
+        query: {"IsActive": isActive, "IsFinished": isFinished});
 
     try {
+      print({"IsActive": isActive, "IsFinished": isFinished});
       if (response.data['success'] == true) {
-
         List<CourseModel> courses = [];
-       for(int i = 0; i < response.data['result']["items"].length; i++ ){
-         courses.add(CourseModel.fromJson(response.data['result']["items"][i]));
-       }
+        for (int i = 0; i < response.data['result']["items"].length; i++) {
+          courses
+              .add(CourseModel.fromJson(response.data['result']["items"][i]));
+        }
         return Right(courses);
       } else {
         return Left(response.data['error']['message']);
@@ -34,20 +28,16 @@ class CoursesRepo {
     }
   }
 
-  Future<Either<String, List<ReviewModel>>> getCourseReviews(int courseId) async {
-
-    final response = await DioHelper.get(
-        APIUrls.API_GET_TRAINER_REVIEWS,
-        query: {
-          "RefType" : "0",
-          "RefId" : courseId
-        }
-    );
+  Future<Either<String, List<ReviewModel>>> getCourseReviews(
+      int courseId) async {
+    final response = await DioHelper.get(APIUrls.API_GET_TRAINER_REVIEWS,
+        query: {"RefType": "0", "RefId": courseId});
     try {
       if (response.data['success'] == true) {
         List<ReviewModel> reviews = [];
-        for(int i = 0; i < response.data['result']["items"].length; i++ ){
-          reviews.add(ReviewModel.fromJson(response.data['result']["items"][i]));
+        for (int i = 0; i < response.data['result']["items"].length; i++) {
+          reviews
+              .add(ReviewModel.fromJson(response.data['result']["items"][i]));
         }
         return Right(reviews);
       } else {
@@ -60,14 +50,8 @@ class CoursesRepo {
   }
 
   Future<Either<String, CourseModel>> getCourse(int courseId) async {
-
-    final response = await DioHelper.get(
-      APIUrls.API_GET_COURSE,
-      query: {
-        "Id" : courseId
-      }
-
-    );
+    final response =
+        await DioHelper.get(APIUrls.API_GET_COURSE, query: {"Id": courseId});
     try {
       if (response.data['success'] == true) {
         return Right(CourseModel.fromJson(response.data["result"]));

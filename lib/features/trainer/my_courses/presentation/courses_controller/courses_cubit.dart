@@ -17,54 +17,53 @@ class CoursesCubit extends Cubit<CoursesState> {
 
   CourseModel? courseModel;
 
-  Future getCourses(BuildContext context,{bool? isActive , bool? isFinished}) async {
+  Future getCourses(BuildContext context,
+      {bool? isActive, bool? isFinished}) async {
     emit(GetCoursesLoading());
-    final res = await _coursesRepo.getCourses(isActive: isActive,isFinished: isFinished);
+    //todo
+    final res = await _coursesRepo.getCourses(isActive: null, isFinished: null
+        //isActive: isActive, isFinished: isFinished
+        );
     res.fold(
       (err) {
-        print(err);
         Toast.show(err);
         emit(GetCoursesError());
       },
       (res) {
-        emit(GetCoursesLoaded(
-          res
-        ));
+        print(res);
+        emit(GetCoursesLoaded(res));
       },
     );
   }
 
-  Future getCourseReviews(BuildContext context,int courseId) async {
+  Future getCourseReviews(BuildContext context, int courseId) async {
     emit(GetCourseReviewsLoading());
     final res = await _coursesRepo.getCourseReviews(courseId);
     res.fold(
-          (err) {
+      (err) {
         print(err);
         Toast.show(err);
         emit(GetCourseReviewsError());
       },
-          (res) {
-        emit(GetCourseReviewsLoaded(
-            res
-        ));
+      (res) {
+        emit(GetCourseReviewsLoaded(res));
       },
     );
   }
 
-  Future getCourse(BuildContext context,int courseId) async {
+  Future getCourse(BuildContext context, int courseId) async {
     emit(GetCourseLoading());
     final res = await _coursesRepo.getCourse(courseId);
     res.fold(
-          (err) {
+      (err) {
         print(err);
         Toast.show(err);
         emit(GetCourseError());
       },
-          (res) {
-            courseModel = res;
+      (res) {
+        courseModel = res;
         emit(GetCourseLoaded());
       },
     );
   }
-
 }

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
@@ -100,8 +101,8 @@ class AllTraineeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const TransparentAppBar(
-          title: 'المتدريبين',
+        appBar: TransparentAppBar(
+          title: LanguageHelper.getTranslation(context).trainees,
         ),
         body: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
           builder: (context, state) {
@@ -115,8 +116,9 @@ class AllTraineeScreen extends StatelessWidget {
                           context: context);
                     });
               } else {
-                return const Center(
-                  child: Text("لا يوجد متدربين"),
+                return Center(
+                  child:
+                      Text(LanguageHelper.getTranslation(context).no_trainees),
                 );
               }
             } else {

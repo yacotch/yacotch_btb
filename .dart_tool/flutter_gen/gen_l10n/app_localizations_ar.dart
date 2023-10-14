@@ -5,6 +5,9 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get my_booking => 'طلباتي';
+
+  @override
   String get notifications => 'الاشعارات';
 
   @override
@@ -650,6 +653,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get no_trainers => 'لا يوجد متدربين';
+
+  @override
+  String get trainees => 'المتدريبين';
 
   @override
   String get no_courses => 'لا يوجد كورسات';

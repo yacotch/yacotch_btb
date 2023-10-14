@@ -93,6 +93,12 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
+  /// No description provided for @my_booking.
+  ///
+  /// In en, this message translates to:
+  /// **'My Booking'**
+  String get my_booking;
+
   /// No description provided for @notifications.
   ///
   /// In en, this message translates to:
@@ -1382,6 +1388,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Trainers'**
   String get no_trainers;
+
+  /// No description provided for @trainees.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainees'**
+  String get trainees;
 
   /// No description provided for @no_courses.
   ///

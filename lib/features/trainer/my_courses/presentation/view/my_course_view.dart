@@ -115,27 +115,26 @@ class _FilterItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0),
         child: InkWell(
           onTap: () {
             ontap();
           },
           child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
               decoration: BoxDecoration(
                   color: tabbed == index ? AppColors.accentColorLight : null,
                   border: Border.all(color: AppColors.accentColorLight),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   )),
-              child: Center(
-                child: CustomText(
-                  text: text,
-                  color: tabbed == index
-                      ? AppColors.primaryColorLight
-                      : AppColors.accentColorLight,
-                  fontWeight: FontWeight.w600,
-                  fontSize: AppConstants.textSize16,
-                ),
+              child: CustomText(
+                text: text,
+                color: tabbed == index
+                    ? AppColors.primaryColorLight
+                    : AppColors.accentColorLight,
+                fontWeight: FontWeight.w600,
+                fontSize: AppConstants.textSize16,
               )),
         ),
       ),
@@ -394,7 +393,7 @@ class CardDetails extends StatelessWidget {
                           ? const SizedBox()
                           : CustomText(
                               text:
-                                  "المده المتبقيه: ${courseModel.trainingHoursCount}",
+                                  "${LanguageHelper.getTranslation(context).remaining_duration} : ${courseModel.trainingHoursCount}",
                               fontSize: AppConstants.textSize16,
                               maxLines: 2,
                               textAlign: TextAlign.start,

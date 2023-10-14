@@ -285,7 +285,7 @@ class MoreTrainerScreen extends StatelessWidget {
                             context: context, screen: AllTraineeScreen());
                       }),
                   _buildChipWidget(
-                      title: LanguageHelper.getTranslation(context).my_courses,
+                      title: LanguageHelper.getTranslation(context).my_booking,
                       imgPath: AppConstants.MOTCHY2_IMG,
                       onPressed: () {
                         NavigationHelper.goto(
