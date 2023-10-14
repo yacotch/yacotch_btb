@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
-import 'package:trainee_restaurantapp/core/common/app_config.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_restaurant_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_shop_model.dart';

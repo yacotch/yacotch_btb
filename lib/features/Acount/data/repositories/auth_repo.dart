@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
+import 'package:trainee_restaurantapp/core/dioHelper/dio_helper.dart';
 import 'package:trainee_restaurantapp/core/models/user_model.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_restaurant_model.dart';
