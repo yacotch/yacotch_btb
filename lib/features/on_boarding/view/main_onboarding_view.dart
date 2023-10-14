@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
-import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/restaurant.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/shop.dart';
