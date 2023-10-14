@@ -104,9 +104,6 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                         ),
                       ),
                     ),
-                    // widgets.length > 3
-                    //     ?
-                    // : const SizedBox.shrink(),
                   ],
                 ),
               ),

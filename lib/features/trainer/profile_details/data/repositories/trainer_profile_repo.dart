@@ -6,12 +6,24 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
+import 'package:trainee_restaurantapp/features/trainer/profile_details/data/models/address.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/data/models/update_trainer_profile_model.dart';
 import '../../../../../core/dioHelper/dio_helper.dart';
 import '../../../../../core/models/review_model.dart';
 import '../../../../../core/models/trainer_model.dart';
 
 class TrainerProfileRepo {
+  Future<LocationInfo> getProfileAddress(
+      {required String lat,
+      required String lng,
+      required String apiKey}) async {
+    print("${APIUrls.address}latlng=$lat,$lng&key=$apiKey");
+    final response =
+        await DioHelper.get("${APIUrls.address}latlng=$lat,$lng&key=$apiKey");
+
+    return LocationInfo.fromJson(response.data);
+  }
+
   Future<Either<String, String>> uploadImage(File file) async {
     log("in uplaod");
     FormData formData = FormData.fromMap({

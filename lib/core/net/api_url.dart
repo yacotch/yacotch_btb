@@ -2,6 +2,9 @@
 // ignore_for_file: constant_identifier_names
 
 class APIUrls {
+//google map
+  static const address = 'https://maps.googleapis.com/maps/api/geocode/json?';
+
   /// Domain url
   static const BASE_URL = "https://api.yacotch.online/api";
   static const new_BASE_URL = "https://api.yacotch.com/api";

@@ -40,7 +40,7 @@ class TrainerInformationsCard extends StatelessWidget {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
-            height: 130.h,
+            height: 150.h,
             child: const TrainerMainInformationsWidget(),
           ),
         ),
