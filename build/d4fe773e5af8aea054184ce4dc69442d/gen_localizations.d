@@ -1,0 +1,1 @@
+ D:\\yacotch_btb\\.dart_tool\\flutter_gen\\gen_l10n\\app_localizations_ar.dart D:\\yacotch_btb\\.dart_tool\\flutter_gen\\gen_l10n\\app_localizations_en.dart D:\\yacotch_btb\\.dart_tool\\flutter_gen\\gen_l10n\\app_localizations.dart:  D:\\yacotch_btb\\l10n.yaml D:\\yacotch_btb\\lib/l10n\\app_ar.arb D:\\yacotch_btb\\lib/l10n\\app_en.arb
