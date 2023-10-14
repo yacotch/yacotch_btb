@@ -10,7 +10,6 @@ import 'package:trainee_restaurantapp/core/models/user_model.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_restaurant_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_shop_model.dart';
-import '../../../../core/dioHelper/dio_helper.dart';
 import '../../../on_boarding/view/main_onboarding_view.dart';
 import '../models/register_restaurant_model.dart';
 import '../models/specialization_model.dart';
