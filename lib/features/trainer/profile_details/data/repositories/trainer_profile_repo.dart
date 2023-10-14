@@ -16,10 +16,11 @@ class TrainerProfileRepo {
   Future<LocationInfo> getProfileAddress(
       {required String lat,
       required String lng,
+      required String lang,
       required String apiKey}) async {
     print("${APIUrls.address}latlng=$lat,$lng&key=$apiKey");
-    final response =
-        await DioHelper.get("${APIUrls.address}latlng=$lat,$lng&key=$apiKey");
+    final response = await DioHelper.get(
+        "${APIUrls.address}latlng=$lat,$lng&key=$apiKey&language=$lang");
 
     return LocationInfo.fromJson(response.data);
   }

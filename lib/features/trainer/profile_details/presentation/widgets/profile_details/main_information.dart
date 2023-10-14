@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/common/app_config.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/flutter_localization.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/blur_widget.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/data/repositories/trainer_profile_repo.dart';
@@ -75,6 +77,7 @@ class ProfileAddressWidget extends StatelessWidget {
       future: TrainerProfileRepo().getProfileAddress(
           lat: user.latitude.toString(),
           lng: user.longitude.toString(),
+          lang: Provider.of<LocalizationProvider>(context).currentLanguage,
           apiKey: googleMapApiKey),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
