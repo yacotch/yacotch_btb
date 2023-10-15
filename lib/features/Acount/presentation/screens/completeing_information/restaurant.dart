@@ -150,9 +150,41 @@ class _CreateRestaurantScreenState extends State<CreateRestaurantScreen> {
                                     ? trans.errorEmptyField
                                     : null,
                             title: LanguageHelper.getTranslation(context)
-                                .restaurantOwner,
+                                .restaurantManagerName,
                             textEditingController:
                                 AuthCubit.of(context).mangerController),
+                        Gaps.vGap24,
+
+                        _buildTextFiledWidget(
+                            type: TextInputType.emailAddress,
+                            validator: (input) =>
+                                Validators.isValidEmail(input!, context),
+                            title:
+                                "manager email", //LanguageHelper.getTranslation(context).managemail,
+                            textEditingController:
+                                AuthCubit.of(context).emailController),
+                        Gaps.vGap24,
+                        _buildTextFiledWidget(
+                            type: TextInputType.text,
+                            validator: (input) =>
+                                !Validators.isValidPassword(input!)
+                                    ? LanguageHelper.getTranslation(context)
+                                        .enter_valid_password
+                                    : null,
+                            title:
+                                "manager password", //LanguageHelper.getTranslation(context).managemail,
+                            textEditingController:
+                                AuthCubit.of(context).passwordController),
+                        Gaps.vGap24,
+                        _buildTextFiledWidget(
+                            type: TextInputType.number,
+                            validator: (input) =>
+                                Validators.isNumber(input!, context),
+                            title:
+                                "manager phone number", // Translation.of(context).m,
+                            isPhoneNumber: true,
+                            textEditingController: AuthCubit.of(context)
+                                .phoneRestaurantController),
                         Gaps.vGap24,
                         Row(
                           children: [
@@ -205,27 +237,20 @@ class _CreateRestaurantScreenState extends State<CreateRestaurantScreen> {
                                   text: Translation.of(context).save,
                                   onTap: () {
                                     if (isHasAllFiles(context)) {
-                                      print(AuthCubit.of(context)
-                                          .formKey
-                                          .currentState!
-                                          .validate());
                                       if (AuthCubit.of(context)
                                           .formKey
                                           .currentState!
                                           .validate()) {
-                                        print("validate");
                                         //todo
                                         //need to add a manager email field
                                         AuthCubit.of(context).createRestaurant(
-                                            email: "widget@gmail.com",
-                                            password: widget.passsword,
-                                            context,
-                                            commerical: BlocProvider.of<
-                                                    AuthCubit>(context)
-                                                .commercialRegisterNumberController
-                                                .text,
-                                            widget.userType,
-                                            widget.phone);
+                                          context,
+                                          commerical: BlocProvider.of<
+                                                  AuthCubit>(context)
+                                              .commercialRegisterNumberController
+                                              .text,
+                                          widget.userType,
+                                        );
                                       }
                                     } else {
                                       ScaffoldMessenger.of(context)

@@ -11,12 +11,13 @@ class CreateRestaurantModel {
   final String managerName;
   final String facebookUrl, instagramUrl, twitterUrl, websiteUrl;
   final double latitude, longitude;
-  final String password, email, phone;
+  final String password, email, phone, managerPhoneNumber;
   CreateRestaurantModel(
       {required this.arName,
       required this.enName,
       required this.password,
       required this.email,
+      required this.managerPhoneNumber,
       required this.phone,
       required this.arDescription,
       required this.enDescription,
@@ -56,7 +57,8 @@ class CreateRestaurantModel {
     data['longitude'] = longitude;
     data['ManagerPassword'] = password;
     data['managerEmail'] = email;
-    data['managerPhoneNumber'] = phone;
+    data['managerPhoneNumber'] = managerPhoneNumber;
+    data['cityId'] = 1;
     data.forEach((key, value) => print("$key $value \n"));
     return data;
   }

@@ -611,22 +611,17 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future createRestaurant(BuildContext context, int userType, String phone,
-      {required String email,
-      required String password,
-      required String commerical}) async {
-    print("in");
-    print(
-        "**********************************************************************");
-    //   await Future.wait([
-    //     uploadImage(context, fileCommercialRegisterDoc!),
-    //     uploadImage(context, fileLogoAr!),
-    //     uploadImage(context, fileLogoEn!),
-    //     uploadImage(context, fileCoveAr!),
-    //     uploadImage(context, fileCoveEn!),
-    //   ]);
-    CreateRestaurantModel model = createRestaurantModel(
-        email: email, password: password, commerical: commerical)!;
+  Future createRestaurant(BuildContext context, int userType,
+      {required String commerical}) async {
+    //  await Future.wait([
+    //    uploadImage(context, fileCommercialRegisterDoc!),
+    //    uploadImage(context, fileLogoAr!),
+    //    uploadImage(context, fileLogoEn!),
+    //    uploadImage(context, fileCoveAr!),
+    //    uploadImage(context, fileCoveEn!),
+    //  ]);
+    CreateRestaurantModel model =
+        createRestaurantModel(commerical: commerical)!;
 
     if (formKey.currentState!.validate()) {
       unFocus(context);
@@ -640,10 +635,9 @@ class AuthCubit extends Cubit<AuthState> {
           emit(RegisterRestaurantError());
         },
         (res) async {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.mainLoginScreen,
-            (route) => false,
-          );
+          NavigationHelper.gotoAndRemove(
+              screen: const LoginScreen(), context: context);
+
           isLoading = false;
           emit(RegisterRestaurantLoaded());
         },
@@ -651,15 +645,12 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  CreateRestaurantModel? createRestaurantModel(
-      {required String email,
-      required String password,
-      required String commerical}) {
+  CreateRestaurantModel? createRestaurantModel({required String commerical}) {
     CreateRestaurantModel? model;
     try {
       model = CreateRestaurantModel(
-        email: email,
-        password: password,
+        email: emailController.text,
+        password: passwordController.text,
         phone: phoneController.text,
         arName: nameArController.text,
         enName: nameEnController.text,
@@ -672,6 +663,7 @@ class AuthCubit extends Cubit<AuthState> {
         commercialRegisterDocument: imgCommercialRegisterDoc!,
         commercialRegisterNumber: commerical,
         managerName: mangerController.text,
+        managerPhoneNumber: phoneRestaurantController.text,
         facebookUrl: facebookController.text,
         instagramUrl: instegramController.text,
         twitterUrl: twitterController.text,

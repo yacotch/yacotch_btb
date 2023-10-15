@@ -32,7 +32,7 @@ class Validators {
     return text.length == 6;
   }
 
-  static isValidPassword(String password) {
+  static bool isValidPassword(String password) {
     return _passwordRegExp.hasMatch(password);
   }
 
