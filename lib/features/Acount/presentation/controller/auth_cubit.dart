@@ -294,13 +294,8 @@ class AuthCubit extends Cubit<AuthState> {
           //     login(context, phone);
 
           if (userType == 1) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
-              ),
-              (route) => false,
-            );
+            NavigationHelper.gotoAndRemove(
+                screen: const LoginScreen(), context: context);
             emit(VerifyAccountLoaded());
           } else if (userType == 3) {
             NavigationHelper.goto(
@@ -340,7 +335,7 @@ class AuthCubit extends Cubit<AuthState> {
       managerName: restaurantManagerNameController.text,
       managerPhoneNumber: phoneRestaurantController.text,
     );
-
+    print(model.toJson());
     if (formKey.currentState!.validate()) {
       if (boxChecked) {
         unFocus(context);

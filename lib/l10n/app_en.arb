@@ -269,5 +269,8 @@
 "remaining_duration":"Remaining duration",
 "messages":"Messages",
 "no_trainees":"No Trainees",
-"link_invalid":"The link is invalid"
+"link_invalid":"The link is invalid",
+"manager_email":"Manager email",
+"manager_password":"Manager password",
+"manager_phone":"Manager Phone Number"
 }

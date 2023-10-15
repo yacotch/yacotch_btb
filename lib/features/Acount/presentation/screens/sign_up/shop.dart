@@ -77,9 +77,8 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
                   uploadSignUpFile(
                     text: Translation.of(context).commericalFile,
                     file: AuthCubit.of(context).fileCommercialRegisterDoc,
-                    onTap: () async {
-                      await AuthCubit.of(context).pickCommericalDoc();
-                    },
+                    onTap: () async =>
+                        await AuthCubit.of(context).pickCommericalDoc(),
                   ),
                   Gaps.vGap8,
                   EmailTextField(
@@ -173,7 +172,9 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
           content: Text(LanguageHelper.getTranslation(context)
               .please_pick_all_img_files)));
     } else {
-      AuthCubit.of(context).registerShop(context, widget.userType);
+      if (AuthCubit.of(context).formKey.currentState!.validate()) {
+        AuthCubit.of(context).registerShop(context, widget.userType);
+      }
     }
   }
 

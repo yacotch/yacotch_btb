@@ -321,6 +321,9 @@
 "messages":"الرسائل",
 
 "no_trainees":"لا يوجد متدربين",
-"link_invalid":"الرابط غير صحيح"
+"link_invalid":"الرابط غير صحيح",
+"manager_email": "بريد المدير",
+    "manager_password": "كلمة مرور المدير",
+    "manager_phone": "رقم هاتف المدير"
 
 }

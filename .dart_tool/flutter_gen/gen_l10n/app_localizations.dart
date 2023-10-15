@@ -1682,6 +1682,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The link is invalid'**
   String get link_invalid;
+
+  /// No description provided for @manager_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager email'**
+  String get manager_email;
+
+  /// No description provided for @manager_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager password'**
+  String get manager_password;
+
+  /// No description provided for @manager_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager Phone Number'**
+  String get manager_phone;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -8,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
+import 'package:trainee_restaurantapp/core/common/type_validators.dart';
+import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
@@ -34,184 +36,224 @@ class _CompletingShopInformationScreenState
     extends State<CompletingShopInformationScreen> {
   @override
   Widget build(BuildContext context) {
+    print("message");
     log("message");
-    log("message");
-    var trans = AppLocalizations.of(context)!;
+    var trans = LanguageHelper.getTranslation(context);
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
         appBar: TransparentAppBar(title: trans.shop),
         body: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
-            return SizedBox(
-              height: 1.sh,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 55.h,
+            return ListView(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              children: [
+                SizedBox(
+                  height: 55.h,
+                ),
+                _buildTextFiledWidget(
+                    type: TextInputType.name,
+                    validator: (input) => !Validators.isArabic(input!)
+                        ? trans.enter_at_letters
+                        : null,
+                    title: trans.shop_name_ar,
+                    textEditingController:
+                        BlocProvider.of<AuthCubit>(context).nameArController),
+                Gaps.vGap24,
+                _buildTextFiledWidget(
+                    type: TextInputType.name,
+                    validator: (input) => !Validators.isEnglish(input!)
+                        ? trans.enter_eng_letters
+                        : null,
+                    title: trans.shop_name_en,
+                    textEditingController:
+                        BlocProvider.of<AuthCubit>(context).nameEnController),
+                _buildTextFiledWidget(
+                    type: TextInputType.name,
+                    validator: (input) => !Validators.isNotEmptyString(input!)
+                        ? trans.errorEmptyField
+                        : null,
+                    title:
+                        LanguageHelper.getTranslation(context).shopManagerName,
+                    textEditingController:
+                        AuthCubit.of(context).mangerController),
+                Gaps.vGap24,
+                _buildTextFiledWidget(
+                    type: TextInputType.emailAddress,
+                    validator: (input) =>
+                        Validators.isValidEmail(input!, context),
+                    title: LanguageHelper.getTranslation(context).manager_email,
+                    textEditingController:
+                        AuthCubit.of(context).emailController),
+                Gaps.vGap24,
+                _buildTextFiledWidget(
+                    type: TextInputType.text,
+                    validator: (input) => !Validators.isValidPassword(input!)
+                        ? LanguageHelper.getTranslation(context)
+                            .enter_valid_password
+                        : null,
+                    title:
+                        LanguageHelper.getTranslation(context).manager_password,
+                    textEditingController:
+                        AuthCubit.of(context).passwordController),
+                Gaps.vGap24,
+                _buildTextFiledWidget(
+                    type: TextInputType.number,
+                    validator: (input) => Validators.isNumber(input!, context),
+                    title: LanguageHelper.getTranslation(context).manager_phone,
+                    isPhoneNumber: true,
+                    textEditingController:
+                        AuthCubit.of(context).phoneRestaurantController),
+                Gaps.vGap24,
+                Gaps.vGap24,
+                uploadSignUpFile(
+                  text: trans.logo_ar,
+                  file: BlocProvider.of<AuthCubit>(context).fileLogoAr ??
+                      File(''),
+                  onTap: () async {
+                    await BlocProvider.of<AuthCubit>(context)
+                        .getImage()
+                        .then((value) {
+                      BlocProvider.of<AuthCubit>(context).fileLogoAr =
+                          File(value!.path);
+                    });
+                    BlocProvider.of<AuthCubit>(context).uploadImage(context,
+                        BlocProvider.of<AuthCubit>(context).fileLogoAr!);
+                    BlocProvider.of<AuthCubit>(context).emit(GetImageState());
+                  },
+                ),
+                Gaps.vGap8,
+                uploadSignUpFile(
+                  text: trans.logo_en,
+                  file: BlocProvider.of<AuthCubit>(context).fileLogoEn ??
+                      File(''),
+                  onTap: () async {
+                    await BlocProvider.of<AuthCubit>(context)
+                        .getImage()
+                        .then((value) {
+                      BlocProvider.of<AuthCubit>(context).fileLogoEn =
+                          File(value!.path);
+                    });
+                    BlocProvider.of<AuthCubit>(context).uploadImage(context,
+                        BlocProvider.of<AuthCubit>(context).fileLogoEn!);
+                    BlocProvider.of<AuthCubit>(context).emit(GetImageState());
+                  },
+                ),
+                Gaps.vGap8,
+                uploadSignUpFile(
+                  text: trans.cover_en,
+                  file: BlocProvider.of<AuthCubit>(context).fileCoveEn ??
+                      File(''),
+                  onTap: () async {
+                    await BlocProvider.of<AuthCubit>(context)
+                        .getImage()
+                        .then((value) {
+                      BlocProvider.of<AuthCubit>(context).fileCoveEn =
+                          File(value!.path);
+                    });
+                    BlocProvider.of<AuthCubit>(context).uploadImage(context,
+                        BlocProvider.of<AuthCubit>(context).fileCoveEn!);
+                    BlocProvider.of<AuthCubit>(context).emit(GetImageState());
+                  },
+                ),
+                Gaps.vGap8,
+                uploadSignUpFile(
+                  text: trans.cover_ar,
+                  file: BlocProvider.of<AuthCubit>(context).fileCoveAr ??
+                      File(''),
+                  onTap: () async {
+                    await BlocProvider.of<AuthCubit>(context)
+                        .getImage()
+                        .then((value) {
+                      BlocProvider.of<AuthCubit>(context).fileCoveAr =
+                          File(value!.path);
+                    });
+                    BlocProvider.of<AuthCubit>(context).uploadImage(context,
+                        BlocProvider.of<AuthCubit>(context).fileCoveAr!);
+                    BlocProvider.of<AuthCubit>(context).emit(GetImageState());
+                  },
+                ),
+                Gaps.vGap24,
+                _buildTextFiledWidget(
+                    type: TextInputType.number,
+                    validator: (input) => Validators.isNumber(input!, context),
+                    title: Translation.of(context).phone,
+                    isPhoneNumber: true,
+                    textEditingController:
+                        BlocProvider.of<AuthCubit>(context).phoneController),
+                Gaps.vGap24,
+                _buildTextFiledWidget(
+                    type: TextInputType.name,
+                    validator: (input) => !Validators.isArabic(input!)
+                        ? trans.enter_at_letters
+                        : null,
+                    title: trans.course_details_ar,
+                    textEditingController:
+                        BlocProvider.of<AuthCubit>(context).descArController),
+                Gaps.vGap24,
+                _buildTextFiledWidget(
+                    type: TextInputType.name,
+                    validator: (input) => !Validators.isEnglish(input!)
+                        ? trans.enter_eng_letters
+                        : null,
+                    title: trans.course_details_en,
+                    textEditingController:
+                        BlocProvider.of<AuthCubit>(context).descEnController),
+                Gaps.vGap24,
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        BlocProvider.of<AuthCubit>(context)
+                            .onLocationClick(context);
+                      },
+                      child: CustomText(
+                        text: trans.select_your_location,
+                        color: AppColors.accentColorLight,
+                        fontSize: AppConstants.textSize16,
+                        fontWeight: FontWeight.w600,
                       ),
-                      _buildTextFiledWidget(
-                          title: trans.shop_name_ar,
-                          textEditingController:
-                              AuthCubit.of(context).nameArController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: trans.shop_name_en,
-                          textEditingController:
-                              AuthCubit.of(context).nameEnController),
-                      Gaps.vGap24,
-                      uploadSignUpFile(
-                        text: trans.logo_ar,
-                        file: AuthCubit.of(context).fileLogoAr ?? File(''),
-                        onTap: () async {
-                          await AuthCubit.of(context).getImage().then((value) {
-                            AuthCubit.of(context).fileLogoAr =
-                                File(value!.path);
-                          });
-                          AuthCubit.of(context).uploadImage(
-                              context, AuthCubit.of(context).fileLogoAr!);
-                          AuthCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: trans.logo_en,
-                        file: AuthCubit.of(context).fileLogoEn ?? File(''),
-                        onTap: () async {
-                          await AuthCubit.of(context).getImage().then((value) {
-                            AuthCubit.of(context).fileLogoEn =
-                                File(value!.path);
-                          });
-                          AuthCubit.of(context).uploadImage(
-                              context, AuthCubit.of(context).fileLogoEn!);
-                          AuthCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: trans.cover_en,
-                        file: AuthCubit.of(context).fileCoveEn ?? File(''),
-                        onTap: () async {
-                          await AuthCubit.of(context).getImage().then((value) {
-                            AuthCubit.of(context).fileCoveEn =
-                                File(value!.path);
-                          });
-                          AuthCubit.of(context).uploadImage(
-                              context, AuthCubit.of(context).fileCoveEn!);
-                          AuthCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: trans.cover_ar,
-                        file: AuthCubit.of(context).fileCoveAr ?? File(''),
-                        onTap: () async {
-                          await AuthCubit.of(context).getImage().then((value) {
-                            AuthCubit.of(context).fileCoveAr =
-                                File(value!.path);
-                          });
-                          AuthCubit.of(context).uploadImage(
-                              context, AuthCubit.of(context).fileCoveAr!);
-                          AuthCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: Translation.of(context).phone,
-                          isPhoneNumber: true,
-                          textEditingController:
-                              AuthCubit.of(context).phoneController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: trans.commericalNumber,
-                          textEditingController: AuthCubit.of(context)
-                              .commercialRegisterNumberController),
-                      Gaps.vGap24,
-                      uploadSignUpFile(
-                        text: trans.commericalFile,
-                        file: AuthCubit.of(context).fileCommercialRegisterDoc ??
-                            File(''),
-                        onTap: () async {
-                          await AuthCubit.of(context).getImage().then((value) {
-                            AuthCubit.of(context).fileCommercialRegisterDoc =
-                                File(value!.path);
-                          });
-                          AuthCubit.of(context).uploadImage(context,
-                              AuthCubit.of(context).fileCommercialRegisterDoc!);
-                          AuthCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      _buildTextFiledWidget(
-                          title: trans.shopManagerName,
-                          textEditingController:
-                              AuthCubit.of(context).mangerController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: trans.course_details_ar,
-                          textEditingController:
-                              AuthCubit.of(context).descArController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: trans.course_details_en,
-                          textEditingController:
-                              AuthCubit.of(context).descEnController),
-                      Gaps.vGap24,
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              AuthCubit.of(context).onLocationClick(context);
-                            },
-                            child: CustomText(
-                              text: trans.select_your_location,
-                              color: AppColors.accentColorLight,
-                              fontSize: AppConstants.textSize16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
-                        ],
-                      ),
-                      Gaps.vGap8,
-                      _buildSocialMediaContainer(
-                          title: trans.social_media_links,
-                          controller: AuthCubit.of(context).facebookController,
-                          icon: FontAwesomeIcons.squareFacebook),
-                      _buildSocialMediaContainer(
-                        title: "",
-                        icon: FontAwesomeIcons.instagram,
-                        controller: AuthCubit.of(context).instegramController,
-                      ),
-                      _buildSocialMediaContainer(
-                        title: "",
-                        icon: FontAwesomeIcons.twitter,
-                        controller: AuthCubit.of(context).twitterController,
-                      ),
-                      _buildSocialMediaContainer(
-                        title: "",
-                        icon: FontAwesomeIcons.earth,
-                        controller: AuthCubit.of(context).websiteController,
-                      ),
-                      Gaps.vGap24,
-                      SizedBox(
-                        height: 44.h,
-                        width: 217.w,
-                        child: CustomElevatedButton(
-                          text: Translation.of(context).save,
-                          onTap: () => AuthCubit.of(context).createShop(
-                              context, widget.userType, widget.phone),
-                          textSize: AppConstants.textSize20,
-                          borderRadius: AppConstants.borderRadius4,
-                        ),
-                      ),
-                      Gaps.vGap24,
-                    ],
+                    )
+                  ],
+                ),
+                Gaps.vGap8,
+                _buildSocialMediaContainer(
+                    title: trans.social_media_links,
+                    controller:
+                        BlocProvider.of<AuthCubit>(context).facebookController,
+                    icon: FontAwesomeIcons.squareFacebook),
+                _buildSocialMediaContainer(
+                  title: "",
+                  icon: FontAwesomeIcons.instagram,
+                  controller:
+                      BlocProvider.of<AuthCubit>(context).instegramController,
+                ),
+                _buildSocialMediaContainer(
+                  title: "",
+                  icon: FontAwesomeIcons.twitter,
+                  controller:
+                      BlocProvider.of<AuthCubit>(context).twitterController,
+                ),
+                _buildSocialMediaContainer(
+                  title: "",
+                  icon: FontAwesomeIcons.earth,
+                  controller:
+                      BlocProvider.of<AuthCubit>(context).websiteController,
+                ),
+                Gaps.vGap24,
+                SizedBox(
+                  height: 44.h,
+                  width: 217.w,
+                  child: CustomElevatedButton(
+                    text: Translation.of(context).save,
+                    onTap: () => BlocProvider.of<AuthCubit>(context)
+                        .createShop(context, widget.userType, widget.phone),
+                    textSize: AppConstants.textSize20,
+                    borderRadius: AppConstants.borderRadius4,
                   ),
                 ),
-              ),
+                Gaps.vGap24,
+              ],
             );
           },
         ),
@@ -274,8 +316,12 @@ class _CompletingShopInformationScreenState
       children: <Widget>[
         Flexible(
           child: _buildTextFiledWidget(
+              type: TextInputType.name,
+              validator: (input) => !Validators.isLinkValid(input!)
+                  ? LanguageHelper.getTranslation(context).link_invalid
+                  : null,
               title: title,
-              textEditingController: AuthCubit.of(context).facebookController),
+              textEditingController: controller),
         ),
         Gaps.hGap8,
         Column(
@@ -298,11 +344,12 @@ class _CompletingShopInformationScreenState
     );
   }
 
-  Widget _buildTextFiledWidget({
-    required String title,
-    bool isPhoneNumber = false,
-    required TextEditingController textEditingController,
-  }) {
+  Widget _buildTextFiledWidget(
+      {required String title,
+      bool isPhoneNumber = false,
+      required TextInputType type,
+      required TextEditingController textEditingController,
+      required Function(String? input) validator}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,6 +379,8 @@ class _CompletingShopInformationScreenState
               )
             : TextFormField(
                 controller: textEditingController,
+                validator: (value) => validator(value),
+                keyboardType: type,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/completeing_information/shop.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/controller/my_orders_restaurant_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/my_orders_shop/controller/my_orders_shop_cubit.dart';
@@ -88,29 +89,30 @@ class _AppState extends State<App> {
                 designSize: AppConfig.screenUtilDesignSize(),
                 builder: (context, Widget? child) {
                   return MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    title: AppConstants.TITLE_APP_NAME,
-                    navigatorKey: widget.navigatorKey,
-                    navigatorObservers: [routeObserver],
+                      debugShowCheckedModeBanner: false,
+                      title: AppConstants.TITLE_APP_NAME,
+                      navigatorKey: widget.navigatorKey,
+                      navigatorObservers: [routeObserver],
 
-                    /// Setup app localization
-                    supportedLocales: Translation.delegate.supportedLocales,
-                    locale: provider.appLocal,
-                    localizationsDelegates: const [
-                      Translation.delegate,
-                      AppLocalizations.delegate, // Add this line
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                    ],
+                      /// Setup app localization
+                      supportedLocales: Translation.delegate.supportedLocales,
+                      locale: provider.appLocal,
+                      localizationsDelegates: const [
+                        Translation.delegate,
+                        AppLocalizations.delegate, // Add this line
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                      ],
 
-                    /// Theming
-                    theme: AppConfig().themeData,
-                    themeMode: AppConfig().themeMode,
+                      /// Theming
+                      theme: AppConfig().themeData,
+                      themeMode: AppConfig().themeMode,
 
-                    /// Init screen
-                    home: SplashScreen(),
-                  );
+                      /// Init screen
+                      home: CompletingShopInformationScreen(
+                          phone: "01200761449", userType: 0) //SplashScreen(),
+                      );
                 },
               );
             },

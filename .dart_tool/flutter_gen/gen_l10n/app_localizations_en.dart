@@ -800,4 +800,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get link_invalid => 'The link is invalid';
+
+  @override
+  String get manager_email => 'Manager email';
+
+  @override
+  String get manager_password => 'Manager password';
+
+  @override
+  String get manager_phone => 'Manager Phone Number';
 }

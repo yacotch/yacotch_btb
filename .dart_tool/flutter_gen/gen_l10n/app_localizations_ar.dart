@@ -800,4 +800,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get link_invalid => 'الرابط غير صحيح';
+
+  @override
+  String get manager_email => 'بريد المدير';
+
+  @override
+  String get manager_password => 'كلمة مرور المدير';
+
+  @override
+  String get manager_phone => 'رقم هاتف المدير';
 }
