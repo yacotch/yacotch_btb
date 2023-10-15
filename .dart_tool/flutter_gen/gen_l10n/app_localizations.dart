@@ -1676,6 +1676,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Trainees'**
   String get no_trainees;
+
+  /// No description provided for @link_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'The link is invalid'**
+  String get link_invalid;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

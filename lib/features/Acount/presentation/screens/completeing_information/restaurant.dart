@@ -334,15 +334,14 @@ class _CreateRestaurantScreenState extends State<CreateRestaurantScreen> {
       required IconData icon,
       required TextEditingController controller}) {
     return Row(
-      // textDirection: TextDirection.LTR,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Flexible(
           child: _buildTextFiledWidget(
               type: TextInputType.name,
-              validator: (input) => !Validators.isNotEmptyString(input!)
-                  ? LanguageHelper.getTranslation(context).errorEmptyField
+              validator: (input) => !Validators.isLinkValid(input!)
+                  ? LanguageHelper.getTranslation(context).link_invalid
                   : null,
               title: title,
               textEditingController: controller),

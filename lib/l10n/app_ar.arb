@@ -320,5 +320,7 @@
 "remaining_duration": "المدة المتبقية",
 "messages":"الرسائل",
 
-"no_trainees":"لا يوجد متدربين"
+"no_trainees":"لا يوجد متدربين",
+"link_invalid":"الرابط غير صحيح"
+
 }

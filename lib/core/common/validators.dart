@@ -17,6 +17,16 @@ class Validators {
     return string.trim() != "";
   }
 
+  static bool isLinkValid(String input) {
+    // Regular expression to match URLs
+    final urlRegExp = RegExp(
+      r'^(https?|ftp)://[^\s/$.?#].[^\s]*$',
+      caseSensitive: false,
+    );
+
+    return urlRegExp.hasMatch(input);
+  }
+
   static String? isValidEmail(String email, BuildContext context) {
     return _emailRegExp.hasMatch(email)
         ? null

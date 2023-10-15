@@ -154,9 +154,9 @@ class _RegisterRestaurantScreenViewState
           content: Text(LanguageHelper.getTranslation(context)
               .please_pick_all_img_files)));
     } else {
-      await AuthCubit.of(context).uploadImage(
-          context, AuthCubit.of(context).fileCommercialRegisterDoc!);
-      AuthCubit.of(context).registerRestaurant(context, widget.userType);
+      if (AuthCubit.of(context).formKey.currentState!.validate()) {
+        AuthCubit.of(context).registerRestaurant(context, widget.userType);
+      }
     }
   }
 

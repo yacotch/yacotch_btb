@@ -268,5 +268,6 @@
 "max_subscribers":"Max subscribers",
 "remaining_duration":"Remaining duration",
 "messages":"Messages",
-"no_trainees":"No Trainees"
+"no_trainees":"No Trainees",
+"link_invalid":"The link is invalid"
 }

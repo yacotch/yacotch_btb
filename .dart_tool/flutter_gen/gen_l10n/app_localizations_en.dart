@@ -797,4 +797,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_trainees => 'No Trainees';
+
+  @override
+  String get link_invalid => 'The link is invalid';
 }

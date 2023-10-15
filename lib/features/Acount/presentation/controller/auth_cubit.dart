@@ -383,6 +383,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   RegisterRestaurantModel? signUpRestaurantModel;
   Future registerRestaurant(BuildContext context, int userType) async {
+    await uploadImage(context, fileCommercialRegisterDoc!);
     signUpRestaurantModel = RegisterRestaurantModel(
       name: restaurantNameController.text,
       email: emailController.text,
@@ -613,13 +614,13 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future createRestaurant(BuildContext context, int userType,
       {required String commerical}) async {
-    //  await Future.wait([
-    //    uploadImage(context, fileCommercialRegisterDoc!),
-    //    uploadImage(context, fileLogoAr!),
-    //    uploadImage(context, fileLogoEn!),
-    //    uploadImage(context, fileCoveAr!),
-    //    uploadImage(context, fileCoveEn!),
-    //  ]);
+    await Future.wait([
+      uploadImage(context, fileCommercialRegisterDoc!),
+      uploadImage(context, fileLogoAr!),
+      uploadImage(context, fileLogoEn!),
+      uploadImage(context, fileCoveAr!),
+      uploadImage(context, fileCoveEn!),
+    ]);
     CreateRestaurantModel model =
         createRestaurantModel(commerical: commerical)!;
 
