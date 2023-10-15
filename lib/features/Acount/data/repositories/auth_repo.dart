@@ -205,15 +205,18 @@ class AuthRepo {
 
   Future<Either<String, UserModel>> createShop(
       CreateShopModel createShopModel) async {
+    print(createShopModel.toJson());
+    print("Sssssssssssssssssssss");
     final response = await DioHelper.post(
       APIUrls.API_CREATE_SHOP,
-      body: await createShopModel.toJson(),
+      body: createShopModel.toJson(),
     );
     try {
       if (response.data['success'] == true) {
         print("Success createShop");
         return Right(UserModel.fromJson(response.data));
       } else {
+        print(response.data);
         return Left(response.data['error']['message']);
       }
     } catch (e) {

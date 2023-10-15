@@ -681,18 +681,26 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future createShop(BuildContext context, int userType, String phone) async {
+    //  await Future.wait([
+    //    uploadImage(context, fileLogoAr!),
+    //    uploadImage(context, fileLogoEn!),
+    //    uploadImage(context, fileCoveAr!),
+    //    uploadImage(context, fileCoveEn!),
+    //  ]);
     CreateShopModel model = CreateShopModel(
+      managerEmail: emailController.text,
+      managerPassword: passwordController.text,
+      managerPhone: phoneRestaurantController.text,
+      phone: phoneController.text,
       arName: nameArController.text,
       enName: nameEnController.text,
-      arLogo: imgLogoAr!,
-      enLogo: imgLogoEn!,
-      arCover: imgCoveAr!,
-      enCover: imgCoveEn!,
+      arLogo: "s", // imgLogoAr!,,
+      enLogo: "s", // imgLogoEn!,,
+      arCover: "s", // imgCoveAr!,,
+      enCover: "s", // imgCoveEn!,,
       arDescription: descArController.text,
       enDescription: descEnController.text,
-      commercialRegisterDocument: imgCommercialRegisterDoc!,
-      commercialRegisterNumber: commercialNumberController.text,
-      managerName: restaurantManagerNameController.text,
+      managerName: mangerController.text,
       facebookUrl: facebookController.text,
       instagramUrl: instegramController.text,
       twitterUrl: twitterController.text,
@@ -700,28 +708,24 @@ class AuthCubit extends Cubit<AuthState> {
       latitude: locationCubit.state.model!.lat,
       longitude: locationCubit.state.model!.lng,
     );
-
-    if (formKey.currentState!.validate()) {
-      unFocus(context);
-      emit(RegisterShopLoading());
-      isLoading = true;
-      final res = await authRepo.createShop(model);
-      res.fold(
-        (err) {
-          isLoading = false;
-          Toast.show(err);
-          emit(RegisterShopError());
-        },
-        (res) async {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.mainLoginScreen,
-            (route) => false,
-          );
-          isLoading = false;
-          emit(RegisterRestaurantLoaded());
-        },
-      );
-    }
+    unFocus(context);
+    emit(RegisterShopLoading());
+    isLoading = true;
+    final res = await authRepo.createShop(model);
+    res.fold(
+      (err) {
+        print(err);
+        isLoading = false;
+        Toast.show(err);
+        emit(RegisterShopError());
+      },
+      (res) async {
+        NavigationHelper.gotoAndRemove(
+            screen: const LoginScreen(), context: context);
+        isLoading = false;
+        emit(RegisterRestaurantLoaded());
+      },
+    );
   }
 
   Future<void> pickFile() async {

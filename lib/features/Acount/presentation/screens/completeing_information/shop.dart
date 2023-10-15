@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -8,18 +7,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
-import 'package:trainee_restaurantapp/core/common/type_validators.dart';
 import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
-import 'package:trainee_restaurantapp/core/ui/widgets/custom_text_field.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/widgets/form_field.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/widgets/social_media.dart';
 import 'package:trainee_restaurantapp/generated/l10n.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CompletingShopInformationScreen extends StatefulWidget {
   final String phone;
@@ -36,8 +34,6 @@ class _CompletingShopInformationScreenState
     extends State<CompletingShopInformationScreen> {
   @override
   Widget build(BuildContext context) {
-    print("message");
-    log("message");
     var trans = LanguageHelper.getTranslation(context);
     return BlocProvider(
       create: (context) => AuthCubit(),
@@ -45,215 +41,222 @@ class _CompletingShopInformationScreenState
         appBar: TransparentAppBar(title: trans.shop),
         body: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
-            return ListView(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              children: [
-                SizedBox(
-                  height: 55.h,
-                ),
-                _buildTextFiledWidget(
-                    type: TextInputType.name,
-                    validator: (input) => !Validators.isArabic(input!)
-                        ? trans.enter_at_letters
-                        : null,
-                    title: trans.shop_name_ar,
-                    textEditingController:
-                        BlocProvider.of<AuthCubit>(context).nameArController),
-                Gaps.vGap24,
-                _buildTextFiledWidget(
-                    type: TextInputType.name,
-                    validator: (input) => !Validators.isEnglish(input!)
-                        ? trans.enter_eng_letters
-                        : null,
-                    title: trans.shop_name_en,
-                    textEditingController:
-                        BlocProvider.of<AuthCubit>(context).nameEnController),
-                _buildTextFiledWidget(
-                    type: TextInputType.name,
-                    validator: (input) => !Validators.isNotEmptyString(input!)
-                        ? trans.errorEmptyField
-                        : null,
-                    title:
-                        LanguageHelper.getTranslation(context).shopManagerName,
-                    textEditingController:
-                        AuthCubit.of(context).mangerController),
-                Gaps.vGap24,
-                _buildTextFiledWidget(
-                    type: TextInputType.emailAddress,
-                    validator: (input) =>
-                        Validators.isValidEmail(input!, context),
-                    title: LanguageHelper.getTranslation(context).manager_email,
-                    textEditingController:
-                        AuthCubit.of(context).emailController),
-                Gaps.vGap24,
-                _buildTextFiledWidget(
-                    type: TextInputType.text,
-                    validator: (input) => !Validators.isValidPassword(input!)
-                        ? LanguageHelper.getTranslation(context)
-                            .enter_valid_password
-                        : null,
-                    title:
-                        LanguageHelper.getTranslation(context).manager_password,
-                    textEditingController:
-                        AuthCubit.of(context).passwordController),
-                Gaps.vGap24,
-                _buildTextFiledWidget(
-                    type: TextInputType.number,
-                    validator: (input) => Validators.isNumber(input!, context),
-                    title: LanguageHelper.getTranslation(context).manager_phone,
-                    isPhoneNumber: true,
-                    textEditingController:
-                        AuthCubit.of(context).phoneRestaurantController),
-                Gaps.vGap24,
-                Gaps.vGap24,
-                uploadSignUpFile(
-                  text: trans.logo_ar,
-                  file: BlocProvider.of<AuthCubit>(context).fileLogoAr ??
-                      File(''),
-                  onTap: () async {
-                    await BlocProvider.of<AuthCubit>(context)
-                        .getImage()
-                        .then((value) {
-                      BlocProvider.of<AuthCubit>(context).fileLogoAr =
-                          File(value!.path);
-                    });
-                    BlocProvider.of<AuthCubit>(context).uploadImage(context,
-                        BlocProvider.of<AuthCubit>(context).fileLogoAr!);
-                    BlocProvider.of<AuthCubit>(context).emit(GetImageState());
-                  },
-                ),
-                Gaps.vGap8,
-                uploadSignUpFile(
-                  text: trans.logo_en,
-                  file: BlocProvider.of<AuthCubit>(context).fileLogoEn ??
-                      File(''),
-                  onTap: () async {
-                    await BlocProvider.of<AuthCubit>(context)
-                        .getImage()
-                        .then((value) {
-                      BlocProvider.of<AuthCubit>(context).fileLogoEn =
-                          File(value!.path);
-                    });
-                    BlocProvider.of<AuthCubit>(context).uploadImage(context,
-                        BlocProvider.of<AuthCubit>(context).fileLogoEn!);
-                    BlocProvider.of<AuthCubit>(context).emit(GetImageState());
-                  },
-                ),
-                Gaps.vGap8,
-                uploadSignUpFile(
-                  text: trans.cover_en,
-                  file: BlocProvider.of<AuthCubit>(context).fileCoveEn ??
-                      File(''),
-                  onTap: () async {
-                    await BlocProvider.of<AuthCubit>(context)
-                        .getImage()
-                        .then((value) {
-                      BlocProvider.of<AuthCubit>(context).fileCoveEn =
-                          File(value!.path);
-                    });
-                    BlocProvider.of<AuthCubit>(context).uploadImage(context,
-                        BlocProvider.of<AuthCubit>(context).fileCoveEn!);
-                    BlocProvider.of<AuthCubit>(context).emit(GetImageState());
-                  },
-                ),
-                Gaps.vGap8,
-                uploadSignUpFile(
-                  text: trans.cover_ar,
-                  file: BlocProvider.of<AuthCubit>(context).fileCoveAr ??
-                      File(''),
-                  onTap: () async {
-                    await BlocProvider.of<AuthCubit>(context)
-                        .getImage()
-                        .then((value) {
-                      BlocProvider.of<AuthCubit>(context).fileCoveAr =
-                          File(value!.path);
-                    });
-                    BlocProvider.of<AuthCubit>(context).uploadImage(context,
-                        BlocProvider.of<AuthCubit>(context).fileCoveAr!);
-                    BlocProvider.of<AuthCubit>(context).emit(GetImageState());
-                  },
-                ),
-                Gaps.vGap24,
-                _buildTextFiledWidget(
-                    type: TextInputType.number,
-                    validator: (input) => Validators.isNumber(input!, context),
-                    title: Translation.of(context).phone,
-                    isPhoneNumber: true,
-                    textEditingController:
-                        BlocProvider.of<AuthCubit>(context).phoneController),
-                Gaps.vGap24,
-                _buildTextFiledWidget(
-                    type: TextInputType.name,
-                    validator: (input) => !Validators.isArabic(input!)
-                        ? trans.enter_at_letters
-                        : null,
-                    title: trans.course_details_ar,
-                    textEditingController:
-                        BlocProvider.of<AuthCubit>(context).descArController),
-                Gaps.vGap24,
-                _buildTextFiledWidget(
-                    type: TextInputType.name,
-                    validator: (input) => !Validators.isEnglish(input!)
-                        ? trans.enter_eng_letters
-                        : null,
-                    title: trans.course_details_en,
-                    textEditingController:
-                        BlocProvider.of<AuthCubit>(context).descEnController),
-                Gaps.vGap24,
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        BlocProvider.of<AuthCubit>(context)
-                            .onLocationClick(context);
-                      },
-                      child: CustomText(
-                        text: trans.select_your_location,
-                        color: AppColors.accentColorLight,
-                        fontSize: AppConstants.textSize16,
-                        fontWeight: FontWeight.w600,
+            return Form(
+              key: BlocProvider.of<AuthCubit>(context).formKey,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                height: 1.sh,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 55.h),
+                      TextFieldWidget(
+                          type: TextInputType.name,
+                          validator: (input) => !Validators.isArabic(input!)
+                              ? trans.enter_at_letters
+                              : null,
+                          title: trans.shop_name_ar,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .nameArController),
+                      Gaps.vGap24,
+                      TextFieldWidget(
+                          type: TextInputType.name,
+                          validator: (input) => !Validators.isEnglish(input!)
+                              ? trans.enter_eng_letters
+                              : null,
+                          title: trans.shop_name_en,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .nameEnController),
+                      TextFieldWidget(
+                          type: TextInputType.name,
+                          validator: (input) =>
+                              !Validators.isNotEmptyString(input!)
+                                  ? trans.errorEmptyField
+                                  : null,
+                          title: LanguageHelper.getTranslation(context)
+                              .shopManagerName,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .mangerController),
+                      Gaps.vGap24,
+                      TextFieldWidget(
+                          type: TextInputType.emailAddress,
+                          validator: (input) =>
+                              Validators.isValidEmail(input!, context),
+                          title: LanguageHelper.getTranslation(context)
+                              .manager_email,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .emailController),
+                      Gaps.vGap24,
+                      TextFieldWidget(
+                          type: TextInputType.text,
+                          validator: (input) =>
+                              !Validators.isValidPassword(input!)
+                                  ? LanguageHelper.getTranslation(context)
+                                      .enter_valid_password
+                                  : null,
+                          title: LanguageHelper.getTranslation(context)
+                              .manager_password,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .passwordController),
+                      Gaps.vGap24,
+                      TextFieldWidget(
+                          type: TextInputType.number,
+                          validator: (input) =>
+                              Validators.isNumber(input!, context),
+                          title: LanguageHelper.getTranslation(context)
+                              .manager_phone,
+                          isPhoneNumber: true,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .phoneRestaurantController),
+                      Gaps.vGap24,
+                      Gaps.vGap24,
+                      uploadSignUpFile(
+                        text: trans.logo_ar,
+                        file: BlocProvider.of<AuthCubit>(context).fileLogoAr ??
+                            File(''),
+                        onTap: () async {
+                          await BlocProvider.of<AuthCubit>(context)
+                              .pickLogoAr();
+                        },
                       ),
-                    )
-                  ],
-                ),
-                Gaps.vGap8,
-                _buildSocialMediaContainer(
-                    title: trans.social_media_links,
-                    controller:
-                        BlocProvider.of<AuthCubit>(context).facebookController,
-                    icon: FontAwesomeIcons.squareFacebook),
-                _buildSocialMediaContainer(
-                  title: "",
-                  icon: FontAwesomeIcons.instagram,
-                  controller:
-                      BlocProvider.of<AuthCubit>(context).instegramController,
-                ),
-                _buildSocialMediaContainer(
-                  title: "",
-                  icon: FontAwesomeIcons.twitter,
-                  controller:
-                      BlocProvider.of<AuthCubit>(context).twitterController,
-                ),
-                _buildSocialMediaContainer(
-                  title: "",
-                  icon: FontAwesomeIcons.earth,
-                  controller:
-                      BlocProvider.of<AuthCubit>(context).websiteController,
-                ),
-                Gaps.vGap24,
-                SizedBox(
-                  height: 44.h,
-                  width: 217.w,
-                  child: CustomElevatedButton(
-                    text: Translation.of(context).save,
-                    onTap: () => BlocProvider.of<AuthCubit>(context)
-                        .createShop(context, widget.userType, widget.phone),
-                    textSize: AppConstants.textSize20,
-                    borderRadius: AppConstants.borderRadius4,
+                      Gaps.vGap8,
+                      uploadSignUpFile(
+                          text: trans.logo_en,
+                          file:
+                              BlocProvider.of<AuthCubit>(context).fileLogoEn ??
+                                  File(''),
+                          onTap: () async {
+                            await BlocProvider.of<AuthCubit>(context)
+                                .pickLogoEn();
+                          }),
+                      Gaps.vGap8,
+                      uploadSignUpFile(
+                        text: trans.cover_en,
+                        file: BlocProvider.of<AuthCubit>(context).fileCoveEn ??
+                            File(''),
+                        onTap: () async {
+                          await BlocProvider.of<AuthCubit>(context)
+                              .pickCoverEn();
+                        },
+                      ),
+                      Gaps.vGap8,
+                      uploadSignUpFile(
+                        text: trans.cover_ar,
+                        file: BlocProvider.of<AuthCubit>(context).fileCoveAr ??
+                            File(''),
+                        onTap: () async {
+                          await BlocProvider.of<AuthCubit>(context)
+                              .pickCoverAr();
+                        },
+                      ),
+                      Gaps.vGap24,
+                      TextFieldWidget(
+                          type: TextInputType.number,
+                          validator: (input) =>
+                              Validators.isNumber(input!, context),
+                          title: Translation.of(context).phone,
+                          isPhoneNumber: true,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .phoneController),
+                      Gaps.vGap24,
+                      TextFieldWidget(
+                          type: TextInputType.name,
+                          validator: (input) => !Validators.isArabic(input!)
+                              ? trans.enter_at_letters
+                              : null,
+                          title: trans.course_details_ar,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .descArController),
+                      Gaps.vGap24,
+                      TextFieldWidget(
+                          type: TextInputType.name,
+                          validator: (input) => !Validators.isEnglish(input!)
+                              ? trans.enter_eng_letters
+                              : null,
+                          title: trans.course_details_en,
+                          textEditingController:
+                              BlocProvider.of<AuthCubit>(context)
+                                  .descEnController),
+                      Gaps.vGap24,
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              BlocProvider.of<AuthCubit>(context)
+                                  .onLocationClick(context);
+                            },
+                            child: CustomText(
+                              text: trans.select_your_location,
+                              color: AppColors.accentColorLight,
+                              fontSize: AppConstants.textSize16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        ],
+                      ),
+                      Gaps.vGap8,
+                      SocialMediaContainer(
+                          title: trans.social_media_links,
+                          controller: BlocProvider.of<AuthCubit>(context)
+                              .facebookController,
+                          icon: FontAwesomeIcons.squareFacebook),
+                      SocialMediaContainer(
+                        title: "",
+                        icon: FontAwesomeIcons.instagram,
+                        controller: BlocProvider.of<AuthCubit>(context)
+                            .instegramController,
+                      ),
+                      SocialMediaContainer(
+                        title: "",
+                        icon: FontAwesomeIcons.twitter,
+                        controller: BlocProvider.of<AuthCubit>(context)
+                            .twitterController,
+                      ),
+                      SocialMediaContainer(
+                        title: "",
+                        icon: FontAwesomeIcons.earth,
+                        controller: BlocProvider.of<AuthCubit>(context)
+                            .websiteController,
+                      ),
+                      Gaps.vGap24,
+                      SizedBox(
+                        height: 44.h,
+                        width: 217.w,
+                        child: CustomElevatedButton(
+                          text: Translation.of(context).save,
+                          onTap: () {
+                            if (isHasAllFiles(context)) {
+                              if (BlocProvider.of<AuthCubit>(context)
+                                  .formKey
+                                  .currentState!
+                                  .validate()) {
+                                BlocProvider.of<AuthCubit>(context).createShop(
+                                    context, widget.userType, widget.phone);
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          trans.please_pick_all_img_files)));
+                            }
+                          },
+                          textSize: AppConstants.textSize20,
+                          borderRadius: AppConstants.borderRadius4,
+                        ),
+                      ),
+                      Gaps.vGap24,
+                    ],
                   ),
                 ),
-                Gaps.vGap24,
-              ],
+              ),
             );
           },
         ),
@@ -306,105 +309,10 @@ class _CompletingShopInformationScreenState
     );
   }
 
-  Widget _buildSocialMediaContainer(
-      {required String title,
-      required IconData icon,
-      required TextEditingController controller}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Flexible(
-          child: _buildTextFiledWidget(
-              type: TextInputType.name,
-              validator: (input) => !Validators.isLinkValid(input!)
-                  ? LanguageHelper.getTranslation(context).link_invalid
-                  : null,
-              title: title,
-              textEditingController: controller),
-        ),
-        Gaps.hGap8,
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            SizedBox(
-              height: 30,
-              width: 20,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 12.0),
-                child: Icon(
-                  icon,
-                  color: AppColors.accentColorLight,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTextFiledWidget(
-      {required String title,
-      bool isPhoneNumber = false,
-      required TextInputType type,
-      required TextEditingController textEditingController,
-      required Function(String? input) validator}) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomText(
-          text: title,
-          fontSize: AppConstants.textSize16,
-        ),
-        Gaps.vGap4,
-        isPhoneNumber
-            ? Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: AppColors.white,
-                    ),
-                    borderRadius:
-                        BorderRadius.circular(AppConstants.borderRadius6)),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: PhoneNumberTextField(
-                    border: InputBorder.none,
-                    hint: "",
-                    textEditingController: textEditingController,
-                    onInputChanged: (p0) {},
-                  ),
-                ),
-              )
-            : TextFormField(
-                controller: textEditingController,
-                validator: (value) => validator(value),
-                keyboardType: type,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                  disabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                  errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                ),
-              ),
-      ],
-    );
+  bool isHasAllFiles(BuildContext context) {
+    return BlocProvider.of<AuthCubit>(context).fileLogoAr != null &&
+        BlocProvider.of<AuthCubit>(context).fileLogoEn != null &&
+        BlocProvider.of<AuthCubit>(context).fileCoveAr != null &&
+        BlocProvider.of<AuthCubit>(context).fileCoveEn != null;
   }
 }
