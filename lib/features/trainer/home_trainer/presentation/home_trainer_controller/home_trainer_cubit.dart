@@ -16,6 +16,9 @@ class HomeTrainerCubit extends Cubit<HomeTrainerState> {
   final homeTrainerRepo = HomeTrainerRepo();
 
   List<CourseModel>?  topCourses = [];
+ 
+ 
+
   Future getMostWantedCourses(BuildContext context) async {
     emit(GetMostWantedCoursesLoading());
     final res = await homeTrainerRepo.getMostWantedCourses();

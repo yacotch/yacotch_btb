@@ -12,6 +12,7 @@ import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/widgets/header.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_details.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
@@ -38,78 +39,6 @@ class HomeTrainerScreen extends StatefulWidget {
 }
 
 class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
-  Widget trainerProfile() {
-    return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
-      buildWhen: (previous, current) => previous != current,
-      builder: (context, state) {
-        if (state is GetTrainerProfileLoading) {
-          return const Loader();
-        } else {
-          var trainerModel = TrainerProfileCubit.of(context).trainerModel;
-          return InkWell(
-            onTap: () => NavigationHelper.goto(
-                screen: const ProfileTrainerScreenView(), context: context),
-            child: Container(
-              height: 192.h,
-              decoration: const BoxDecoration(
-                color: AppColors.darkBrownColor,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(Dimens.dp10),
-                    bottomRight: Radius.circular(Dimens.dp10)),
-              ),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 0, 0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TrainerProfileImageWidget(trainerModel: trainerModel),
-                    Expanded(
-                      flex: 4,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 23.0, left: 23, right: 23),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText(
-                              text: trainerModel!.name ?? "",
-                              fontSize: Dimens.dp20,
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            if (trainerModel.subscription != null)
-                              CustomText(
-                                text: trainerModel.subscription!.name ?? "",
-                                fontSize: Dimens.dp20,
-                                color: AppColors.accentColorLight,
-                                fontWeight: FontWeight.w700,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                          onPressed: () => NavigationHelper.goto(
-                              screen: const NotificationScreen(),
-                              context: context),
-                          icon: const FaIcon(
-                            FontAwesomeIcons.solidBell,
-                            color: AppColors.white,
-                            size: 30,
-                          )),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
-        }
-      },
-    );
-  }
-
   Widget _buildMyCourseItemWidget(CourseModel courseModel) {
     var trans = LanguageHelper.getTranslation(context);
     return InkWell(
@@ -257,7 +186,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
             child: TitleWidget(
               title: LanguageHelper.getTranslation(context).mostWantedCourses,
               subtitleColorTapped: () => NavigationHelper.goto(
-                  screen: MyCoursesView(), context: context),
+                  screen: const MyCoursesView(), context: context),
               titleColor: AppColors.accentColorLight,
               subtitle: HomeTrainerCubit.of(context).topCourses!.isNotEmpty
                   ? Translation.of(context).see_all
@@ -686,6 +615,9 @@ class TrainerProfileImageWidget extends StatelessWidget {
                       ? Image.network(
                           trainerModel!.imageUrl ?? "",
                           fit: BoxFit.fill,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.error);
+                          },
                         )
                       : Image.asset(
                           AppConstants.AVATER_IMG,

@@ -89,30 +89,29 @@ class _AppState extends State<App> {
                 designSize: AppConfig.screenUtilDesignSize(),
                 builder: (context, Widget? child) {
                   return MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      title: AppConstants.TITLE_APP_NAME,
-                      navigatorKey: widget.navigatorKey,
-                      navigatorObservers: [routeObserver],
+                    debugShowCheckedModeBanner: false,
+                    title: AppConstants.TITLE_APP_NAME,
+                    navigatorKey: widget.navigatorKey,
+                    navigatorObservers: [routeObserver],
 
-                      /// Setup app localization
-                      supportedLocales: Translation.delegate.supportedLocales,
-                      locale: provider.appLocal,
-                      localizationsDelegates: const [
-                        Translation.delegate,
-                        AppLocalizations.delegate, // Add this line
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                      ],
+                    /// Setup app localization
+                    supportedLocales: Translation.delegate.supportedLocales,
+                    locale: provider.appLocal,
+                    localizationsDelegates: const [
+                      Translation.delegate,
+                      AppLocalizations.delegate, // Add this line
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
 
-                      /// Theming
-                      theme: AppConfig().themeData,
-                      themeMode: AppConfig().themeMode,
+                    /// Theming
+                    theme: AppConfig().themeData,
+                    themeMode: AppConfig().themeMode,
 
-                      /// Init screen
-                      home: CompletingShopInformationScreen(
-                          phone: "01200761449", userType: 0) //SplashScreen(),
-                      );
+                    /// Init screen
+                    home:const SplashScreen(),
+                  );
                 },
               );
             },

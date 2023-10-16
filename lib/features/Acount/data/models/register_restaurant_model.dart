@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-
 class RegisterRestaurantModel {
   String? name;
   String? email;
@@ -14,17 +10,18 @@ class RegisterRestaurantModel {
   String? managerPhoneNumber;
   String? managerCountryCode;
 
-  RegisterRestaurantModel(
-      {this.name,
-      this.email,
-      this.password,
-      this.phoneNumber,
-      this.commercialRegisterNumber,
-      this.commercialRegisterDocument,
-      this.cityId,
-      this.managerName,
-      this.managerPhoneNumber,
-      this.managerCountryCode,});
+  RegisterRestaurantModel({
+    this.name,
+    this.email,
+    this.password,
+    this.phoneNumber,
+    this.commercialRegisterNumber,
+    this.commercialRegisterDocument,
+    this.cityId,
+    this.managerName,
+    this.managerPhoneNumber,
+    this.managerCountryCode,
+  });
 
   Future<Map<String, dynamic>> toJson() async {
     final Map<String, dynamic> data = <String, dynamic>{};

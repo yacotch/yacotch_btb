@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-
 class CreateRestaurantModel {
   final String arName, enName;
   final String arDescription, enDescription;

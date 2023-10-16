@@ -20,7 +20,6 @@ import '../../../../core/errors/app_errors.dart';
 import '../../../../core/location/LocationAddressImports.dart';
 import '../../../../core/location/location_cubit/location_cubit.dart';
 import '../../../../core/location/model/location_model.dart';
-import '../../../../core/navigation/route_generator.dart';
 import '../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../core/ui/error_ui/error_viewer/snack_bar/errv_snack_bar_options.dart';
 import '../../../../core/ui/toast.dart';
@@ -120,7 +119,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AssignSubscriptionToUserError());
       },
       (res) async {
-        Toast.show('تم بنجاح');
+        //Toast.show('تم بنجاح');
         emit(AssignSubscriptionToUserLoaded());
       },
     );
@@ -547,6 +546,15 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           await AppStorage.cacheUserInfo(res);
+          await assignSubscriptionToUser(
+              context,
+              1000,
+              res.result!.userId != null
+                  ? 1
+                  : res.result!.restaurantId != null
+                      ? 3
+                      : 4);
+
           NavigationHelper.gotoAndRemove(
               screen: NavigatorScreen(
                   homeType: res.result!.userId != null
@@ -681,12 +689,12 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future createShop(BuildContext context, int userType, String phone) async {
-    //  await Future.wait([
-    //    uploadImage(context, fileLogoAr!),
-    //    uploadImage(context, fileLogoEn!),
-    //    uploadImage(context, fileCoveAr!),
-    //    uploadImage(context, fileCoveEn!),
-    //  ]);
+    await Future.wait([
+      uploadImage(context, fileLogoAr!),
+      uploadImage(context, fileLogoEn!),
+      uploadImage(context, fileCoveAr!),
+      uploadImage(context, fileCoveEn!),
+    ]);
     CreateShopModel model = CreateShopModel(
       managerEmail: emailController.text,
       managerPassword: passwordController.text,
@@ -694,10 +702,10 @@ class AuthCubit extends Cubit<AuthState> {
       phone: phoneController.text,
       arName: nameArController.text,
       enName: nameEnController.text,
-      arLogo: "s", // imgLogoAr!,,
-      enLogo: "s", // imgLogoEn!,,
-      arCover: "s", // imgCoveAr!,,
-      enCover: "s", // imgCoveEn!,,
+      arLogo: imgLogoAr!,
+      enLogo: imgLogoEn!,
+      arCover: imgCoveAr!,
+      enCover: imgCoveEn!,
       arDescription: descArController.text,
       enDescription: descEnController.text,
       managerName: mangerController.text,
