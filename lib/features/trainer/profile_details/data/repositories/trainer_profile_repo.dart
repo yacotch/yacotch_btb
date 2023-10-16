@@ -88,7 +88,7 @@ class TrainerProfileRepo {
       UpdateTrainerProfileModel updateTrainerProfileModel) async {
     final response = await DioHelper.put(
       APIUrls.API_UPDATE_TRAINER_PROFILE,
-      body: await updateTrainerProfileModel.toJson(),
+      body: updateTrainerProfileModel.toJson(),
     );
     try {
       if (response.data['success'] == true) {

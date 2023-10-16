@@ -90,7 +90,9 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
       name: nameController.text == trainerModel!.name
           ? trainerModel!.name
           : nameController.text,
-      experinecUrl: imgExperienceUrl, //?? trainerModel!.experienceFiles?.first,
+      experinecUrl: imgExperienceUrl != null
+          ? [imgExperienceUrl!]
+          : trainerModel!.experienceFiles,
       cvUrl: imgCvUrl ?? trainerModel!.cvUrl,
       imageUrl: imgImageUrl ?? trainerModel!.imageUrl,
       latitude: locationCubit.state.model!.lat,

@@ -7,7 +7,7 @@ class UpdateTrainerProfileModel {
   String? imageUrl;
   String? name;
   String? cvUrl;
-  String? experinecUrl;
+  List<String>? experinecUrl;
   String? phoneNumber;
   double? latitude;
   double? longitude;
@@ -29,13 +29,14 @@ class UpdateTrainerProfileModel {
     required this.specializationId,
   });
 
-  Future<Map<String, dynamic>> toJson() async {
+  Map<String, dynamic> toJson() {
+    print("sssssssssssssssssss ${experinecUrl}");
     return {
       "specializationId": specializationId,
       "imageUrl": imageUrl,
       "name": name,
       "cvUrl": cvUrl,
-      "experienceFiles": [experinecUrl],
+      "experienceFiles": experinecUrl ?? [],
       "phoneNumber": phoneNumber,
       "countryCode": 966,
       "latitude": latitude,
