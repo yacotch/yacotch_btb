@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import '../../../../../core/ui/toast.dart';
 import '../../data/repositories/more_trainer_repo.dart';
 part 'more_trainer_state.dart';
@@ -43,8 +44,9 @@ class MoreTrainerCubit extends Cubit<MoreTrainerState> {
   }
 
   bool isEnableNotification = true;
-  void enableNotifications() {
+  void enableNotifications() async {
     isEnableNotification = !isEnableNotification;
+    await AppStorage.cacheNotificationsEnabled(isEnableNotification);
     emit(MoreChangeEnableNotificationsState());
   }
 }

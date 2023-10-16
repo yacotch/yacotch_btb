@@ -10,7 +10,6 @@ abstract class AppStorage {
   static Future<void> init() async => await GetStorage.init();
 
   static UserModel? get getUserInfo {
-    print("user loged in ${_box.hasData('user')}");
     if (_box.hasData('user')) return UserModel.fromJson(_box.read('user'));
     return null;
   }
@@ -19,6 +18,11 @@ abstract class AppStorage {
 
   static Future<void> cacheUserInfo(UserModel userModel) =>
       _box.write('user', userModel.toJson());
+//the user can enable and disable recieving the notifications with this key
+  static Future<void> cacheNotificationsEnabled(bool value) =>
+      _box.write('is_notifications_enabled', value);
+  static bool get isNotificationsEnabled =>
+      _box.read('is_notifications_enabled');
 
   static int get getUserId => getUserInfo!.result!.userId!;
 

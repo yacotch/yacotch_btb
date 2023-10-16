@@ -21,9 +21,10 @@ class CoursesCubit extends Cubit<CoursesState> {
       {bool? isActive, bool? isFinished}) async {
     emit(GetCoursesLoading());
     //todo
-    final res = await _coursesRepo.getCourses(isActive: null, isFinished: null
-        //isActive: isActive, isFinished: isFinished
-        );
+    final res = await _coursesRepo.getCourses(
+      isActive: isActive,
+      isFinished: isFinished,
+    );
     res.fold(
       (err) {
         Toast.show(err);

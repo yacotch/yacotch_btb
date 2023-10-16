@@ -3,6 +3,7 @@ import "package:firebase_core/firebase_core.dart";
 import "package:firebase_messaging/firebase_messaging.dart";
 import 'package:flutter/material.dart';
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
+import "package:trainee_restaurantapp/core/appStorage/app_storage.dart";
 
 import "../../features/trainer/notification/presentation/view/notification_screen.dart";
 
@@ -13,7 +14,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> backgroundHandler(RemoteMessage message) async {
   Navigator.of(navigatorKey.currentState!.context).push(
-      MaterialPageRoute(builder: (context) => const NotificationScreen()));
+    MaterialPageRoute(
+      builder: (context) => const NotificationScreen(),
+    ),
+  );
   // if (int.parse(message.data["type"]) == -1) {
   //   navigatorKey.currentState!.context.read<AuthCubit>().onUpdateAuth(false);
   //   navigatorKey.currentState!.context.read<UserCubit>().onUpdateUserData(UserModel());
@@ -55,8 +59,9 @@ void showNotification(RemoteMessage event, String payload) async {
       importance: Importance.high,
       priority: Priority.high);
   var notificationDetails = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-      iOS: iOSPlatformChannelSpecifics);
+    android: androidPlatformChannelSpecifics,
+    iOS: iOSPlatformChannelSpecifics,
+  );
   String title = "${event.notification!.title}";
   String body = "${event.notification!.body}";
   await flutterLocalNotificationsPlugin
@@ -85,6 +90,9 @@ void initLocalNotification() async {
 
 Future<void> registerNotification() async {
   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  firebaseMessaging.setAutoInitEnabled(false);
+  print("object");
+  
   await firebaseMessaging.requestPermission(
     alert: true,
     badge: true,
@@ -141,29 +149,33 @@ void setupNotifications() {
   requestPermissions();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage event) async {
-    if (event.data != {}) {
-      showNotification(event, "${event.data}");
+    if (AppStorage.isNotificationsEnabled) {
+      if (event.data != {}) {
+        showNotification(event, "${event.data}");
+      } else {
+        showNotification(event, "${event.notification}");
+      }
+      Navigator.of(navigatorKey.currentState!.context).push(
+          MaterialPageRoute(builder: (context) => const NotificationScreen()));
+      print(event.data);
+      print("?????????1");
+      // await AuthRepository(navigatorKey.currentState!.context).hasNewNotifications();
+      // if(event.data['type'] == "-1"){
+      //   navigatorKey.currentState!.context.read<AuthCubit>().onUpdateAuth(false);
+      //   navigatorKey.currentState!.context.read<UserCubit>().onUpdateUserData(UserModel());
+      //   Utils.clearSavedData();
+      //   GlobalState.instance.set("token", "");
+      //   navigatorKey.currentState!.pushNamed(Routes.loginRoute);
+      // }else if (event.data['type'] == "10"){
+      //   UserModel user = navigatorKey.currentState!.context.read<UserCubit>().state.model;
+      //   user.isApproved = true;
+      //   navigatorKey.currentState!.context.read<UserCubit>().onUpdateUserData(user);
+      // }else{
+      //   // navigatorKey.currentState!.pushNamed(Routes.notifications);
+      // }
     } else {
-      showNotification(event, "${event.notification}");
+      print("we have notifications but the user turned of the notifications");
     }
-    Navigator.of(navigatorKey.currentState!.context).push(
-        MaterialPageRoute(builder: (context) => const NotificationScreen()));
-    print(event.data);
-    print("?????????1");
-    // await AuthRepository(navigatorKey.currentState!.context).hasNewNotifications();
-    // if(event.data['type'] == "-1"){
-    //   navigatorKey.currentState!.context.read<AuthCubit>().onUpdateAuth(false);
-    //   navigatorKey.currentState!.context.read<UserCubit>().onUpdateUserData(UserModel());
-    //   Utils.clearSavedData();
-    //   GlobalState.instance.set("token", "");
-    //   navigatorKey.currentState!.pushNamed(Routes.loginRoute);
-    // }else if (event.data['type'] == "10"){
-    //   UserModel user = navigatorKey.currentState!.context.read<UserCubit>().state.model;
-    //   user.isApproved = true;
-    //   navigatorKey.currentState!.context.read<UserCubit>().onUpdateUserData(user);
-    // }else{
-    //   // navigatorKey.currentState!.pushNamed(Routes.notifications);
-    // }
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage event) {

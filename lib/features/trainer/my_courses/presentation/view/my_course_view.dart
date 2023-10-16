@@ -12,7 +12,6 @@ import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/v
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/models/course_model.dart';
-import '../../../../../core/navigation/route_generator.dart';
 import '../../../../../core/ui/loader.dart';
 import '../../../../../core/ui/widgets/custom_rating_bar_widget.dart';
 import '../../../../../generated/l10n.dart';
@@ -31,7 +30,8 @@ class _MyCoursesViewState extends State<MyCoursesView>
   @override
   void initState() {
     tabController = TabController(length: 3, vsync: this);
-    CoursesCubit.of(context).getCourses(context, isActive: false);
+    //dont send any filter for is active & is finshied in init (to get pending )
+    CoursesCubit.of(context).getCourses(context);
     super.initState();
   }
 
@@ -54,8 +54,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
                     index: 1,
                     ontap: () => setState(() {
                           tabbed = 1;
-                          CoursesCubit.of(context)
-                              .getCourses(context, isFinished: true);
+                          CoursesCubit.of(context).getCourses(context);
                           tabController!.animateTo(0);
                         }),
                     tabbed: tabbed),
@@ -64,8 +63,11 @@ class _MyCoursesViewState extends State<MyCoursesView>
                     index: 2,
                     ontap: () => setState(() {
                           tabbed = 2;
-                          CoursesCubit.of(context)
-                              .getCourses(context, isFinished: true);
+                          CoursesCubit.of(context).getCourses(
+                            context,
+                            isFinished: false,
+                            isActive: true,
+                          );
                           tabController!.animateTo(1);
                         }),
                     tabbed: tabbed),
@@ -74,8 +76,8 @@ class _MyCoursesViewState extends State<MyCoursesView>
                     index: 3,
                     ontap: () => setState(() {
                           tabbed = 3;
-                          CoursesCubit.of(context)
-                              .getCourses(context, isFinished: true);
+                          CoursesCubit.of(context).getCourses(context,
+                              isFinished: true, isActive: false);
                           tabController!.animateTo(2);
                         }),
                     tabbed: tabbed),
