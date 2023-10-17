@@ -17,6 +17,8 @@ import '../../../../core/ui/widgets/custom_appbar.dart';
 import '../../profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import '../data/model/chat_model.dart';
 import '../data/model/message_model.dart';
+import 'package:flutter_chat_bubble/bubble_type.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
 
 class ChatDetailsView extends StatefulWidget {
   final ChatModel? chatModel;
@@ -108,6 +110,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
           for (var element in snapshot.data!.docs) {
             messages.add(MessageModel.fromJson(element.data()));
           }
+
           return Expanded(
               child: messages.isEmpty
                   ? const Center(
@@ -118,18 +121,81 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                   : ListView.separated(
                       reverse: true,
                       itemBuilder: (context, index) {
-                        var isMyMessage =
-                            messages[index].senderId == AppStorage.getUserId;
-                        if (messages[index].type == "message") {
-                          return TextMessageWidget(
-                            isMyMessage: isMyMessage,
-                            text: messages[index].message ?? "",
-                          );
+                        if (messages[index].senderId == AppStorage.getUserId) {
+                          if (messages[index].type == "message") {
+                            return ChatBubble(
+                              clipper: ChatBubbleClipper1(
+                                  type: BubbleType.sendBubble),
+                              alignment: Alignment.topRight,
+                              margin: const EdgeInsets.only(top: 20),
+                              backGroundColor: Colors.blue,
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                ),
+                                child: Text(
+                                  messages[index].message ?? "",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return ChatBubble(
+                              clipper: ChatBubbleClipper1(
+                                  type: BubbleType.sendBubble),
+                              alignment: Alignment.topRight,
+                              margin: const EdgeInsets.only(top: 20),
+                              backGroundColor: Colors.blue,
+                              child: Image.network(
+                                  errorBuilder: (context, error, stackTrace) {
+                                return const Icon(Icons.error);
+                              },
+                                  height: 200,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  fit: BoxFit.cover,
+                                  messages[index].message ?? ""),
+                            );
+                          }
                         } else {
-                          return ImageMessageWidget(
-                            image: messages[index].message!,
-                            isMyMessage: false,
-                          );
+                          if (messages[index].type != "file") {
+                            return ChatBubble(
+                              clipper: ChatBubbleClipper1(
+                                  type: BubbleType.receiverBubble),
+                              backGroundColor: const Color(0xffE7E7ED),
+                              margin: const EdgeInsets.only(top: 20),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                ),
+                                child: Text(
+                                  messages[index].message ?? "",
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return ChatBubble(
+                              clipper: ChatBubbleClipper1(
+                                  type: BubbleType.receiverBubble),
+                              backGroundColor: const Color(0xffE7E7ED),
+                              margin: const EdgeInsets.only(top: 20),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                ),
+                                child: Image.network(
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Icon(Icons.error);
+                                  },
+                                  messages[index].message ?? "",
+                                ),
+                              ),
+                            );
+                          }
                         }
                       },
                       separatorBuilder: (context, index) {
