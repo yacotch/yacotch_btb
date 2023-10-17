@@ -7,6 +7,7 @@ import 'package:trainee_restaurantapp/features/trainer/chat/data/model/chat_mode
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/agoraConfig.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/video_call_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/voice_call_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 
 class ClallingHeaderWidget extends StatelessWidget {
   final ChatModel chatModel;
@@ -25,7 +26,7 @@ class ClallingHeaderWidget extends StatelessWidget {
           SizedBox(
             width: MediaQuery.sizeOf(context).width * .5,
             child: CustomText(
-              text: chatModel!.traineeName ?? "",
+              text: chatModel.traineeName ?? "",
               fontWeight: FontWeight.w700,
               fontSize: AppConstants.textSize18,
             ),
@@ -36,7 +37,10 @@ class ClallingHeaderWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(chatModel!.traineeImage ?? ""),
+                image: NetworkImage(chatModel.traineeImage == null ||
+                        chatModel.traineeImage!.isEmpty
+                    ? defaultAvatar
+                    : chatModel.traineeImage!),
               ),
             ),
           ),
