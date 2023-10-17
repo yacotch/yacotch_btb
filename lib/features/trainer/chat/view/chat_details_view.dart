@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +9,11 @@ import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/chat_details/calling_header.dart';
-import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/chat_details/image_message.dart';
-import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/chat_details/text_message.dart';
-
 import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
 import '../../profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import '../data/model/chat_model.dart';
 import '../data/model/message_model.dart';
-import 'package:flutter_chat_bubble/bubble_type.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
 
 class ChatDetailsView extends StatefulWidget {
   final ChatModel? chatModel;

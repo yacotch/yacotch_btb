@@ -30,7 +30,6 @@ class ChatView extends StatelessWidget {
             ),
           ),
           SearchContainer(),
-          const RecentChatsListView()
         ],
       ),
     );
