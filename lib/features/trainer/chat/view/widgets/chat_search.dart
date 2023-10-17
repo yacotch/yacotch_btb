@@ -21,9 +21,13 @@ class _SearchContainerState extends State<SearchContainer> {
 
   Future<void> searchChatByTraineeName(String traineeName) async {
     try {
+      String startingLetter = traineeName.toLowerCase();
+      String nextLetter = String.fromCharCode(startingLetter.runes.first + 1);
+
       QuerySnapshot querySnapshot = await firestore
           .collection('chats')
-          .where('traineeName', isGreaterThanOrEqualTo: traineeName)
+          .where('traineeName',
+              isGreaterThanOrEqualTo: startingLetter, isLessThan: nextLetter)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -32,12 +36,8 @@ class _SearchContainerState extends State<SearchContainer> {
         for (QueryDocumentSnapshot document in querySnapshot.docs) {
           searchResult =
               ChatModel.fromJson(document.data() as Map<String, dynamic>);
-          setState(() {});
         }
-      } else {
-        searchResult = null;
-        setState(() {});
-      }
+      } else {}
     } catch (error) {
       searchResult = null;
     }
@@ -65,6 +65,7 @@ class _SearchContainerState extends State<SearchContainer> {
           child: TextFormField(
             onChanged: (name) async {
               await searchChatByTraineeName(name);
+              setState(() {});
             },
             controller: controller,
             textAlignVertical: TextAlignVertical.center,
@@ -84,17 +85,21 @@ class _SearchContainerState extends State<SearchContainer> {
             ),
           ),
         ),
-        searchResult == null && controller.text.isEmpty
-            ? SizedBox(height: .5.sh, child: const RecentChatsListView())
-            : searchResult == null && controller.text.isNotEmpty
-                ? SizedBox(
-                    height: .5.sh,
-                    child: Center(
+        SizedBox(
+            height: .5.sh,
+            child: searchResult == null && controller.text.isEmpty
+                ? const RecentChatsListView()
+                : searchResult == null && controller.text.isNotEmpty
+                    ? Center(
                         child: Text(LanguageHelper.getTranslation(context)
-                            .no_data_found)))
-                : searchResult != null
-                    ? ChatSummaryWidget(searchResult!)
-                    : Text("sssssssss")
+                            .no_data_found))
+                    : searchResult != null
+                        ? Column(
+                            children: [
+                              ChatSummaryWidget(searchResult!),
+                            ],
+                          )
+                        : const SizedBox())
       ],
     );
   }

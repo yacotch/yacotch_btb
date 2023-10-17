@@ -8,6 +8,7 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/data/model/chat_model.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/chat_details_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 
 class ChatTraieesListView extends StatelessWidget {
   const ChatTraieesListView({super.key});
@@ -59,32 +60,53 @@ class ChatTraieesListView extends StatelessWidget {
                                 image: DecorationImage(
                                     image: NetworkImage(
                                       HomeTrainerCubit.of(context)
+                                                      .newTrainees![index]
+                                                      .trainee!
+                                                      .imageUrl ==
+                                                  null ||
+                                              HomeTrainerCubit.of(context)
+                                                  .newTrainees![index]
+                                                  .trainee!
+                                                  .imageUrl!
+                                                  .isEmpty
+                                          ? defaultAvatar
+                                          : HomeTrainerCubit.of(context)
                                               .newTrainees![index]
                                               .trainee!
-                                              .imageUrl ??
-                                          "",
+                                              .imageUrl!,
                                     ),
                                     fit: BoxFit.cover),
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              child: Stack(
+                                alignment: AlignmentDirectional.bottomCenter,
                                 children: [
-                                  CustomText(
-                                      text: HomeTrainerCubit.of(context)
-                                              .newTrainees![index]
-                                              .trainee!
-                                              .name ??
-                                          "",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: AppConstants.textSize10),
-                                  CustomText(
-                                    text: HomeTrainerCubit.of(context)
-                                            .newTrainees![index]
-                                            .course!
-                                            .text ??
-                                        "",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: AppConstants.textSize10,
+                                  Container(
+                                    color: Colors.black.withOpacity(.15),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      CustomText(
+                                          textAlign: TextAlign.center,
+                                          text: HomeTrainerCubit.of(context)
+                                                  .newTrainees![index]
+                                                  .trainee!
+                                                  .name ??
+                                              "",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: AppConstants.textSize10),
+                                      CustomText(
+                                        text: HomeTrainerCubit.of(context)
+                                                .newTrainees![index]
+                                                .course!
+                                                .text ??
+                                            "",
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: AppConstants.textSize10,
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

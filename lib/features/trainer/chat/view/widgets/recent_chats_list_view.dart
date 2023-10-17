@@ -9,6 +9,7 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/data/model/chat_model.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/data/model/message_model.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/chat_details_view.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 
 class RecentChatsListView extends StatelessWidget {
   const RecentChatsListView({super.key});
@@ -84,7 +85,9 @@ class ChatSummaryWidget extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(
-                      chat.traineeImage ?? "",
+                      chat.traineeImage == null || chat.traineeImage!.isEmpty
+                          ? defaultAvatar
+                          : chat.traineeImage!,
                     ),
                   ),
                 ),
