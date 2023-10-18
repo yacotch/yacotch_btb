@@ -70,7 +70,7 @@ class AppRoute {
         return MaterialPageRoute(
             builder: (context) => const MainOnBoardingView());
       case Routes.mainLoginScreen:
-        return MaterialPageRoute(builder: (context) => LoginScreen());
+        return MaterialPageRoute(builder: (context) => LoginScreen(0));
       case Routes.trainerSignUpScreen:
         var arg = settings.arguments as RegisterTrainerScreenView;
         return MaterialPageRoute(

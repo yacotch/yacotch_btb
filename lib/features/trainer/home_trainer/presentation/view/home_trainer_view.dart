@@ -2,8 +2,6 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/models/trainer_model.dart';
@@ -16,7 +14,7 @@ import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_details.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
-import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/view/profile_view_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/trainee/presentation/view/all_trainee_screen.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/library/carousel/custom_carousel.dart';
@@ -26,7 +24,6 @@ import '../../../../../core/ui/physics/custom_scroll_physics.dart';
 import '../../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../notification/presentation/view/notification_screen.dart';
 import '../../../subscription/presentation/view/subscription_screen.dart';
 
 class HomeTrainerScreen extends StatefulWidget {
@@ -179,26 +176,28 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
 
   Widget mostWantedCourse() {
     return SizedBox(
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: TitleWidget(
-              title: LanguageHelper.getTranslation(context).mostWantedCourses,
-              subtitleColorTapped: () => NavigationHelper.goto(
-                  screen: const MyCoursesView(), context: context),
-              titleColor: AppColors.accentColorLight,
-              subtitle: HomeTrainerCubit.of(context).topCourses!.isNotEmpty
-                  ? Translation.of(context).see_all
-                  : null,
-            ),
-          ),
-          Gaps.vGap16,
-          BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
-            builder: (context, state) {
-              if (HomeTrainerCubit.of(context).topCourses != null) {
-                if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
-                  return Padding(
+      child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+        builder: (context, state) {
+          if (HomeTrainerCubit.of(context).topCourses != null) {
+            if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: TitleWidget(
+                      title: LanguageHelper.getTranslation(context)
+                          .mostWantedCourses,
+                      subtitleColorTapped: () => NavigationHelper.goto(
+                          screen: const MyCoursesView(), context: context),
+                      titleColor: AppColors.accentColorLight,
+                      subtitle:
+                          HomeTrainerCubit.of(context).topCourses!.isNotEmpty
+                              ? Translation.of(context).see_all
+                              : null,
+                    ),
+                  ),
+                  Gaps.vGap16,
+                  Padding(
                     padding: EdgeInsets.only(right: 4.w),
                     child: CustomCarousel(
                       items: List.generate(
@@ -217,19 +216,18 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                         scrollDirection: Axis.horizontal,
                       ),
                     ),
-                  );
-                } else {
-                  return Center(
-                    child:
-                        Text(LanguageHelper.getTranslation(context).no_courses),
-                  );
-                }
-              } else {
-                return const Loader();
-              }
-            },
-          )
-        ],
+                  ),
+                ],
+              );
+            } else {
+              return Center(
+                child: Text(LanguageHelper.getTranslation(context).no_courses),
+              );
+            }
+          } else {
+            return const Loader();
+          }
+        },
       ),
     );
   }
@@ -246,24 +244,27 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         height: 300.h,
-        child: Column(
-          children: [
-            TitleWidget(
-              title: LanguageHelper.getTranslation(context).new_trainees,
-              subtitleColorTapped: () {
-                Navigator.pushNamed(context, Routes.traineeScreen);
-              },
-              subtitle: HomeTrainerCubit.of(context).newTrainees!.isNotEmpty
-                  ? Translation.of(context).see_all
-                  : null,
-              titleColor: AppColors.accentColorLight,
-            ),
-            Gaps.vGap14,
-            BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
-              builder: (context, state) {
-                if (HomeTrainerCubit.of(context).newTrainees != null) {
-                  if (HomeTrainerCubit.of(context).newTrainees!.isNotEmpty) {
-                    return Expanded(
+        child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+          builder: (context, state) {
+            if (HomeTrainerCubit.of(context).newTrainees != null) {
+              if (HomeTrainerCubit.of(context).newTrainees!.isNotEmpty) {
+                return Column(
+                  children: [
+                    TitleWidget(
+                      title:
+                          LanguageHelper.getTranslation(context).new_trainees,
+                      subtitleColorTapped: () {
+                        NavigationHelper.goto(
+                            screen: AllTraineeScreen(), context: context);
+                      },
+                      subtitle:
+                          HomeTrainerCubit.of(context).newTrainees!.isNotEmpty
+                              ? Translation.of(context).see_all
+                              : null,
+                      titleColor: AppColors.accentColorLight,
+                    ),
+                    Gaps.vGap14,
+                    Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -379,19 +380,19 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                           ),
                         ],
                       ),
-                    );
-                  } else {
-                    return Center(
-                      child: Text(
-                          LanguageHelper.getTranslation(context).no_trainees),
-                    );
-                  }
-                } else {
-                  return const Loader();
-                }
-              },
-            )
-          ],
+                    ),
+                  ],
+                );
+              } else {
+                return Center(
+                  child:
+                      Text(LanguageHelper.getTranslation(context).no_trainees),
+                );
+              }
+            } else {
+              return const Loader();
+            }
+          },
         ),
       ),
     );

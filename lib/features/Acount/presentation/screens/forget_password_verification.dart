@@ -108,7 +108,8 @@ class _ForgetPasswordVerificationScreenContentState
   }
 
   void _offLoginScreen() {
-    NavigationHelper.gotoAndRemove(screen: LoginScreen(), context: context);
+    NavigationHelper.gotoAndRemove(
+        screen: LoginScreen(widget.userType), context: context);
   }
 
   void _verify(context) {

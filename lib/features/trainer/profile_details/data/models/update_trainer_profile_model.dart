@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 
 class UpdateTrainerProfileModel {
   int? id;

@@ -809,4 +809,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get manager_phone => 'رقم هاتف المدير';
+
+  @override
+  String get search_for_chat => 'ابحث عن محادثة';
 }

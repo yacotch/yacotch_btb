@@ -294,7 +294,7 @@ class AuthCubit extends Cubit<AuthState> {
 
           if (userType == 1) {
             NavigationHelper.gotoAndRemove(
-                screen: const LoginScreen(), context: context);
+                screen: const LoginScreen(1), context: context);
             emit(VerifyAccountLoaded());
           } else if (userType == 3) {
             NavigationHelper.goto(
@@ -378,12 +378,13 @@ class AuthCubit extends Cubit<AuthState> {
   RegisterRestaurantModel? signUpRestaurantModel;
   Future registerRestaurant(BuildContext context, int userType) async {
     await uploadImage(context, fileCommercialRegisterDoc!);
+
     signUpRestaurantModel = RegisterRestaurantModel(
       name: restaurantNameController.text,
       email: emailController.text,
       password: passwordController.text,
       phoneNumber: phoneController.text,
-      commercialRegisterDocument: imgCommercialRegisterDoc,
+      commercialRegisterDocument: "", //imgCommercialRegisterDoc,
       commercialRegisterNumber: commercialNumberController.text,
       cityId: 1,
       managerCountryCode: countryCode,
@@ -491,7 +492,7 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           NavigationHelper.gotoAndRemove(
-              screen: const LoginScreen(), context: context);
+              screen: LoginScreen(userType), context: context);
           isLoading = false;
           emit(ForgetPasswordVerifyLoaded());
         },
@@ -527,7 +528,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future login(BuildContext context, [String? phone]) async {
+  Future login(BuildContext context, int userType, [String? phone]) async {
     if (formKey.currentState!.validate()) {
       unFocus(context);
       emit(LoginLoading());
@@ -535,7 +536,7 @@ class AuthCubit extends Cubit<AuthState> {
       final res = await authRepo.login(
         phone ?? phoneController.text,
         passwordController.text,
-        1,
+        userType,
       );
 
       res.fold(
@@ -543,6 +544,7 @@ class AuthCubit extends Cubit<AuthState> {
           isLoading = false;
           Toast.show(err);
           emit(LoginError());
+          print("err ${err}");
         },
         (res) async {
           await AppStorage.cacheUserInfo(res);
@@ -557,11 +559,12 @@ class AuthCubit extends Cubit<AuthState> {
 
           NavigationHelper.gotoAndRemove(
               screen: NavigatorScreen(
-                  homeType: res.result!.userId != null
-                      ? 1
-                      : res.result!.shopId != null
-                          ? 4
-                          : 3),
+                homeType: res.result!.shopId != null
+                    ? 4
+                    : res.result!.restaurantId != null
+                        ? 3
+                        : 1,
+              ),
               context: context);
 
           isLoading = false;
@@ -640,7 +643,7 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           NavigationHelper.gotoAndRemove(
-              screen: const LoginScreen(), context: context);
+              screen: LoginScreen(3), context: context);
 
           isLoading = false;
           emit(RegisterRestaurantLoaded());
@@ -729,7 +732,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (res) async {
         NavigationHelper.gotoAndRemove(
-            screen: const LoginScreen(), context: context);
+            screen: LoginScreen(4), context: context);
         isLoading = false;
         emit(RegisterRestaurantLoaded());
       },

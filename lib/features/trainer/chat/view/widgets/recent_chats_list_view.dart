@@ -40,19 +40,18 @@ class RecentChatsListView extends StatelessWidget {
           }
           return chats.isEmpty
               ? const Text("no data")
-              : Expanded(
-                  child: ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return ChatSummaryWidget(chats[index]);
-                      },
-                      separatorBuilder: (context, index) {
-                        return Container(
-                          height: 1,
-                          color: AppColors.white,
-                        );
-                      },
-                      itemCount: chats.length));
+              : ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ChatSummaryWidget(chats[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return Container(
+                      height: 1,
+                      color: AppColors.white,
+                    );
+                  },
+                  itemCount: chats.length);
         }
       },
     );

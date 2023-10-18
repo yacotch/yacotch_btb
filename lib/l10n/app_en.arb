@@ -272,5 +272,6 @@
 "link_invalid":"The link is invalid",
 "manager_email":"Manager email",
 "manager_password":"Manager password",
-"manager_phone":"Manager Phone Number"
+"manager_phone":"Manager Phone Number",
+"search_for_chat":"Search for any chat"
 }

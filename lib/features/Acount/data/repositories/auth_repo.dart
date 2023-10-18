@@ -186,6 +186,11 @@ class AuthRepo {
 
   Future<Either<String, UserModel>> registerRestaurant(
       RegisterRestaurantModel registerRestaurantModel) async {
+    await registerRestaurantModel
+        .toJson()
+        .then((value) => value.forEach((key, value) {
+              print("$key $value");
+            }));
     final response = await DioHelper.post(
       APIUrls.API_REGISTER_REST,
       body: await registerRestaurantModel.toJson(),
@@ -317,6 +322,14 @@ class AuthRepo {
 
   Future<Either<String, UserModel>> login(
       String phone, String password, int type) async {
+    print(
+      {
+        "userNameOrEmailAddress": phone,
+        "password": password,
+        "rememberClient": true,
+        "type": type,
+      },
+    );
     final response = await DioHelper.post(
       APIUrls.API_LOGIN,
       body: {

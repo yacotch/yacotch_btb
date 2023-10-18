@@ -29,7 +29,7 @@ class ChatView extends StatelessWidget {
               color: AppColors.white,
             ),
           ),
-          SearchContainer(),
+          const SearchContainer(),
         ],
       ),
     );

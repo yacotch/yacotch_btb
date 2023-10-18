@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/restaurant.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/shop.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/trainer.dart';
 import 'package:trainee_restaurantapp/features/on_boarding/view/main_onboarding_view.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
@@ -16,7 +19,8 @@ import 'forget_password.dart';
 import 'general_auth.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final int userType;
+  const LoginScreen(this.userType, {Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -24,16 +28,23 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   void _login(BuildContext context) {
-    AuthCubit.of(context).login(context);
+    AuthCubit.of(context).login(context, widget.userType);
   }
 
   void _toForgotPassword() {
     NavigationHelper.goto(
-        screen:const ForgotPasswordScreenContent(userType: 0), context: context);
+        screen: ForgotPasswordScreenContent(userType: widget.userType),
+        context: context);
   }
 
   void _offToSignupScreen() {
-    NavigationHelper.goto(screen:const MainOnBoardingView(), context: context);
+    NavigationHelper.goto(
+        screen: widget.userType == 1
+            ? const RegisterTrainerScreenView(userType: 1)
+            : widget.userType == 3
+                ? const RegisterRestaurantScreenView(userType: 3)
+                : const RegisterShopScreenView(userType: 4),
+        context: context);
   }
 
   @override

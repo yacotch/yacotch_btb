@@ -8,8 +8,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/general_auth.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/login_screen.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
@@ -161,7 +163,7 @@ class _RegisterRestaurantScreenViewState
   }
 
   _offToLoginScreen() {
-    Navigator.pop(context);
+    NavigationHelper.gotoReplacement(screen: LoginScreen(3), context: context);
   }
 
   uploadSignUpFile(

@@ -69,15 +69,13 @@ class _SearchContainerState extends State<SearchContainer> {
             },
             controller: controller,
             textAlignVertical: TextAlignVertical.center,
-            decoration: const InputDecoration(
-              //todo translate
-              hintText: 'Search for any chat',
+            decoration: InputDecoration(
+              hintText: LanguageHelper.getTranslation(context).search_for_chat,
               contentPadding: EdgeInsets.zero,
               border: InputBorder.none,
               errorBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
-
               prefixIcon: Icon(
                 Icons.search,
                 color: Colors.white,
@@ -87,6 +85,7 @@ class _SearchContainerState extends State<SearchContainer> {
         ),
         SizedBox(
             height: .5.sh,
+            width: 1.sw,
             child: searchResult == null && controller.text.isEmpty
                 ? const RecentChatsListView()
                 : searchResult == null && controller.text.isNotEmpty

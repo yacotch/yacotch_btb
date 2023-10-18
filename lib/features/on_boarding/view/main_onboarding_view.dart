@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/login_screen.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/restaurant.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/shop.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/trainer.dart';
@@ -82,24 +83,28 @@ class MainOnBoardingView extends StatelessWidget {
               userSelectorContainer(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            RegisterTrainerScreenView(userType: 1)));
+                        builder: (context) => const LoginScreen(1)
+                        // RegisterTrainerScreenView(userType: 1)
+                        ));
                   },
                   image: AppConstants.TRAINER_SPLASH,
                   type: Translation.of(context).trainer),
               userSelectorContainer(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            RegisterRestaurantScreenView(userType: 3)));
+                        builder: (context) => const LoginScreen(3)
+
+                        // RegisterRestaurantScreenView(userType: 3)
+                        ));
                   },
                   image: AppConstants.RESTAURANT_SPLASH,
                   type: Translation.of(context).restaurantOwner),
               userSelectorContainer(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => RegisterShopScreenView(userType: 4),
-                    ));
+                        builder: (context) => const LoginScreen(4)
+                        //RegisterShopScreenView(userType: 4),
+                        ));
                   },
                   image: AppConstants.SHOP_SPLASH,
                   type: Translation.of(context).shopOwner),

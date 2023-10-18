@@ -809,4 +809,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get manager_phone => 'Manager Phone Number';
+
+  @override
+  String get search_for_chat => 'Search for any chat';
 }

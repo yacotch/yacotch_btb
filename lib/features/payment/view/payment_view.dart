@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:moyasar/moyasar.dart';
-import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
 import 'package:trainee_restaurantapp/features/payment/controller/payment_cubit.dart';
 import 'package:unicode_moyasar/unicode_moyasar.dart';
 

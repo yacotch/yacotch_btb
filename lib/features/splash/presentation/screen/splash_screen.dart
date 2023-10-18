@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/login_screen.dart';
 import 'package:trainee_restaurantapp/features/navigator_home/view/navigator_home_view.dart';
+import 'package:trainee_restaurantapp/features/on_boarding/view/main_onboarding_view.dart';
 import 'package:trainee_restaurantapp/features/splash/presentation/screen/splash_screen_content.dart';
 import '../../../../core/appStorage/app_storage.dart';
 import '../../../../core/common/app_colors.dart';
@@ -63,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => LoginScreen(),
+              builder: (context) => MainOnBoardingView(),
             ),
             (route) => false,
           );

@@ -1700,6 +1700,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manager Phone Number'**
   String get manager_phone;
+
+  /// No description provided for @search_for_chat.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for any chat'**
+  String get search_for_chat;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
