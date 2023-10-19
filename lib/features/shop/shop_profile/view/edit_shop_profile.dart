@@ -188,28 +188,28 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                             textEditingController:
                                 ShopProfileCubit.of(context).phoneController),
                         Gaps.vGap24,
-                        _buildTextFiledWidget(
-                            type: TextInputType.number,
-                            validator: (input) =>
-                                Validators.isNumber(input!, context),
-                            title: tr.commericalNumber,
-                            textEditingController: ShopProfileCubit.of(context)
-                                .commercialRegisterNumberController),
-                        Gaps.vGap24,
-                        uploadSignUpFile(
-                          text: tr.commericalFile,
-                          file: ShopProfileCubit.of(context)
-                                  .fileCommercialRegisterDoc ??
-                              File(''),
-                          asset: '',
-                          image: ShopProfileCubit.of(context)
-                                  .commercialRegisterDoc ??
-                              '',
-                          onTap: () async {
-                            await ShopProfileCubit.of(context)
-                                .pickCommericalDoc();
-                          },
-                        ),
+                        //_buildTextFiledWidget(
+                        //    type: TextInputType.number,
+                        //    validator: (input) =>
+                        //        Validators.isNumber(input!, context),
+                        //    title: tr.commericalNumber,
+                        //    textEditingController: ShopProfileCubit.of(context)
+                        //        .commercialRegisterNumberController),
+                        //Gaps.vGap24,
+                        //uploadSignUpFile(
+                        //  text: tr.commericalFile,
+                        //  file: ShopProfileCubit.of(context)
+                        //          .fileCommercialRegisterDoc ??
+                        //      File(''),
+                        //  asset: '',
+                        //  image: ShopProfileCubit.of(context)
+                        //          .commercialRegisterDoc ??
+                        //      '',
+                        //  onTap: () async {
+                        //    await ShopProfileCubit.of(context)
+                        //        .pickCommericalDoc();
+                        //  },
+                        //   ),
                         Gaps.vGap8,
                         // _buildTextFiledWidget(
                         //     title: Translation

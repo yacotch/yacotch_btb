@@ -308,5 +308,13 @@
 "go_to_my_dishes":"Go to my dishes",
 "num_orders":"Number of orders",
 "product_added_succ":"Your product has been added successfully",
-"go_to_my_products":"Go to my products"
+"go_to_my_products":"Go to my products",
+"start_training":"Start training",
+"add_values":"Add new values",
+"day":"day",
+"fat_perct":"Fat percentage",
+"trainee_at":"Trainee at",
+"cm":"CM",
+"kg":"KG",
+"changes_in_bmi":"Changes in BMI"
 }

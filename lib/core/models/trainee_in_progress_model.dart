@@ -15,26 +15,25 @@ class TraineeInProgressModel {
 
   TraineeInProgressModel(
       {this.courseId,
-        this.course,
-        this.traineeId,
-        this.trainee,
-        this.latitude,
-        this.longitude,
-        this.weight,
-        this.length,
-        this.completedHours,
-        this.absenceCount,
-        this.progress,
-        this.isFinished,
-        this.bmi});
+      this.course,
+      this.traineeId,
+      this.trainee,
+      this.latitude,
+      this.longitude,
+      this.weight,
+      this.length,
+      this.completedHours,
+      this.absenceCount,
+      this.progress,
+      this.isFinished,
+      this.bmi});
 
   TraineeInProgressModel.fromJson(Map<String, dynamic> json) {
     courseId = json['courseId'];
-    course =
-    json['course'] != null ? Course.fromJson(json['course']) : null;
+    course = json['course'] != null ? Course.fromJson(json['course']) : null;
     traineeId = json['traineeId'];
     trainee =
-    json['trainee'] != null ? Trainee.fromJson(json['trainee']) : null;
+        json['trainee'] != null ? Trainee.fromJson(json['trainee']) : null;
     latitude = json['latitude'];
     longitude = json['longitude'];
     weight = json['weight'];
@@ -43,6 +42,7 @@ class TraineeInProgressModel {
     absenceCount = json['absenceCount'];
     progress = json['progress'];
     isFinished = json['isFinished'];
+
     if (json['bmi'] != null) {
       bmi = <Bmi>[];
       json['bmi'].forEach((v) {
@@ -85,10 +85,10 @@ class Course {
 
   Course(
       {this.fee,
-        this.imageUrl,
-        this.trainingHoursCount,
-        this.value,
-        this.text});
+      this.imageUrl,
+      this.trainingHoursCount,
+      this.value,
+      this.text});
 
   Course.fromJson(Map<String, dynamic> json) {
     fee = json['fee'];
@@ -136,7 +136,7 @@ class Trainee {
 
 class Bmi {
   String? date;
-  Null? bmi;
+  double? bmi;
 
   Bmi({this.date, this.bmi});
 

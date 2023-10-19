@@ -33,11 +33,6 @@ class _RegisterTrainerScreenViewState extends State<RegisterTrainerScreenView> {
     return BlocProvider(
       create: (context) => AuthCubit()..getSpecialization(),
       child: BlocBuilder<AuthCubit, AuthState>(
-        buildWhen: (previous, current) =>
-            previous != current ||
-            current is RegisterTrainerLoaded ||
-            current is RegisterTrainerLoading ||
-            current is PasswordSecureState,
         builder: (context, state) {
           return GeneralAuthScreen(
             additionalText: Translation.of(context).account_exist,
@@ -74,35 +69,6 @@ class _RegisterTrainerScreenViewState extends State<RegisterTrainerScreenView> {
                       controller: AuthCubit.of(context).nameController,
                     ),
                     Gaps.vGap8,
-                    // EmailTextField(
-                    //   text: Translation.of(context).idNumber,
-                    //   onFiledSubmitted: () {
-                    //     FocusScope.of(context).requestFocus(hourRate);
-                    //   },
-                    //   textInputAction: TextInputAction.next,
-                    //   controller: idController,
-                    //   focusNode: idNumber,
-                    // ),
-                    // Gaps.vGap8,
-                    // EmailTextField(
-                    //   text: Translation.of(context).hourRate,
-                    //   onFiledSubmitted: () {
-                    //     FocusScope.of(context).requestFocus(coatchSpecialist);
-                    //   },
-                    //   textInputAction: TextInputAction.next,
-                    //   controller: hourRateController,
-                    //   focusNode: hourRate,
-                    // ),
-                    // Gaps.vGap8,
-                    // EmailTextField(
-                    //   text: Translation.of(context).coach_specialization,
-                    //   onFiledSubmitted: () {
-                    //     FocusScope.of(context).requestFocus(passwordFocusNode);
-                    //   },
-                    //   textInputAction: TextInputAction.next,
-                    //   controller: coatchSpecialistController,
-                    //   focusNode: coatchSpecialist,
-                    // ),
                     const TraninerTypesDropDown(), Gaps.vGap8,
                     PasswordTextField(
                       controller: AuthCubit.of(context).passwordController,
@@ -216,40 +182,41 @@ class _TraninerTypesDropDownState extends State<TraninerTypesDropDown> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AuthCubit>(context, listen: false).getSpecialization();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<Items>(
-      isExpanded: true,
-      value: AuthCubit.of(context).dropdownValueCate,
-      hint: Text(
-        LanguageHelper.getTranslation(context).choose_category,
-        style: const TextStyle(
+    return BlocBuilder<AuthCubit, AuthState>(builder: (context, state) {
+      return DropdownButton<Items>(
+        isExpanded: true,
+        value: AuthCubit.of(context).dropdownValueCate,
+        hint: Text(
+          LanguageHelper.getTranslation(context).choose_category,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        dropdownColor: Colors.grey,
+        underline: Container(
+          height: 2,
           color: Colors.white,
         ),
-      ),
-      dropdownColor: Colors.grey,
-      underline: Container(
-        height: 2,
-        color: Colors.white,
-      ),
-      onChanged: (Items? value) {
-        setState(() {
-          AuthCubit.of(context).dropdownValueCate = value!;
-        });
-      },
-      items: AuthCubit.of(context)
-          .listSpecialization
-          .map<DropdownMenuItem<Items>>((Items value) {
-        return DropdownMenuItem<Items>(
-          value: value,
-          child: Text(
-            value.name ?? '',
-          ),
-        );
-      }).toList(),
-    );
+        onChanged: (Items? value) {
+          setState(() {
+            AuthCubit.of(context).dropdownValueCate = value!;
+          });
+        },
+        items: AuthCubit.of(context)
+            .listSpecialization
+            .map<DropdownMenuItem<Items>>((Items value) {
+          return DropdownMenuItem<Items>(
+            value: value,
+            child: Text(
+              value.name ?? '',
+            ),
+          );
+        }).toList(),
+      );
+    });
   }
 }

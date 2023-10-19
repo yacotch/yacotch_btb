@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainee_restaurantapp/features/trainer/trainee/data/models/update_trainee_progress_model.dart';
@@ -22,12 +21,10 @@ class UpdateTraineeProgressCubit extends Cubit<UpdateTraineeProgressState> {
   FocusNode completedHoursFocusNode = FocusNode();
   FocusNode absenceCountFocusNode = FocusNode();
 
-
   final weightController = TextEditingController();
   final fatPercentageController = TextEditingController();
   final completedHoursController = TextEditingController();
   final absenceCountController = TextEditingController();
-
 
   Future updateTraineeProgress(BuildContext context) async {
     if (formKey.currentState!.validate()) {
@@ -49,6 +46,7 @@ class UpdateTraineeProgressCubit extends Cubit<UpdateTraineeProgressState> {
         },
         (res) async {
           Navigator.pop(context);
+          
           emit(UpdateTraineeProgressLoaded());
         },
       );
@@ -58,5 +56,4 @@ class UpdateTraineeProgressCubit extends Cubit<UpdateTraineeProgressState> {
   unFocus(context) {
     if (FocusScope.of(context).hasFocus) FocusScope.of(context).unfocus();
   }
-
 }

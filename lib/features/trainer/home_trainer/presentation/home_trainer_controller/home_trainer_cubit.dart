@@ -15,9 +15,7 @@ class HomeTrainerCubit extends Cubit<HomeTrainerState> {
 
   final homeTrainerRepo = HomeTrainerRepo();
 
-  List<CourseModel>?  topCourses = [];
- 
- 
+  List<CourseModel>? topCourses = [];
 
   Future getMostWantedCourses(BuildContext context) async {
     emit(GetMostWantedCoursesLoading());
@@ -30,14 +28,12 @@ class HomeTrainerCubit extends Cubit<HomeTrainerState> {
       },
       (res) {
         topCourses = res;
-        emit(GetMostWantedCoursesLoaded(
-
-        ));
+        emit(GetMostWantedCoursesLoaded());
       },
     );
   }
 
-  List<NewTraineeModel>?  newTrainees = [];
+  List<NewTraineeModel>? newTrainees = [];
   Future getNewTrainees(BuildContext context) async {
     emit(GetNewTraineesLoading());
     final res = await homeTrainerRepo.getNewTrainees();
@@ -55,12 +51,11 @@ class HomeTrainerCubit extends Cubit<HomeTrainerState> {
   }
 
   TraineeInProgressModel? trainee;
-  Future getTrainee(int courseId , int traineeId) async {
+  Future getTrainee(int courseId, int traineeId) async {
     emit(GetTraineeLoading());
     final res = await homeTrainerRepo.getTrainee(traineeId, courseId);
     res.fold(
       (err) {
-        print(err);
         Toast.show(err);
         emit(GetTraineeError());
       },

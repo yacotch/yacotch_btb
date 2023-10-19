@@ -5,8 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/trainee/presentation/controller/update_trainee_progress_cubit.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
@@ -30,7 +33,6 @@ class TraineeProfileScreen extends StatefulWidget {
 class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     HomeTrainerCubit.of(context)
         .getTrainee(widget.args["courseId"], widget.args["traineeId"]);
     super.initState();
@@ -38,8 +40,10 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      body: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+    return SafeArea(
+        child: Scaffold(
+      body: BlocConsumer<HomeTrainerCubit, HomeTrainerState>(
+        listener: (context, state) async {},
         builder: (context, state) {
           if (HomeTrainerCubit.of(context).trainee == null) {
             return const Loader();
@@ -64,19 +68,19 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                       _traineeStatistic(context: context),
                       Gaps.hGap12,
                       NewElevatedButton(
-                        text: "ابدا التمرين",
+                        text: LanguageHelper.getTranslation(context)
+                            .start_training,
                         onTap: () {},
                         color: AppColors.accentColorLight,
                       ),
                       NewElevatedButton(
-                        text: "ادخل قيم جديده",
+                        text: LanguageHelper.getTranslation(context).add_values,
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const AddNewTraineeEntryScreen(),
-                              ));
+                          NavigationHelper.goto(
+                              screen: AddNewTraineeEntryScreen(
+                                  widget.args["courseId"],
+                                  widget.args["traineeId"]),
+                              context: context);
                         },
                         color: null,
                       ),
@@ -125,7 +129,7 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                       const Spacer(),
                       CustomText(
                         text:
-                            "متدرب في ${HomeTrainerCubit.of(context).trainee!.course!.text ?? ""}",
+                            "${LanguageHelper.getTranslation(context).trainee_at}${HomeTrainerCubit.of(context).trainee!.course!.text ?? ""}",
                         color: AppColors.accentColorLight,
                         fontSize: AppConstants.textSize14,
                         fontWeight: FontWeight.bold,
@@ -189,7 +193,7 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                           ),
                           CustomText(
                             text:
-                                "${HomeTrainerCubit.of(context).trainee!.length ?? 0} سم",
+                                "${HomeTrainerCubit.of(context).trainee!.length ?? 0} ${LanguageHelper.getTranslation(context).cm}",
                             color: AppColors.accentColorLight,
                             fontSize: AppConstants.textSize14,
                             fontWeight: FontWeight.bold,
@@ -205,7 +209,7 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                           ),
                           CustomText(
                             text:
-                                "${HomeTrainerCubit.of(context).trainee!.weight ?? 0} كيلو جرام",
+                                "${HomeTrainerCubit.of(context).trainee!.weight ?? 0} ${LanguageHelper.getTranslation(context).kg}",
                             color: AppColors.accentColorLight,
                             fontSize: AppConstants.textSize14,
                             fontWeight: FontWeight.bold,
@@ -237,21 +241,21 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
           ),
           Gaps.vGap12,
           staticDetails(
-              titleText: "عدد ساعات الكورس الكليه",
+              titleText: LanguageHelper.getTranslation(context).hoursNumber,
               trailingText:
-                  "${HomeTrainerCubit.of(context).trainee!.course!.trainingHoursCount} ساعه"),
+                  "${HomeTrainerCubit.of(context).trainee!.course!.trainingHoursCount} ${LanguageHelper.getTranslation(context).hour}"),
           staticDetails(
               titleText: Translation.of(context).finishedHour,
               trailingText:
-                  "${HomeTrainerCubit.of(context).trainee!.completedHours ?? 0} ساعه"),
+                  "${HomeTrainerCubit.of(context).trainee!.completedHours ?? 0} ${LanguageHelper.getTranslation(context).hour}"),
           staticDetails(
               titleText: Translation.of(context).remainsHours,
               trailingText:
-                  "${(HomeTrainerCubit.of(context).trainee!.course!.trainingHoursCount ?? 0) - (HomeTrainerCubit.of(context).trainee!.completedHours ?? 0)} ساعه"),
+                  "${(HomeTrainerCubit.of(context).trainee!.course!.trainingHoursCount ?? 0) - (HomeTrainerCubit.of(context).trainee!.completedHours ?? 0)} ${LanguageHelper.getTranslation(context).hour}"),
           staticDetails(
               titleText: Translation.of(context).numberOfAbsenece,
               trailingText:
-                  "${HomeTrainerCubit.of(context).trainee!.absenceCount} مره"),
+                  "${HomeTrainerCubit.of(context).trainee!.absenceCount} ${LanguageHelper.getTranslation(context).day}"),
           SizedBox(
               height: 50,
               child: PrecentageShow(
@@ -452,7 +456,9 @@ class _StatisticState extends State<Statistic> {
                 backgroundColor: AppColors.primaryColorLight,
                 primaryXAxis: CategoryAxis(),
                 // Chart title
-                title: ChartTitle(text: 'تغيرات كتلة الجسم BMI'),
+                title: ChartTitle(
+                    text:
+                        LanguageHelper.getTranslation(context).changes_in_bmi),
                 // Enable legend
                 legend: Legend(isVisible: true),
                 // Enable tooltip

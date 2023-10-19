@@ -240,8 +240,8 @@ class _ShopProfileState extends State<ShopProfile> {
     final List<String> restaurantProfileMochitDataList = [
       shopModel.phoneNumber ?? tr.no_data_found,
 
-      "commercialRegisterNumber" ?? tr.no_data_found,
-      shopModel.commercialRegisterDocument ?? tr.no_data_found,
+      // "commercialRegisterNumber" ?? tr.no_data_found,
+      // shopModel.commercialRegisterDocument ?? tr.no_data_found,
       // restaurantsModel.commercialRegisterDocument!.split("/").last,
       shopModel.manager?.name ?? tr.no_data_found,
       // shopModel.city?.text ?? '',
@@ -251,8 +251,8 @@ class _ShopProfileState extends State<ShopProfile> {
     ];
     final List<String> restaurantProfileConstantList = [
       tr.phone,
-      tr.commericalNumber,
-      tr.commericalFile,
+      //   tr.commericalNumber,
+      //   tr.commericalFile,
       tr.shopManagerName,
       //"البلد",
       //"المدينه",
@@ -261,7 +261,7 @@ class _ShopProfileState extends State<ShopProfile> {
     ];
 
     return SizedBox(
-      height: 220.h,
+      height: 100.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: ListView.separated(
@@ -294,7 +294,8 @@ class _ShopProfileState extends State<ShopProfile> {
                 color: AppColors.grey,
               );
             },
-            itemCount: 4),
+            itemCount: 2 //4
+            ),
       ),
     );
   }

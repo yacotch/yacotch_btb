@@ -361,6 +361,16 @@
 "num_orders":"عدد الطلبات",
 
 "product_added_succ":"تمت اضافة منتجك بنجاح",
-"go_to_my_products":"الذهاب الى منتجاتي"
+"go_to_my_products":"الذهاب الى منتجاتي",
+
+"start_training":"ابدا التمرين",
+"add_values":"ادخل قيم جديدة",
+"day":"يوم",
+"fat_perct":"نسبة الدهون",
+"trainee_at":"متدرب في",
+"cm":"سم",
+"kg":"كجم",
+
+"changes_in_bmi":"التغيرات في كتلة الجسم"
 
 }

@@ -908,4 +908,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get go_to_my_products => 'Go to my products';
+
+  @override
+  String get start_training => 'Start training';
+
+  @override
+  String get add_values => 'Add new values';
+
+  @override
+  String get day => 'day';
+
+  @override
+  String get fat_perct => 'Fat percentage';
+
+  @override
+  String get trainee_at => 'Trainee at';
+
+  @override
+  String get cm => 'CM';
+
+  @override
+  String get kg => 'KG';
+
+  @override
+  String get changes_in_bmi => 'Changes in BMI';
 }

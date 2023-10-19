@@ -43,7 +43,7 @@ class AuthRepo {
       APIUrls.API_GetAll_Index,
     );
     try {
-      log(response.toString());
+      print(response.toString());
 
       if (response.data['success'] == true) {
         return Right(SpecializationModel.fromJson(response.data));

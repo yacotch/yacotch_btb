@@ -1898,6 +1898,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to my products'**
   String get go_to_my_products;
+
+  /// No description provided for @start_training.
+  ///
+  /// In en, this message translates to:
+  /// **'Start training'**
+  String get start_training;
+
+  /// No description provided for @add_values.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new values'**
+  String get add_values;
+
+  /// No description provided for @day.
+  ///
+  /// In en, this message translates to:
+  /// **'day'**
+  String get day;
+
+  /// No description provided for @fat_perct.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat percentage'**
+  String get fat_perct;
+
+  /// No description provided for @trainee_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainee at'**
+  String get trainee_at;
+
+  /// No description provided for @cm.
+  ///
+  /// In en, this message translates to:
+  /// **'CM'**
+  String get cm;
+
+  /// No description provided for @kg.
+  ///
+  /// In en, this message translates to:
+  /// **'KG'**
+  String get kg;
+
+  /// No description provided for @changes_in_bmi.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes in BMI'**
+  String get changes_in_bmi;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -4,12 +4,12 @@ import 'package:trainee_restaurantapp/features/trainer/trainee/data/models/updat
 import '../../../../../core/dioHelper/dio_helper.dart';
 
 class UpdateTraineeProgressRepo {
-  Future<Either<String, bool>> updateTraineeProgress(UpdateTraineeProgressModel updateTraineeProgressModel) async {
-    final response = await DioHelper.post(
+  Future<Either<String, bool>> updateTraineeProgress(
+      UpdateTraineeProgressModel updateTraineeProgressModel) async {
+    final response = await DioHelper.put(
       APIUrls.API_UPDATE_TRAINEE_PROGRESS,
-      body:  updateTraineeProgressModel.toJson(),
+      body: updateTraineeProgressModel.toJson(),
     );
-    print(">>>>>>>><<<<<<<${response.data}");
     try {
       if (response.data['success'] == true) {
         print("Success update");

@@ -908,4 +908,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get go_to_my_products => 'الذهاب الى منتجاتي';
+
+  @override
+  String get start_training => 'ابدا التمرين';
+
+  @override
+  String get add_values => 'ادخل قيم جديدة';
+
+  @override
+  String get day => 'يوم';
+
+  @override
+  String get fat_perct => 'نسبة الدهون';
+
+  @override
+  String get trainee_at => 'متدرب في';
+
+  @override
+  String get cm => 'سم';
+
+  @override
+  String get kg => 'كجم';
+
+  @override
+  String get changes_in_bmi => 'التغيرات في كتلة الجسم';
 }
