@@ -31,7 +31,57 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
   @override
   void initState() {
     ShopProfileCubit.of(context).getShopProfile(context);
+    initControllers();
     super.initState();
+  }
+
+  initControllers() {
+    ShopProfileCubit.of(context).imageNetwork =
+        ShopProfileCubit.of(context).shopModel!.logo;
+    ShopProfileCubit.of(context).nameArController.text =
+        ShopProfileCubit.of(context).shopModel!.arName ?? '';
+    ShopProfileCubit.of(context).nameEnController.text =
+        ShopProfileCubit.of(context).shopModel!.enName ?? '';
+    ShopProfileCubit.of(context).logoArNetwork =
+        ShopProfileCubit.of(context).shopModel!.arLogo ?? '';
+    ShopProfileCubit.of(context).logoEnNetwork =
+        ShopProfileCubit.of(context).shopModel!.enLogo ?? '';
+    ShopProfileCubit.of(context).coveArNetwork =
+        ShopProfileCubit.of(context).shopModel!.arCover ?? '';
+    ShopProfileCubit.of(context).coveEnNetwork =
+        ShopProfileCubit.of(context).shopModel!.enCover ?? '';
+    ShopProfileCubit.of(context).phoneController.text =
+        ShopProfileCubit.of(context).shopModel!.phoneNumber ?? '';
+    // ShopProfileCubit.of(context).commercialRegisterNumberController.text =
+    //     ShopProfileCubit.of(context)
+    //             .shopModel!
+    //             .commercialRegisterNumber ??
+    //         '';
+    // ShopProfileCubit.of(context).commercialRegisterDoc =
+    //     ShopProfileCubit.of(context)
+    //             .shopModel!
+    //             .commercialRegisterDocument ??
+    //         '';
+    ShopProfileCubit.of(context).cityController.text =
+        ShopProfileCubit.of(context).shopModel!.city!.text ?? '';
+    ShopProfileCubit.of(context).streetController.text =
+        ShopProfileCubit.of(context).shopModel!.street ?? '';
+    ShopProfileCubit.of(context).buildNumController.text =
+        ShopProfileCubit.of(context).shopModel!.buildingNumber ?? '';
+    ShopProfileCubit.of(context).mangerController.text =
+        ShopProfileCubit.of(context).shopModel!.manager!.name ?? '';
+    ShopProfileCubit.of(context).facebookController.text =
+        ShopProfileCubit.of(context).shopModel!.facebookUrl ?? '';
+    ShopProfileCubit.of(context).instegramController.text =
+        ShopProfileCubit.of(context).shopModel!.instagramUrl ?? '';
+    ShopProfileCubit.of(context).twitterController.text =
+        ShopProfileCubit.of(context).shopModel!.twitterUrl ?? '';
+    ShopProfileCubit.of(context).websiteController.text =
+        ShopProfileCubit.of(context).shopModel!.websiteUrl ?? '';
+    ShopProfileCubit.of(context).descEnController.text =
+        ShopProfileCubit.of(context).shopModel!.enDescription ?? '';
+    ShopProfileCubit.of(context).descArController.text =
+        ShopProfileCubit.of(context).shopModel!.arDescription ?? '';
   }
 
   @override
@@ -42,54 +92,7 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
         title: Translation.of(context).edit_profile,
       ),
       body: BlocConsumer<ShopProfileCubit, ShopProfileState>(
-        listener: (context, state) {
-          ShopProfileCubit.of(context).imageNetwork =
-              ShopProfileCubit.of(context).shopModel!.logo;
-          ShopProfileCubit.of(context).nameArController.text =
-              ShopProfileCubit.of(context).shopModel!.arName ?? '';
-          ShopProfileCubit.of(context).nameEnController.text =
-              ShopProfileCubit.of(context).shopModel!.enName ?? '';
-          ShopProfileCubit.of(context).logoArNetwork =
-              ShopProfileCubit.of(context).shopModel!.arLogo ?? '';
-          ShopProfileCubit.of(context).logoEnNetwork =
-              ShopProfileCubit.of(context).shopModel!.enLogo ?? '';
-          ShopProfileCubit.of(context).coveArNetwork =
-              ShopProfileCubit.of(context).shopModel!.arCover ?? '';
-          ShopProfileCubit.of(context).coveEnNetwork =
-              ShopProfileCubit.of(context).shopModel!.enCover ?? '';
-          ShopProfileCubit.of(context).phoneController.text =
-              ShopProfileCubit.of(context).shopModel!.phoneNumber ?? '';
-          // ShopProfileCubit.of(context).commercialRegisterNumberController.text =
-          //     ShopProfileCubit.of(context)
-          //             .shopModel!
-          //             .commercialRegisterNumber ??
-          //         '';
-          // ShopProfileCubit.of(context).commercialRegisterDoc =
-          //     ShopProfileCubit.of(context)
-          //             .shopModel!
-          //             .commercialRegisterDocument ??
-          //         '';
-          ShopProfileCubit.of(context).cityController.text =
-              ShopProfileCubit.of(context).shopModel!.city!.text ?? '';
-          ShopProfileCubit.of(context).streetController.text =
-              ShopProfileCubit.of(context).shopModel!.street ?? '';
-          ShopProfileCubit.of(context).buildNumController.text =
-              ShopProfileCubit.of(context).shopModel!.buildingNumber ?? '';
-          ShopProfileCubit.of(context).mangerController.text =
-              ShopProfileCubit.of(context).shopModel!.manager!.name ?? '';
-          ShopProfileCubit.of(context).facebookController.text =
-              ShopProfileCubit.of(context).shopModel!.facebookUrl ?? '';
-          ShopProfileCubit.of(context).instegramController.text =
-              ShopProfileCubit.of(context).shopModel!.instagramUrl ?? '';
-          ShopProfileCubit.of(context).twitterController.text =
-              ShopProfileCubit.of(context).shopModel!.twitterUrl ?? '';
-          ShopProfileCubit.of(context).websiteController.text =
-              ShopProfileCubit.of(context).shopModel!.websiteUrl ?? '';
-          ShopProfileCubit.of(context).descEnController.text =
-              ShopProfileCubit.of(context).shopModel!.enDescription ?? '';
-          ShopProfileCubit.of(context).descArController.text =
-              ShopProfileCubit.of(context).shopModel!.arDescription ?? '';
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is GetShopProfileLoading) {
             return const Loader();
@@ -306,16 +309,16 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                           height: 44.h,
                           width: 217.w,
                           child: (state is UploadImageLoading)
-                            ? const Center(child: CircularProgressIndicator())
-                            :CustomElevatedButton(
-                            text: Translation.of(context).save,
-                            onTap: () {
-                              ShopProfileCubit.of(context)
-                                  .updateShopProfile(context);
-                            },
-                            textSize: AppConstants.textSize20,
-                            borderRadius: AppConstants.borderRadius4,
-                          ),
+                              ? const Center(child: CircularProgressIndicator())
+                              : CustomElevatedButton(
+                                  text: Translation.of(context).save,
+                                  onTap: () {
+                                    ShopProfileCubit.of(context)
+                                        .updateShopProfile(context);
+                                  },
+                                  textSize: AppConstants.textSize20,
+                                  borderRadius: AppConstants.borderRadius4,
+                                ),
                         ),
                         Gaps.vGap24,
                       ],

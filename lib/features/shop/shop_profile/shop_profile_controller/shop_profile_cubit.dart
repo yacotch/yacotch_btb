@@ -138,6 +138,7 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
 
         final res =
             await shopProfileRepo.updateShopProfile(updateShopProfileModel);
+        print("afterrrrrr");
         res.fold(
           (err) {
             Toast.show(err);
@@ -223,26 +224,31 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
     var result = await getImage();
     print(result!.path);
     fileCommercialRegisterDoc = File(result!.path);
+    emit(ImageCommericalPicked());
   }
 
   Future<void> pickLogoAr() async {
     var result = await getImage();
     fileLogoAr = File(result!.path);
+    emit(ImageLogoArPicked());
   }
 
   Future<void> pickLogoEn() async {
     var result = await getImage();
     fileLogoEn = File(result!.path);
+    emit(ImageLogoEnPicked());
   }
 
   Future<void> pickCoverEn() async {
     var result = await getImage();
     fileCoveEn = File(result!.path);
+    emit(ImageCoverEnPicked());
   }
 
   Future<void> pickCoverAr() async {
     var result = await getImage();
     fileCoveAr = File(result!.path);
+    emit(ImageCoverArPicked());
   }
 
   onLocationClick(context) async {

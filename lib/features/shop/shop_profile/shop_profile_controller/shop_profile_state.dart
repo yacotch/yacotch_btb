@@ -22,3 +22,13 @@ class GetImageState extends ShopProfileState {}
 class UploadImageLoading extends ShopProfileState {}
 
 class UploadImageLoaded extends ShopProfileState {}
+
+class ImageLogoArPicked extends ShopProfileState {}
+
+class ImageLogoEnPicked extends ShopProfileState {}
+
+class ImageCoverArPicked extends ShopProfileState {}
+
+class ImageCoverEnPicked extends ShopProfileState {}
+
+class ImageCommericalPicked extends ShopProfileState {}
