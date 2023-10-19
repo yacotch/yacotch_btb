@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
@@ -85,7 +86,8 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CustomText(
-                            text: "عدد الطلبات: ",
+                            text:
+                                "${LanguageHelper.getTranslation(context).num_orders} : ",
                             color: AppColors.white,
                             fontSize: AppConstants.textSize14,
                             fontWeight: FontWeight.w500,
@@ -98,19 +100,20 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                           ),
                         ],
                       ),
-                      CustomText(
-                        text: "المده المتبقيه: يوم و 3 ساعات",
-                        fontSize: AppConstants.textSize14,
-                        maxLines: 2,
-                        textAlign: TextAlign.start,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.white,
-                      ),
+                      //  CustomText(
+                      //    text: "المده المتبقيه: يوم و 3 ساعات",
+                      //    fontSize: AppConstants.textSize14,
+                      //    maxLines: 2,
+                      //    textAlign: TextAlign.start,
+                      //    fontWeight: FontWeight.w500,
+                      //    color: AppColors.white,
+                      //  ),
                       Row(
                         children: [
                           Expanded(
                             child: CustomText(
-                              text: "${item.price} ريال",
+                              text:
+                                  "${item.price} ${LanguageHelper.getTranslation(context).saudi_riyal}",
                               fontSize: AppConstants.textSize14,
                               maxLines: 2,
                               textAlign: TextAlign.start,

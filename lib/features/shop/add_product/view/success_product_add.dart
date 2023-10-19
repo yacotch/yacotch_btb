@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
@@ -42,7 +43,8 @@ class SuccessProductAdd extends StatelessWidget {
                       ),
                     ),
                     CustomText(
-                      text: "تمت اضافة منتجك بنجاح",
+                      text: LanguageHelper.getTranslation(context)
+                          .product_added_succ,
                       color: AppColors.white,
                       fontSize: AppConstants.textSize18,
                       fontWeight: FontWeight.w600,
@@ -51,18 +53,17 @@ class SuccessProductAdd extends StatelessWidget {
                 )),
             Expanded(
                 child: Padding(
-                  padding:
+              padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
-                  child: NewElevatedButton(
-                    color: null,
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (context) => const AllProductsScreen()));
-                    },
-                    text: "الذهاب الي منتجاتي",
-                  ),
-                ))
+              child: NewElevatedButton(
+                color: null,
+                onTap: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const AllProductsScreen()));
+                },
+                text: LanguageHelper.getTranslation(context).go_to_my_products,
+              ),
+            ))
           ],
         ),
       ),

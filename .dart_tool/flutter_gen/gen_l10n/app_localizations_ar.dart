@@ -902,4 +902,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get num_orders => 'عدد الطلبات';
+
+  @override
+  String get product_added_succ => 'تمت اضافة منتجك بنجاح';
+
+  @override
+  String get go_to_my_products => 'الذهاب الى منتجاتي';
 }

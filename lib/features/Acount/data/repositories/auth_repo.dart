@@ -56,8 +56,7 @@ class AuthRepo {
     }
   }
 
-  Future<Either<String, bool>> assignSubscriptionToUser(
-      int subscriptionId, int typeUser) async {
+  Future<Either<String, bool>> assignSubscriptionToUser(int typeUser) async {
     final response = await DioHelper.post(
       APIUrls.API_AssignSubscriptionToUser,
       body: typeUser == 1

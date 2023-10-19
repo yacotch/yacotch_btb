@@ -23,8 +23,7 @@ class SubscripeButton extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (subscriptionModel.fee == 0.0) {
-            AuthCubit.of(context).assignSubscriptionToUser(
-                context, subscriptionModel.id!, typeUser);
+            AuthCubit.of(context).assignSubscriptionToUser(context, typeUser);
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (context) => NavigatorScreen(

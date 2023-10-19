@@ -415,16 +415,15 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverDelegate(
-                      latitude: shopModel!.latitude == null
-                          ? 30.033333
-                          : shopModel.latitude!.toDouble(),
-                      longitude: shopModel.longitude == null
-                          ? 30.033333
-                          : shopModel.longitude!.toDouble(),
-                      expandedHeight: 230.h,
-                      child:
-                          FreeTempBlanWidget(4) //  _buildSubscriptionWidget(),
-                      ),
+                    latitude: shopModel!.latitude == null
+                        ? 30.033333
+                        : shopModel.latitude!.toDouble(),
+                    longitude: shopModel.longitude == null
+                        ? 30.033333
+                        : shopModel.longitude!.toDouble(),
+                    expandedHeight: 230.h,
+                    child: _buildSubscriptionWidget(),
+                  ),
                 ),
                 SliverFillRemaining(
                   hasScrollBody: false,

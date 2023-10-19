@@ -227,12 +227,17 @@ class _AddProductViewState extends State<AddProductView> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 45.0, horizontal: 20),
-                                  child: CustomElevatedButton(
-                                    borderRadius: 12,
-                                    onTap: () => AddProductCubit.of(context)
-                                        .createProducr(context),
-                                    text: tr.add,
-                                  ),
+                                  child: state is UploadImageLoading
+                                      ? const Center(
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : CustomElevatedButton(
+                                          borderRadius: 12,
+                                          onTap: () =>
+                                              AddProductCubit.of(context)
+                                                  .createProducr(context),
+                                          text: tr.add,
+                                        ),
                                 ),
                               )
                             ],

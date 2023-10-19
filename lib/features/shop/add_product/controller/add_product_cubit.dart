@@ -55,7 +55,7 @@ class AddProductCubit extends Cubit<AddProductState> {
       },
       (res) async {
         img = res;
-        emit(UploadImageLoaded());
+        //   emit(UploadImageLoaded());
       },
     );
   }
@@ -77,7 +77,6 @@ class AddProductCubit extends Cubit<AddProductState> {
   Future createProducr(BuildContext context) async {
     if (formKey.currentState!.validate() && file != null) {
       await uploadImage(context, file!);
-      emit(AddProductLoading());
       final res = await addProductRepo.createProducr(
         arName: nameArProductController.text,
         enName: nameEnProductController.text,

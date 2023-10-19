@@ -46,7 +46,7 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
             onButtonTap: () => _signup(context),
             additionalTapText: Translation.of(context).login2,
             buttonText: Translation.of(context).signUp,
-            isloading: AuthCubit.of(context).isLoading,
+            isloading: state is UploadImageLoading,
             appBar: TransparentAppBar(title: Translation.of(context).signUp),
             onAdditionalTextTapped: _offToLoginScreen,
             child: Form(
@@ -62,9 +62,9 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
                     isoCode: AuthCubit.of(context).countryCode,
                   ),
                   Gaps.vGap8,
-                  _EmailField(),
+                  const _EmailField(),
                   Gaps.vGap8,
-                  _ShopNameField(),
+                  const _ShopNameField(),
                   Gaps.vGap8,
                   EmailTextField(
                     text: Translation.of(context).commericalNumber,

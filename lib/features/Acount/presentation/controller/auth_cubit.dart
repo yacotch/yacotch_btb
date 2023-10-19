@@ -110,10 +110,9 @@ class AuthCubit extends Cubit<AuthState> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
 //1000 1001 1002
-  Future assignSubscriptionToUser(
-      BuildContext context, int subscriptionId, int type) async {
+  Future assignSubscriptionToUser(BuildContext context, int type) async {
     emit(AssignSubscriptionToUserLoading());
-    final res = await authRepo.assignSubscriptionToUser(subscriptionId, type);
+    final res = await authRepo.assignSubscriptionToUser(type);
     res.fold(
       (err) {
         Toast.show(err);
@@ -198,7 +197,7 @@ class AuthCubit extends Cubit<AuthState> {
         } else if (file == fileCommercialRegisterDoc) {
           imgCommercialRegisterDoc = res;
         }
-        emit(UploadImageLoaded());
+      //  emit(UploadImageLoaded());
       },
     );
   }
@@ -290,8 +289,7 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           isLoading = false;
-          //     login(context, phone);
-          await assignSubscriptionToUser(context, 1000, userType);
+          // await assignSubscriptionToUser(context, 1000, userType);
 
           if (userType == 1) {
             NavigationHelper.gotoAndRemove(
@@ -551,7 +549,7 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           await AppStorage.cacheUserInfo(res);
-
+          await assignSubscriptionToUser(context, userType);
           NavigationHelper.gotoAndRemove(
               screen: NavigatorScreen(
                 homeType: res.result!.shopId != null

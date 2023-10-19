@@ -1886,6 +1886,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Number of orders'**
   String get num_orders;
+
+  /// No description provided for @product_added_succ.
+  ///
+  /// In en, this message translates to:
+  /// **'Your product has been added successfully'**
+  String get product_added_succ;
+
+  /// No description provided for @go_to_my_products.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to my products'**
+  String get go_to_my_products;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
