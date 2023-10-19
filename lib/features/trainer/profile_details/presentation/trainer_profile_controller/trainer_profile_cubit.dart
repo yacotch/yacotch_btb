@@ -136,6 +136,7 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
         emit(GetTrainerReviewsError());
       },
       (res) {
+        print(res);
         emit(GetTrainerReviewsLoaded(res));
       },
     );

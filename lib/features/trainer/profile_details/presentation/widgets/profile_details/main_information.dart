@@ -7,6 +7,7 @@ import 'package:trainee_restaurantapp/core/common/app_config.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/flutter_localization.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/blur_widget.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/data/repositories/trainer_profile_repo.dart';
@@ -73,45 +74,55 @@ class ProfileAddressWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var user = TrainerProfileCubit.of(context).trainerModel!;
-    return FutureBuilder(
-      future: TrainerProfileRepo().getProfileAddress(
-          lat: user.latitude.toString(),
-          lng: user.longitude.toString(),
-          lang: Provider.of<LocalizationProvider>(context).currentLanguage,
-          apiKey: googleMapApiKey),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return SizedBox();
-        var address = snapshot.data;
-        return Padding(
-          padding:
-              EdgeInsetsDirectional.symmetric(vertical: 4.h, horizontal: 7.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const FaIcon(
-                FontAwesomeIcons.locationDot,
-                color: AppColors.accentColorLight,
-                size: 14,
-              ),
-              Gaps.hGap8,
-              SizedBox(
+    return Padding(
+      padding: EdgeInsetsDirectional.symmetric(vertical: 4.h, horizontal: 7.w),
+      child: Row(
+        children: [
+          const FaIcon(
+            FontAwesomeIcons.locationDot,
+            color: AppColors.accentColorLight,
+            size: 14,
+          ),
+          Gaps.hGap8,
+          FutureBuilder(
+            future: TrainerProfileRepo().getProfileAddress(
+                lat: user.latitude.toString(),
+                lng: user.longitude.toString(),
+                lang:
+                    Provider.of<LocalizationProvider>(context).currentLanguage,
+                apiKey: googleMapApiKey),
+            builder: (context, snapshot) {
+              print(snapshot.connectionState);
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text(
+                    LanguageHelper.getTranslation(context).no_data_found);
+              }
+              var address = snapshot.data;
+              String location = address!.results!
+                  .map((e) {
+                    if (e.addressComponents!.first.types!
+                        .contains("plus_code")) {
+                      return '';
+                    }
+                    return e.addressComponents!.first!.longName;
+                  })
+                  .toString()
+                  .replaceAll(RegExp(r'[(),]'), "");
+              return SizedBox(
                 width: .8.sw,
                 child: CustomText(
                   maxLines: 2,
                   textAlign: TextAlign.start,
-                  text:
-                      "${address?.results?.first.addressComponents!.first.longName} ${address?.results?.first.addressComponents![2].longName} ${address?.results?.first.addressComponents![3].longName}" ??
-                          "",
+                  text: "$location",
                   fontWeight: FontWeight.w500,
                   color: AppColors.white,
                   fontSize: AppConstants.textSize14,
                 ),
-              ),
-            ],
+              );
+            },
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

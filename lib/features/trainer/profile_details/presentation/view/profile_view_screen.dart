@@ -126,6 +126,7 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
       padding: EdgeInsets.all(8.w),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: 56.h,
@@ -181,6 +182,8 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
           return SizedBox(
             height: 128.h,
             child: ListView.separated(
+                padding: EdgeInsets.symmetric(horizontal: 10.w)
+                    .copyWith(bottom: 10.h),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return BlurWidget(
