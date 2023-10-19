@@ -326,6 +326,8 @@
     "manager_password": "كلمة مرور المدير",
     "manager_phone": "رقم هاتف المدير",
     
-"search_for_chat":"ابحث عن محادثة"
+"search_for_chat":"ابحث عن محادثة",
+"subscription_plan":"الباقة الحالية"
+
 
 }

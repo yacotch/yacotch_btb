@@ -273,5 +273,6 @@
 "manager_email":"Manager email",
 "manager_password":"Manager password",
 "manager_phone":"Manager Phone Number",
-"search_for_chat":"Search for any chat"
+"search_for_chat":"Search for any chat",
+"subscription_plan":"Subscription plan"
 }

@@ -1706,6 +1706,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search for any chat'**
   String get search_for_chat;
+
+  /// No description provided for @subscription_plan.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription plan'**
+  String get subscription_plan;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

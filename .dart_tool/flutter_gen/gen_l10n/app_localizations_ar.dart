@@ -812,4 +812,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get search_for_chat => 'ابحث عن محادثة';
+
+  @override
+  String get subscription_plan => 'الباقة الحالية';
 }

@@ -812,4 +812,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search_for_chat => 'Search for any chat';
+
+  @override
+  String get subscription_plan => 'Subscription plan';
 }
