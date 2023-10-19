@@ -11,6 +11,7 @@ import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/blur_widget.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 import 'package:trainee_restaurantapp/features/trainer/trainee/presentation/view/all_trainee_screen.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -22,7 +23,7 @@ Widget imageWithNameTrainee(NewTraineeModel newTraineeModel) {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(AppConstants.borderRadius10),
       image: DecorationImage(
-        image: NetworkImage(newTraineeModel.trainee!.imageUrl ?? ""),
+        image: NetworkImage(newTraineeModel.trainee!.imageUrl ?? defaultAvatar),
         fit: BoxFit.cover,
       ),
     ),

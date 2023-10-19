@@ -16,9 +16,9 @@ import '../../../subscription/presentation/view/subscription_screen.dart';
 Widget trainerBouquet(int userType) {
   return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
     builder: (context, state) {
-      TrainerProfileCubit.of(context).trainerModel!.subscription =
-          SubscriptionModel(name: "subscription");
       if (TrainerProfileCubit.of(context).trainerModel != null) {
+        TrainerProfileCubit.of(context).trainerModel!.subscription =
+            SubscriptionModel(name: "Golden Plan", fee: 250);
         if (TrainerProfileCubit.of(context).trainerModel!.subscription !=
             null) {
           return Padding(

@@ -13,7 +13,6 @@ import '../../../../../core/location/model/location_model.dart';
 import '../../../../../core/models/review_model.dart';
 import '../../../../../core/ui/toast.dart';
 import '../../../../../core/utils/Utils.dart';
-import '../../../../navigator_home/view/navigator_home_view.dart';
 import '../../data/repositories/trainer_profile_repo.dart';
 
 part 'trainer_profile_state.dart';

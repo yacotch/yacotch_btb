@@ -201,6 +201,7 @@ class AuthRepo {
         // await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
+        print(response);
         return Left(response.data['error']['message']);
       }
     } catch (e) {

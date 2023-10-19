@@ -20,15 +20,85 @@ import '../../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
 
-Widget mostWantedCourse() {
-  Widget _buildMyCourseItemWidget(CourseModel courseModel) {
-    var trans =
-        LanguageHelper.getTranslation(navigatorKey.currentState!.context);
+String defautlCourseImgUrl =
+    '"https://th.bing.com/th/id/R.ac1f841543a67786d0e2941b112b392e?rik=vdI7vYaDZthypg&pid=ImgRaw&r=0"';
+
+class MostWantedCourses extends StatelessWidget {
+  const MostWantedCourses({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+        builder: (context, state) {
+          if (HomeTrainerCubit.of(context).topCourses != null) {
+            if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: TitleWidget(
+                      title: LanguageHelper.getTranslation(context)
+                          .mostWantedCourses,
+                      subtitleColorTapped: () => NavigationHelper.goto(
+                          screen: const MyCoursesView(), context: context),
+                      titleColor: AppColors.accentColorLight,
+                      subtitle:
+                          HomeTrainerCubit.of(context).topCourses!.isNotEmpty
+                              ? Translation.of(context).see_all
+                              : null,
+                    ),
+                  ),
+                  Gaps.vGap16,
+                  Padding(
+                    padding: EdgeInsets.only(right: 4.w),
+                    child: CustomCarousel(
+                      items: List.generate(
+                        HomeTrainerCubit.of(context).topCourses!.length,
+                        (index) => CourseItemWidget(
+                            HomeTrainerCubit.of(context).topCourses![index]),
+                      ),
+                      options: CarouselOptions(
+                        height: 344.h,
+                        viewportFraction: 0.8,
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        scrollPhysics:
+                            const CustomScrollPhysics(itemDimension: 1),
+                        autoPlay: false,
+                        enlargeCenterPage: true,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return Center(
+                child: Text(LanguageHelper.getTranslation(context).no_courses),
+              );
+            }
+          } else {
+            return const Loader();
+          }
+        },
+      ),
+    );
+  }
+}
+
+class CourseItemWidget extends StatelessWidget {
+  final CourseModel courseModel;
+  const CourseItemWidget(this.courseModel, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var trans = LanguageHelper.getTranslation(context);
     return InkWell(
       onTap: () {
         NavigationHelper.goto(
             screen: MyCourseDetails(courseId: courseModel.id!),
-            context: navigatorKey.currentState!.context);
+            context: context);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -37,7 +107,9 @@ Widget mostWantedCourse() {
             borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
             image: DecorationImage(
               image: NetworkImage(
-                courseModel.imageUrl ?? "",
+                courseModel.imageUrl == null || courseModel.imageUrl!.isEmpty
+                    ? defautlCourseImgUrl
+                    : courseModel.imageUrl!,
               ),
               fit: BoxFit.cover,
             ),
@@ -46,7 +118,7 @@ Widget mostWantedCourse() {
                 color: AppColors.white.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 7,
-                offset: const Offset(0, 0), // changes position of shadow
+                offset: const Offset(0, 0),
               ),
             ],
           ),
@@ -106,7 +178,7 @@ Widget mostWantedCourse() {
                                 EdgeInsetsDirectional.fromSTEB(8.w, 0, 0, 0),
                             child: CustomText(
                               text:
-                                  "${courseModel.fee} ${Translation.of(navigatorKey.currentState!.context).saudi_riyal}",
+                                  "${courseModel.fee} ${Translation.of(context).saudi_riyal}",
                               fontWeight: FontWeight.w600,
                               color: AppColors.accentColorLight,
                               fontSize: AppConstants.textSize12,
@@ -159,60 +231,4 @@ Widget mostWantedCourse() {
       ),
     );
   }
-
-  return SizedBox(
-    child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
-      builder: (context, state) {
-        if (HomeTrainerCubit.of(context).topCourses != null) {
-          if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
-            return Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: TitleWidget(
-                    title: LanguageHelper.getTranslation(context)
-                        .mostWantedCourses,
-                    subtitleColorTapped: () => NavigationHelper.goto(
-                        screen: const MyCoursesView(), context: context),
-                    titleColor: AppColors.accentColorLight,
-                    subtitle:
-                        HomeTrainerCubit.of(context).topCourses!.isNotEmpty
-                            ? Translation.of(context).see_all
-                            : null,
-                  ),
-                ),
-                Gaps.vGap16,
-                Padding(
-                  padding: EdgeInsets.only(right: 4.w),
-                  child: CustomCarousel(
-                    items: List.generate(
-                        HomeTrainerCubit.of(context).topCourses!.length,
-                        (index) => _buildMyCourseItemWidget(
-                            HomeTrainerCubit.of(context).topCourses![index])),
-                    options: CarouselOptions(
-                      height: 344.h,
-                      viewportFraction: 0.8,
-                      initialPage: 0,
-                      enableInfiniteScroll: false,
-                      scrollPhysics:
-                          const CustomScrollPhysics(itemDimension: 1),
-                      autoPlay: false,
-                      enlargeCenterPage: true,
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else {
-            return Center(
-              child: Text(LanguageHelper.getTranslation(context).no_courses),
-            );
-          }
-        } else {
-          return const Loader();
-        }
-      },
-    ),
-  );
 }

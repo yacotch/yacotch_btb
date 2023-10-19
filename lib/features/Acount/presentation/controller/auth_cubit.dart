@@ -226,9 +226,8 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (res) async {
         AppStorage.signOut();
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const MainOnBoardingView()),
-            (route) => false);
+        NavigationHelper.gotoAndRemove(
+            screen: const MainOnBoardingView(), context: context);
         emit(LogoutLoaded());
       },
     );
@@ -643,7 +642,7 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           NavigationHelper.gotoAndRemove(
-              screen: LoginScreen(3), context: context);
+              screen: const LoginScreen(3), context: context);
 
           isLoading = false;
           emit(RegisterRestaurantLoaded());
@@ -678,15 +677,7 @@ class AuthCubit extends Cubit<AuthState> {
         latitude: locationCubit.state.model!.lat,
         longitude: locationCubit.state.model!.lng,
       );
-    } catch (e) {
-      print("$e  when making model");
-      print(imgLogoAr ?? "logo ar");
-
-      print(imgLogoEn ?? "logo en");
-      print(imgCoveAr ?? "cover ar");
-      print(imgCoveEn ?? "cover en");
-      print(imgCommercialRegisterDoc ?? "commerical");
-    }
+    } catch (_) {}
     print(model?.toJson());
     return model;
   }
@@ -732,7 +723,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (res) async {
         NavigationHelper.gotoAndRemove(
-            screen: LoginScreen(4), context: context);
+            screen: const LoginScreen(4), context: context);
         isLoading = false;
         emit(RegisterRestaurantLoaded());
       },

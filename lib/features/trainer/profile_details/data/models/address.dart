@@ -5,6 +5,7 @@ class LocationInfo {
 
   LocationInfo.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
+      print(json['results']);
       results = <Result>[];
       json['results'].forEach((v) {
         results?.add(Result.fromJson(v));

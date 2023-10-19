@@ -95,11 +95,18 @@ class ProfileAddressWidget extends StatelessWidget {
                 size: 14,
               ),
               Gaps.hGap8,
-              CustomText(
-                text: address?.results?.first.formattedAddress ?? "",
-                fontWeight: FontWeight.w500,
-                color: AppColors.white,
-                fontSize: AppConstants.textSize14,
+              SizedBox(
+                width: .8.sw,
+                child: CustomText(
+                  maxLines: 2,
+                  textAlign: TextAlign.start,
+                  text:
+                      "${address?.results?.first.addressComponents!.first.longName} ${address?.results?.first.addressComponents![2].longName} ${address?.results?.first.addressComponents![3].longName}" ??
+                          "",
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.white,
+                  fontSize: AppConstants.textSize14,
+                ),
               ),
             ],
           ),

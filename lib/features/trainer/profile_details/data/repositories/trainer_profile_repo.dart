@@ -18,10 +18,10 @@ class TrainerProfileRepo {
       required String lng,
       required String lang,
       required String apiKey}) async {
-    print("${APIUrls.address}latlng=$lat,$lng&key=$apiKey");
+    print("${APIUrls.address}latlng=$lat,$lng&key=$apiKey&language=$lang");
     final response = await DioHelper.get(
         "${APIUrls.address}latlng=$lat,$lng&key=$apiKey&language=$lang");
-
+    print(response.data);
     return LocationInfo.fromJson(response.data);
   }
 
