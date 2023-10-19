@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/shop/shop_profile/shop_profile_controller/shop_profile_cubit.dart';
+import 'package:trainee_restaurantapp/features/shop/shop_profile/view/edit_shop_profile.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/constants/app/app_constants.dart';
@@ -51,12 +54,12 @@ class _ShopProfileState extends State<ShopProfile> {
                           borderRadius: BorderRadius.circular(10),
                           image: restaurantsModel.logo == null
                               ? const DecorationImage(
-                              image: AssetImage(AppConstants.AVATER_IMG),
-                              fit: BoxFit.fill)
+                                  image: AssetImage(AppConstants.AVATER_IMG),
+                                  fit: BoxFit.fill)
                               : DecorationImage(
-                              image: NetworkImage(
-                                  restaurantsModel.logo ?? ''),
-                              fit: BoxFit.fill),
+                                  image:
+                                      NetworkImage(restaurantsModel.logo ?? ''),
+                                  fit: BoxFit.fill),
                         ),
                       ),
                       SizedBox(
@@ -232,17 +235,31 @@ class _ShopProfileState extends State<ShopProfile> {
   }
 
   Widget _restaurantProfileData(ShopModel shopModel) {
+    var tr = LanguageHelper.getTranslation(context);
+
     final List<String> restaurantProfileMochitDataList = [
-      shopModel.phoneNumber ?? '',
-      "commercialRegisterNumber",
-      "commercialRegisterDocument",
+      shopModel.phoneNumber ?? tr.no_data_found,
+
+      "commercialRegisterNumber" ?? tr.no_data_found,
+      shopModel.commercialRegisterDocument ?? tr.no_data_found,
       // restaurantsModel.commercialRegisterDocument!.split("/").last,
-      shopModel.manager?.name ?? '',
+      shopModel.manager?.name ?? tr.no_data_found,
       // shopModel.city?.text ?? '',
       // shopModel.city?.text ?? '',
       // shopModel.street ?? '',
       // "بناء رقم ${shopModel.buildingNumber}"
     ];
+    final List<String> restaurantProfileConstantList = [
+      tr.phone,
+      tr.commericalNumber,
+      tr.commericalFile,
+      tr.shopManagerName,
+      //"البلد",
+      //"المدينه",
+      //"الشارع",
+      // "رقم البناء"
+    ];
+
     return SizedBox(
       height: 220.h,
       child: Padding(
@@ -251,13 +268,12 @@ class _ShopProfileState extends State<ShopProfile> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return SizedBox(
-                height: 50,
+                height: .06.sh,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomText(
-                      text: ShopProfileCubit.of(context)
-                          .restaurantProfileConstantList[index],
+                      text: restaurantProfileConstantList[index],
                       color: AppColors.accentColorLight,
                       fontWeight: FontWeight.w500,
                       fontSize: AppConstants.textSize14,
@@ -299,71 +315,75 @@ class _ShopProfileState extends State<ShopProfile> {
             ),
           ),
           Expanded(
-            child: restaurantsModel.openingDays!.isEmpty ? const Center(
-              child: Text('لا توجد ايام حاليا'),
-            ) :  Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
+            child: restaurantsModel.openingDays!.isEmpty
+                ? const Center(
+                    child: Text('لا توجد ايام حاليا'),
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          height: 50,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(
-                                Icons.access_time,
-                                size: 14,
-                                color: AppColors.accentColorLight,
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.access_time,
+                                      size: 14,
+                                      color: AppColors.accentColorLight,
+                                    ),
+                                    Gaps.hGap8,
+                                    CustomText(
+                                      text: ShopProfileCubit.of(context)
+                                          .convertDays(restaurantsModel
+                                              .openingDays![index].day!),
+                                      color: AppColors.accentColorLight,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: AppConstants.textSize14,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Gaps.hGap8,
-                              CustomText(
-                                text: ShopProfileCubit.of(context).convertDays(
-                                    restaurantsModel.openingDays![index].day!),
-                                color: AppColors.accentColorLight,
-                                fontWeight: FontWeight.w500,
-                                fontSize: AppConstants.textSize14,
-                              ),
+                              Expanded(
+                                  child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CustomText(
+                                    text:
+                                        "من ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].from ?? ''))}",
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: AppConstants.textSize14,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        "الي ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].to ?? ''))}",
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: AppConstants.textSize14,
+                                  ),
+                                ],
+                              )),
                             ],
                           ),
-                        ),
-                        Expanded(
-                            child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomText(
-                              text:
-                                  "من ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].from ?? ''))}",
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: AppConstants.textSize14,
-                            ),
-                            CustomText(
-                              text:
-                                  "الي ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].to ?? ''))}",
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: AppConstants.textSize14,
-                            ),
-                          ],
-                        )),
-                      ],
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Container(
+                          height: 2,
+                          color: AppColors.grey,
+                        );
+                      },
+                      itemCount: restaurantsModel.openingDays!.length,
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Container(
-                    height: 2,
-                    color: AppColors.grey,
-                  );
-                },
-                itemCount: restaurantsModel.openingDays!.length,
-              ),
-            ),
+                  ),
           ),
         ],
       ),
@@ -371,13 +391,16 @@ class _ShopProfileState extends State<ShopProfile> {
   }
 
   Widget _restaurantProfileSocialMedia(ShopModel restaurantsModel) {
+    var nodata = LanguageHelper.getTranslation(context).no_data_found;
     List<SocialModel> listOfSocial = [
       SocialModel(
-          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? 'لا توجد بيانات'),
-      SocialModel(FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? 'لا توجد بيانات'),
+          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? nodata),
       SocialModel(
-          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? 'لا توجد بيانات'),
-      SocialModel(FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? 'لا توجد بيانات'),
+          FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? nodata),
+      SocialModel(
+          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? nodata),
+      SocialModel(
+          FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? nodata),
     ];
     return SizedBox(
       height: 300.h,
@@ -387,7 +410,7 @@ class _ShopProfileState extends State<ShopProfile> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: CustomText(
-              text: "مواقع التواصل الأجتماعي",
+              text: LanguageHelper.getTranslation(context).social_media_links,
               fontWeight: FontWeight.w600,
               fontSize: AppConstants.textSize18,
               color: AppColors.white,
@@ -464,14 +487,16 @@ class _ShopProfileState extends State<ShopProfile> {
         actions: [
           GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, Routes.editShopProfileScreen);
+                NavigationHelper.goto(
+                    screen: EditShopScreenContent(), context: context);
               },
-              child: const ImageIcon(
-                  AssetImage(AppConstants.EDIT_PROFILE_ICON))),
+              child:
+                  const ImageIcon(AssetImage(AppConstants.EDIT_PROFILE_ICON))),
           Gaps.hGap16,
           InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const NotificationScreen()));
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const NotificationScreen()));
             },
             child: const Icon(
               Icons.notifications,
@@ -482,20 +507,18 @@ class _ShopProfileState extends State<ShopProfile> {
         ],
       ),
       body: BlocBuilder<ShopProfileCubit, ShopProfileState>(
-        buildWhen: (previous, current) =>
-        previous != current,
+        buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           if (state is GetShopProfileLoading) {
             return const Loader();
           } else {
-              var restaurantsModel =
-                  ShopProfileCubit.of(context).shopModel;
+            var restaurantsModel = ShopProfileCubit.of(context).shopModel;
             return SafeArea(
               child: CustomScrollView(slivers: <Widget>[
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverDelegate(
-                    image: restaurantsModel!.cover??'',
+                    image: restaurantsModel!.cover ?? '',
                     expandedHeight: 220.h,
                     child: _buildSubscriptionWidget(restaurantsModel),
                   ),

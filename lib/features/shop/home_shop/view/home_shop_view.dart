@@ -10,6 +10,7 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/shop/home_shop/controller/home_shop_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/product_details_view.dart';
+import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/widgets/subscription_plan.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/library/carousel/custom_carousel.dart';
@@ -414,15 +415,16 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverDelegate(
-                    latitude: shopModel!.latitude == null
-                        ? 30.033333
-                        : shopModel.latitude!.toDouble(),
-                    longitude: shopModel.longitude == null
-                        ? 30.033333
-                        : shopModel.longitude!.toDouble(),
-                    expandedHeight: 230.h,
-                    child: _buildSubscriptionWidget(),
-                  ),
+                      latitude: shopModel!.latitude == null
+                          ? 30.033333
+                          : shopModel.latitude!.toDouble(),
+                      longitude: shopModel.longitude == null
+                          ? 30.033333
+                          : shopModel.longitude!.toDouble(),
+                      expandedHeight: 230.h,
+                      child:
+                          FreeTempBlanWidget(4) //  _buildSubscriptionWidget(),
+                      ),
                 ),
                 SliverFillRemaining(
                   hasScrollBody: false,

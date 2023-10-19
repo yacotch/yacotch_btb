@@ -1862,6 +1862,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Every year'**
   String get every_year;
+
+  /// No description provided for @free_susbcription.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Subscription'**
+  String get free_susbcription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

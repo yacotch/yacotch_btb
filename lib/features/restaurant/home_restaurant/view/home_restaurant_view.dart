@@ -12,6 +12,7 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/controller/home_restaurant_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/widgets/subscription_plan.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/library/carousel/custom_carousel.dart';
@@ -57,15 +58,15 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
               flex: 2,
               child: Image.network(''),
             ),
-            Expanded(
+            const Expanded(
               flex: 4,
               child: Padding(
                 padding:
-                    const EdgeInsets.only(bottom: 23.0, left: 23, right: 23),
+                    EdgeInsets.only(bottom: 23.0, left: 23, right: 23),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     CustomText(
                       text: "مصطفي محمد",
                       fontSize: Dimens.dp20,
@@ -752,11 +753,12 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: CustomSliverDelegate(
-                      latitude: restaurantsModel.latitude ?? 30.033333,
-                      longitude: restaurantsModel.longitude ?? 31.233334,
-                      expandedHeight: 230.h,
-                      child: _buildSubscriptionWidget(),
-                    ),
+                        latitude: restaurantsModel.latitude ?? 30.033333,
+                        longitude: restaurantsModel.longitude ?? 31.233334,
+                        expandedHeight: 230.h,
+                        child:
+                            const FreeTempBlanWidget(3) // _buildSubscriptionWidget(),
+                        ),
                   ),
                   SliverFillRemaining(
                     hasScrollBody: false,

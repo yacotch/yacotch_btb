@@ -23,6 +23,7 @@ class ClickedFileWidget extends StatelessWidget {
           color: AppColors.lightGrey,
           fontSize: AppConstants.textSize14,
           fontWeight: FontWeight.w700,
+          textAlign: TextAlign.end,
         ),
       ),
     );

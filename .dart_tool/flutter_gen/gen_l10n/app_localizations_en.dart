@@ -890,4 +890,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get every_year => 'Every year';
+
+  @override
+  String get free_susbcription => 'Free Subscription';
 }

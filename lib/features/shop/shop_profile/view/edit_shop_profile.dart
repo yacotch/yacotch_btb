@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:trainee_restaurantapp/core/common/validators.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/dimens.dart';
 import '../../../../core/common/style/gaps.dart';
@@ -34,6 +36,7 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
 
   @override
   Widget build(BuildContext context) {
+    var tr = LanguageHelper.getTranslation(context);
     return Scaffold(
       appBar: TransparentAppBar(
         title: Translation.of(context).edit_profile,
@@ -83,245 +86,238 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
           ShopProfileCubit.of(context).websiteController.text =
               ShopProfileCubit.of(context).shopModel!.websiteUrl ?? '';
           ShopProfileCubit.of(context).descEnController.text =
-              ShopProfileCubit.of(context).shopModel!.enDescription ??
-                  '';
+              ShopProfileCubit.of(context).shopModel!.enDescription ?? '';
           ShopProfileCubit.of(context).descArController.text =
-              ShopProfileCubit.of(context).shopModel!.arDescription ??
-                  '';
+              ShopProfileCubit.of(context).shopModel!.arDescription ?? '';
         },
         builder: (context, state) {
           if (state is GetShopProfileLoading) {
             return const Loader();
           } else {
-            return SizedBox(
-              height: 1.sh,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Column(
-                    children: [
-                      // _buildImageWidget(
-                      //     ShopProfileCubit
-                      //         .of(context)
-                      //         .file ?? File('')),
-                      SizedBox(
-                        height: 55.h,
-                      ),
-                      _buildTextFiledWidget(
-                          title: "أسم المطعم باللغه العربيه",
-                          textEditingController:
-                              ShopProfileCubit.of(context).nameArController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "أسم المطعم باللغه الانجيليزيه",
-                          textEditingController:
-                              ShopProfileCubit.of(context).nameEnController),
-                      Gaps.vGap24,
-                      uploadSignUpFile(
-                        text: "لوغو المطعم بالعربي",
-                        file:
-                            ShopProfileCubit.of(context).fileLogoAr ?? File(''),
-                        asset: AppConstants.AVATER_IMG,
-                        image: ShopProfileCubit.of(context).logoArNetwork ?? '',
-                        onTap: () async {
-                          await ShopProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            ShopProfileCubit.of(context).fileLogoAr =
-                                File(value!.path);
-                          });
-                          ShopProfileCubit.of(context).uploadImage(
-                              context, ShopProfileCubit.of(context).fileLogoAr!);
-                          ShopProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: "لوغو المطعم بالأنجليزي",
-                        file:
-                            ShopProfileCubit.of(context).fileLogoEn ?? File(''),
-                        asset: AppConstants.AVATER_IMG,
-                        image: ShopProfileCubit.of(context).logoEnNetwork ?? '',
-                        onTap: () async {
-                          await ShopProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            ShopProfileCubit.of(context).fileLogoEn =
-                                File(value!.path);
-                          });
-                          ShopProfileCubit.of(context).uploadImage(
-                              context, ShopProfileCubit.of(context).fileLogoEn!);
-                          ShopProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: "صورة الغلاف بالأنجليزي",
-                        file:
-                            ShopProfileCubit.of(context).fileCoveEn ?? File(''),
-                        image: ShopProfileCubit.of(context).coveEnNetwork ?? '',
-                        asset: AppConstants.COVER_IMG,
-                        onTap: () async {
-                          await ShopProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            ShopProfileCubit.of(context).fileCoveEn =
-                                File(value!.path);
-                          });
-                          ShopProfileCubit.of(context).uploadImage(
-                              context, ShopProfileCubit.of(context).fileCoveEn!);
-                          ShopProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: "صورة الغلاف بالعربي",
-                        file:
-                            ShopProfileCubit.of(context).fileCoveAr ?? File(''),
-                        image: ShopProfileCubit.of(context).coveArNetwork ?? '',
-                        asset: AppConstants.COVER_IMG,
-                        onTap: () async {
-                          await ShopProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            ShopProfileCubit.of(context).fileCoveAr =
-                                File(value!.path);
-                          });
-                          ShopProfileCubit.of(context).uploadImage(
-                              context, ShopProfileCubit.of(context).fileCoveAr!);
-                          ShopProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: Translation.of(context).phone,
-                          isPhoneNumber: true,
-                          textEditingController:
-                              ShopProfileCubit.of(context).phoneController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "رقم السجل التجاري",
-                          textEditingController: ShopProfileCubit.of(context)
-                              .commercialRegisterNumberController),
-                      Gaps.vGap24,
-                      uploadSignUpFile(
-                        text: "ملف السجل التجاري",
-                        file: ShopProfileCubit.of(context)
-                                .fileCommercialRegisterDoc ??
-                            File(''),
-                        asset: '',
-                        image: ShopProfileCubit.of(context)
-                                .commercialRegisterDoc ??
-                            '',
-                        onTap: () async {
-                          await ShopProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            ShopProfileCubit.of(context)
-                                .fileCommercialRegisterDoc = File(value!.path);
-                          });
-                          ShopProfileCubit.of(context).uploadImage(
-                              context, ShopProfileCubit.of(context).fileCommercialRegisterDoc!);
-                          ShopProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      // _buildTextFiledWidget(
-                      //     title: Translation
-                      //         .of(context)
-                      //         .cityName,
-                      //     textEditingController:
-                      //     ShopProfileCubit
-                      //         .of(context)
-                      //         .cityController),
-                      // Gaps.vGap24,
-                      // _buildTextFiledWidget(
-                      //     title: "اسم الشارع",
-                      //     textEditingController:
-                      //     ShopProfileCubit
-                      //         .of(context)
-                      //         .streetController),
-                      // Gaps.vGap24,
-                      // _buildTextFiledWidget(
-                      //     title: "رقم البناء",
-                      //     textEditingController:
-                      //     ShopProfileCubit
-                      //         .of(context)
-                      //         .buildNumController),
-                      // Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "اسم مدير المطعم",
-                          textEditingController:
-                              ShopProfileCubit.of(context).mangerController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "التفاصيل باللغه العربيه",
-                          textEditingController:
-                          ShopProfileCubit.of(context).descArController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "التفاصيل باللغه الانجليزيه",
-                          textEditingController:
-                          ShopProfileCubit.of(context).descEnController),
-                      Gaps.vGap24,
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              ShopProfileCubit.of(context)
-                                  .onLocationClick(context);
-                            },
-                            child: CustomText(
-                              text: "حدد موقعك علي الخريطه ",
-                              color: AppColors.accentColorLight,
-                              fontSize: AppConstants.textSize16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
-                        ],
-                      ),
-                      Gaps.vGap8,
-                      _buildSocialMediaContainer(
-                          title: "روابط مواقع التواصل الاجتماعي",
-                          controller:
-                              ShopProfileCubit.of(context).facebookController,
-                          icon: FontAwesomeIcons.squareFacebook),
-                      _buildSocialMediaContainer(
-                        title: "",
-                        icon: FontAwesomeIcons.instagram,
-                        controller:
-                            ShopProfileCubit.of(context).instegramController,
-                      ),
-                      _buildSocialMediaContainer(
-                        title: "",
-                        icon: FontAwesomeIcons.twitter,
-                        controller:
-                            ShopProfileCubit.of(context).twitterController,
-                      ),
-                      _buildSocialMediaContainer(
-                        title: "",
-                        icon: FontAwesomeIcons.earth,
-                        controller:
-                            ShopProfileCubit.of(context).websiteController,
-                      ),
-                      Gaps.vGap24,
-                      // _addWorkingHours(),
-                      Gaps.vGap24,
-                      SizedBox(
-                        height: 44.h,
-                        width: 217.w,
-                        child: CustomElevatedButton(
-                          text: Translation.of(context).save,
-                          onTap: () {
-                            ShopProfileCubit.of(context)
-                                .updateShopProfile(context);
-                          },
-                          textSize: AppConstants.textSize20,
-                          borderRadius: AppConstants.borderRadius4,
+            return Form(
+              key: ShopProfileCubit.of(context).formKey,
+              child: SizedBox(
+                height: 1.sh,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Column(
+                      children: [
+                        // _buildImageWidget(
+                        //     ShopProfileCubit
+                        //         .of(context)
+                        //         .file ?? File('')),
+                        SizedBox(
+                          height: 55.h,
                         ),
-                      ),
-                      Gaps.vGap24,
-                    ],
+                        _buildTextFiledWidget(
+                            type: TextInputType.name,
+                            validator: (input) => !Validators.isArabic(input!)
+                                ? tr.enter_at_letters
+                                : null,
+                            title: tr.shop_name_ar,
+                            textEditingController:
+                                ShopProfileCubit.of(context).nameArController),
+                        Gaps.vGap24,
+                        _buildTextFiledWidget(
+                            type: TextInputType.name,
+                            validator: (input) => !Validators.isEnglish(input!)
+                                ? tr.enter_eng_letters
+                                : null,
+                            title: tr.shop_name_en,
+                            textEditingController:
+                                ShopProfileCubit.of(context).nameEnController),
+                        Gaps.vGap24,
+                        uploadSignUpFile(
+                          text: tr.logo_ar,
+                          file: ShopProfileCubit.of(context).fileLogoAr ??
+                              File(''),
+                          asset: AppConstants.AVATER_IMG,
+                          image:
+                              ShopProfileCubit.of(context).logoArNetwork ?? '',
+                          onTap: () async {
+                            await ShopProfileCubit.of(context).pickLogoAr();
+                          },
+                        ),
+                        Gaps.vGap8,
+                        uploadSignUpFile(
+                          text: tr.logo_en,
+                          file: ShopProfileCubit.of(context).fileLogoEn ??
+                              File(''),
+                          asset: AppConstants.AVATER_IMG,
+                          image:
+                              ShopProfileCubit.of(context).logoEnNetwork ?? '',
+                          onTap: () async {
+                            await ShopProfileCubit.of(context).pickLogoEn();
+                          },
+                        ),
+                        Gaps.vGap8,
+                        uploadSignUpFile(
+                          text: tr.cover_en,
+                          file: ShopProfileCubit.of(context).fileCoveEn ??
+                              File(''),
+                          image:
+                              ShopProfileCubit.of(context).coveEnNetwork ?? '',
+                          asset: AppConstants.COVER_IMG,
+                          onTap: () async {
+                            await ShopProfileCubit.of(context).pickCoverEn();
+                          },
+                        ),
+                        Gaps.vGap8,
+                        uploadSignUpFile(
+                          text: tr.cover_ar,
+                          file: ShopProfileCubit.of(context).fileCoveAr ??
+                              File(''),
+                          image:
+                              ShopProfileCubit.of(context).coveArNetwork ?? '',
+                          asset: AppConstants.COVER_IMG,
+                          onTap: () async {
+                            await ShopProfileCubit.of(context).pickCoverAr();
+                          },
+                        ),
+                        Gaps.vGap24,
+                        _buildTextFiledWidget(
+                            type: TextInputType.number,
+                            validator: (input) =>
+                                Validators.isNumber(input!, context),
+                            title: Translation.of(context).phone,
+                            isPhoneNumber: true,
+                            textEditingController:
+                                ShopProfileCubit.of(context).phoneController),
+                        Gaps.vGap24,
+                        _buildTextFiledWidget(
+                            type: TextInputType.number,
+                            validator: (input) =>
+                                Validators.isNumber(input!, context),
+                            title: tr.commericalNumber,
+                            textEditingController: ShopProfileCubit.of(context)
+                                .commercialRegisterNumberController),
+                        Gaps.vGap24,
+                        uploadSignUpFile(
+                          text: tr.commericalFile,
+                          file: ShopProfileCubit.of(context)
+                                  .fileCommercialRegisterDoc ??
+                              File(''),
+                          asset: '',
+                          image: ShopProfileCubit.of(context)
+                                  .commercialRegisterDoc ??
+                              '',
+                          onTap: () async {
+                            await ShopProfileCubit.of(context)
+                                .pickCommericalDoc();
+                          },
+                        ),
+                        Gaps.vGap8,
+                        // _buildTextFiledWidget(
+                        //     title: Translation
+                        //         .of(context)
+                        //         .cityName,
+                        //     textEditingController:
+                        //     ShopProfileCubit
+                        //         .of(context)
+                        //         .cityController),
+                        // Gaps.vGap24,
+                        // _buildTextFiledWidget(
+                        //     title: "اسم الشارع",
+                        //     textEditingController:
+                        //     ShopProfileCubit
+                        //         .of(context)
+                        //         .streetController),
+                        // Gaps.vGap24,
+                        // _buildTextFiledWidget(
+                        //     title: "رقم البناء",
+                        //     textEditingController:
+                        //     ShopProfileCubit
+                        //         .of(context)
+                        //         .buildNumController),
+                        // Gaps.vGap24,
+                        _buildTextFiledWidget(
+                            type: TextInputType.name,
+                            validator: (input) =>
+                                !Validators.isNotEmptyString(input!)
+                                    ? tr.errorEmptyField
+                                    : null,
+                            title: tr.shopManagerName,
+                            textEditingController:
+                                ShopProfileCubit.of(context).mangerController),
+                        Gaps.vGap24,
+                        _buildTextFiledWidget(
+                            type: TextInputType.name,
+                            validator: (input) => !Validators.isArabic(input!)
+                                ? tr.enter_at_letters
+                                : null,
+                            title: tr.details_in_arabic,
+                            textEditingController:
+                                ShopProfileCubit.of(context).descArController),
+                        Gaps.vGap24,
+                        _buildTextFiledWidget(
+                            type: TextInputType.name,
+                            validator: (input) => !Validators.isEnglish(input!)
+                                ? tr.enter_eng_letters
+                                : null,
+                            title: tr.details_in_english,
+                            textEditingController:
+                                ShopProfileCubit.of(context).descEnController),
+                        Gaps.vGap24,
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () async {
+                                ShopProfileCubit.of(context)
+                                    .onLocationClick(context);
+                              },
+                              child: CustomText(
+                                text: tr.select_your_location,
+                                color: AppColors.accentColorLight,
+                                fontSize: AppConstants.textSize16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          ],
+                        ),
+                        Gaps.vGap8,
+                        _buildSocialMediaContainer(
+                            title: tr.social_media_links,
+                            controller:
+                                ShopProfileCubit.of(context).facebookController,
+                            icon: FontAwesomeIcons.squareFacebook),
+                        _buildSocialMediaContainer(
+                          title: "",
+                          icon: FontAwesomeIcons.instagram,
+                          controller:
+                              ShopProfileCubit.of(context).instegramController,
+                        ),
+                        _buildSocialMediaContainer(
+                          title: "",
+                          icon: FontAwesomeIcons.twitter,
+                          controller:
+                              ShopProfileCubit.of(context).twitterController,
+                        ),
+                        _buildSocialMediaContainer(
+                          title: "",
+                          icon: FontAwesomeIcons.earth,
+                          controller:
+                              ShopProfileCubit.of(context).websiteController,
+                        ),
+                        Gaps.vGap24,
+                        // _addWorkingHours(),
+                        Gaps.vGap24,
+                        SizedBox(
+                          height: 44.h,
+                          width: 217.w,
+                          child: CustomElevatedButton(
+                            text: Translation.of(context).save,
+                            onTap: () {
+                              ShopProfileCubit.of(context)
+                                  .updateShopProfile(context);
+                            },
+                            textSize: AppConstants.textSize20,
+                            borderRadius: AppConstants.borderRadius4,
+                          ),
+                        ),
+                        Gaps.vGap24,
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -386,15 +382,17 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
       required IconData icon,
       required TextEditingController controller}) {
     return Row(
-      // textDirection: TextDirection.LTR,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Flexible(
           child: _buildTextFiledWidget(
+              type: TextInputType.name,
+              validator: (input) => !Validators.isLinkValid(input!)
+                  ? LanguageHelper.getTranslation(context).link_invalid
+                  : null,
               title: title,
-              textEditingController:
-                  ShopProfileCubit.of(context).facebookController),
+              textEditingController: controller),
         ),
         Gaps.hGap8,
         Column(
@@ -455,11 +453,12 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
     );
   }
 
-  Widget _buildTextFiledWidget({
-    required String title,
-    bool isPhoneNumber = false,
-    required TextEditingController textEditingController,
-  }) {
+  Widget _buildTextFiledWidget(
+      {required String title,
+      bool isPhoneNumber = false,
+      required TextInputType type,
+      required TextEditingController textEditingController,
+      required Function(String? input) validator}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -489,6 +488,8 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
               )
             : TextFormField(
                 controller: textEditingController,
+                validator: (value) => validator(value),
+                keyboardType: type,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(

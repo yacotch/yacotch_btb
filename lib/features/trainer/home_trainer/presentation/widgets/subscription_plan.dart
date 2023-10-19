@@ -18,109 +18,12 @@ Widget trainerBouquet(int userType) {
     builder: (context, state) {
       if (TrainerProfileCubit.of(context).trainerModel != null) {
         TrainerProfileCubit.of(context).trainerModel!.subscription =
-            SubscriptionModel(name: "Golden Plan", fee: 250);
+            SubscriptionModel(
+                name: LanguageHelper.getTranslation(context).free_susbcription,
+                fee: 0);
         if (TrainerProfileCubit.of(context).trainerModel!.subscription !=
             null) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 100.h,
-              child: Column(
-                children: [
-                  TitleWidget(
-                    title: LanguageHelper.getTranslation(context)
-                        .subscription_plan,
-                    subtitleColorTapped: () {},
-                    subtitle: "",
-                    titleColor: AppColors.accentColorLight,
-                  ),
-                  Gaps.vGap14,
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                    AppConstants.borderRadius10)),
-                                gradient: const LinearGradient(colors: [
-                                  AppColors.lightColor,
-                                  AppColors.accentColorLight
-                                ])),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomText(
-                                    text: TrainerProfileCubit.of(context)
-                                                .trainerModel!
-                                                .subscription ==
-                                            null
-                                        ? ''
-                                        : TrainerProfileCubit.of(context)
-                                                .trainerModel!
-                                                .subscription!
-                                                .name ??
-                                            "",
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.white,
-                                    fontSize: AppConstants.textSize16,
-                                  ),
-                                  CustomText(
-                                    text:
-                                        "${TrainerProfileCubit.of(context).trainerModel?.subscription!.fee ?? 0} ${Translation.of(context).saudi_riyal}",
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.white,
-                                    fontSize: AppConstants.textSize16,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Gaps.hGap16,
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color:
-                                        AppColors.transparent.withOpacity(0.2)),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(AppConstants.blurDegree10)),
-                                gradient: LinearGradient(colors: [
-                                  AppColors.transparent.withOpacity(0.0),
-                                  AppColors.transparent.withOpacity(0.5)
-                                ])),
-                            child: Center(
-                              child: IconButton(
-                                onPressed: () {
-                                  NavigationHelper.goto(
-                                      screen: SubscriptionScreen(
-                                          typeUser: userType),
-                                      context: context);
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_forward,
-                                  color: AppColors.white,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+          return FreeTempBlanWidget(userType);
         } else {
           return const SizedBox();
         }
@@ -129,4 +32,109 @@ Widget trainerBouquet(int userType) {
       }
     },
   );
+}
+
+class FreeTempBlanWidget extends StatelessWidget {
+  final int userType;
+  const FreeTempBlanWidget(this.userType, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: 100.h,
+        child: Column(
+          children: [
+            TitleWidget(
+              title: LanguageHelper.getTranslation(context).subscription_plan,
+              subtitleColorTapped: () {},
+              subtitle: "",
+              titleColor: AppColors.accentColorLight,
+            ),
+            Gaps.vGap14,
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(AppConstants.borderRadius10)),
+                          gradient: const LinearGradient(colors: [
+                            AppColors.lightColor,
+                            AppColors.accentColorLight
+                          ])),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              text: TrainerProfileCubit.of(context)
+                                          .trainerModel!
+                                          .subscription ==
+                                      null
+                                  ? ''
+                                  : TrainerProfileCubit.of(context)
+                                          .trainerModel!
+                                          .subscription!
+                                          .name ??
+                                      "",
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.white,
+                              fontSize: AppConstants.textSize16,
+                            ),
+                            CustomText(
+                              text:
+                                  "${TrainerProfileCubit.of(context).trainerModel?.subscription!.fee ?? 0} ${Translation.of(context).saudi_riyal}",
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.white,
+                              fontSize: AppConstants.textSize16,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Gaps.hGap16,
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.transparent.withOpacity(0.2)),
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(AppConstants.blurDegree10)),
+                          gradient: LinearGradient(colors: [
+                            AppColors.transparent.withOpacity(0.0),
+                            AppColors.transparent.withOpacity(0.5)
+                          ])),
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {
+                            NavigationHelper.goto(
+                                screen: SubscriptionScreen(typeUser: userType),
+                                context: context);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward,
+                            color: AppColors.white,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

@@ -63,16 +63,16 @@ class AuthRepo {
       body: typeUser == 1
           ? {
               "trainerId": AppStorage.getUserData.result!.userId,
-              "subscriptionId": subscriptionId
+              "subscriptionId": 1000 //subscriptionId
             }
           : typeUser == 3
               ? {
                   "restaurantId": AppStorage.getUserData.result!.restaurantId,
-                  "subscriptionId": subscriptionId
+                  "subscriptionId": 1001 //subscriptionId
                 }
               : {
                   "shopId": AppStorage.getUserData.result!.shopId,
-                  "subscriptionId": subscriptionId
+                  "subscriptionId": 1002 //subscriptionId
                 },
     );
     try {

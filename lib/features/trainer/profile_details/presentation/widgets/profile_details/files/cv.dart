@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/widgets/profile_details/files/clicked_file.dart';
@@ -22,6 +23,7 @@ class TrainerCVwidget extends StatelessWidget {
           fontSize: AppConstants.textSize14,
           fontWeight: FontWeight.w700,
         ),
+        
         ClickedFileWidget(
           onTap: hasCv()
               ? () => openFileInNewScreen(
@@ -29,11 +31,7 @@ class TrainerCVwidget extends StatelessWidget {
                     TrainerProfileCubit.of(context).trainerModel!.cvUrl!,
                   )
               : null,
-          text: hasCv()
-              ? getImageName(
-                  TrainerProfileCubit.of(context).trainerModel!.cvUrl!,
-                )
-              : null,
+          text: hasCv() ? "MyCv.png" : null,
         )
       ],
     );

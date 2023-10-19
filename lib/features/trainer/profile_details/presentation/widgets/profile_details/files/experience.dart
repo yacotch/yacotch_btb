@@ -45,14 +45,7 @@ class TrainerExperiencePDFSWidget extends StatelessWidget {
                               .first,
                         )
                     : null,
-                text: hasExperience()
-                    ? getImageName(
-                        TrainerProfileCubit.of(context)
-                            .trainerModel!
-                            .experienceFiles!
-                            .first,
-                      )
-                    : null,
+                text: hasExperience() ? "Certificate.png" : null,
               )
         /*         ListView.builder(
                 itemCount: TrainerProfileCubit.of(context)

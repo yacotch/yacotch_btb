@@ -109,6 +109,7 @@ class AuthCubit extends Cubit<AuthState> {
   late String verificationId;
   FirebaseAuth auth = FirebaseAuth.instance;
 
+//1000 1001 1002
   Future assignSubscriptionToUser(
       BuildContext context, int subscriptionId, int type) async {
     emit(AssignSubscriptionToUserLoading());
@@ -290,10 +291,13 @@ class AuthCubit extends Cubit<AuthState> {
         (res) async {
           isLoading = false;
           //     login(context, phone);
+          await assignSubscriptionToUser(context, 1000, userType);
 
           if (userType == 1) {
             NavigationHelper.gotoAndRemove(
-                screen: const LoginScreen(1), context: context);
+              screen: const LoginScreen(1),
+              context: context,
+            );
             emit(VerifyAccountLoaded());
           } else if (userType == 3) {
             NavigationHelper.goto(
@@ -547,14 +551,6 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           await AppStorage.cacheUserInfo(res);
-          await assignSubscriptionToUser(
-              context,
-              1000,
-              res.result!.userId != null
-                  ? 1
-                  : res.result!.restaurantId != null
-                      ? 3
-                      : 4);
 
           NavigationHelper.gotoAndRemove(
               screen: NavigatorScreen(

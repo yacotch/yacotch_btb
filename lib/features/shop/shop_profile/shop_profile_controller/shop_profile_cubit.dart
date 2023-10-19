@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/features/shop/shop_profile/data/models/update_shop_profile_model.dart';
 import '../../../../core/location/LocationAddressImports.dart';
 import '../../../../core/location/location_cubit/location_cubit.dart';
@@ -26,6 +27,7 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
   final shopProfileRepo = ShopProfileRepo();
 
   ShopModel? shopModel;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String? imageNetwork;
   TextEditingController nameArController = TextEditingController();
@@ -90,45 +92,64 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
   }
 
   Future updateShopProfile(BuildContext context) async {
-    UpdateShopProfileModel updateShopProfileModel = UpdateShopProfileModel(
-      id: shopModel!.id,
-      arName: nameArController.text,
-      enName: nameEnController.text,
-      arDescription: descArController.text,
-      enDescription: descEnController.text,
-      arLogo: imgLogoAr== null ? shopModel!.arLogo : imgLogoAr,
-      enLogo: imgLogoEn== null ? shopModel!.enLogo : imgLogoEn,
-      arCover: imgCoveAr== null ? shopModel!.arCover : imgCoveAr,
-      enCover: imgCoveEn == null ? shopModel!.enCover : imgCoveEn,
-      commercialRegisterNumber: commercialRegisterNumberController.text,
-      commercialRegisterDocument: imgCommercialRegisterDoc == null ? shopModel!.commercialRegisterDocument : imgCommercialRegisterDoc,
-      cityId: shopModel!.cityId,
-      street: shopModel!.street,
-      phoneNumber: phoneController.text,
-      facebookUrl: facebookController.text,
-      instagramUrl: instegramController.text,
-      twitterUrl: twitterController.text,
-      websiteUrl: websiteController.text,
-      latitude: locationCubit.state.model!.lat,
-      longitude: locationCubit.state.model!.lng,
-    );
+    if (formKey.currentState!.validate()) {
+      if (fileLogoAr != null &&
+          fileLogoEn != null &&
+          fileCommercialRegisterDoc != null &&
+          fileCoveAr != null &&
+          fileCoveEn != null) {
+        await Future.wait([
+          uploadImage(context, fileLogoAr!),
+          uploadImage(context, fileLogoEn!),
+          uploadImage(context, fileCommercialRegisterDoc!),
+          uploadImage(context, fileCoveAr!),
+          uploadImage(context, fileCoveEn!)
+        ]);
+        UpdateShopProfileModel updateShopProfileModel = UpdateShopProfileModel(
+          id: shopModel!.id,
+          arName: nameArController.text,
+          enName: nameEnController.text,
+          arDescription: descArController.text,
+          enDescription: descEnController.text,
+          arLogo: imgLogoAr ?? shopModel!.arLogo,
+          enLogo: imgLogoEn ?? shopModel!.enLogo,
+          arCover: imgCoveAr ?? shopModel!.arCover,
+          enCover: imgCoveEn ?? shopModel!.enCover,
+          commercialRegisterNumber: commercialRegisterNumberController.text,
+          commercialRegisterDocument:
+              imgCommercialRegisterDoc ?? shopModel!.commercialRegisterDocument,
+          cityId: shopModel!.cityId,
+          street: shopModel!.street,
+          phoneNumber: phoneController.text,
+          facebookUrl: facebookController.text,
+          instagramUrl: instegramController.text,
+          twitterUrl: twitterController.text,
+          websiteUrl: websiteController.text,
+          latitude: locationCubit.state.model!.lat,
+          longitude: locationCubit.state.model!.lng,
+        );
 
-    emit(UpdateShopProfileLoading());
-    final res = await shopProfileRepo.updateShopProfile(updateShopProfileModel);
-    res.fold(
-      (err) {
-        Toast.show(err);
-        emit(UpdateShopProfileError());
-      },
-      (res) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (context) => NavigatorScreen(homeType: 4)),
-            (route) => false);
-        emit(UpdateShopProfileLoaded());
-      },
-    );
+        emit(UpdateShopProfileLoading());
+        final res =
+            await shopProfileRepo.updateShopProfile(updateShopProfileModel);
+        res.fold(
+          (err) {
+            Toast.show(err);
+            emit(UpdateShopProfileError());
+          },
+          (res) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NavigatorScreen(homeType: 4)),
+                (route) => false);
+            emit(UpdateShopProfileLoaded());
+          },
+        );
+      } else {
+        Toast.show(LanguageHelper.getTranslation(context).complete_data);
+      }
+    }
   }
 
   Future getShopProfile(BuildContext context) async {
@@ -189,6 +210,33 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
     if (result != null) {
       return result;
     }
+    return null;
+  }
+
+  Future<void> pickCommericalDoc() async {
+    var result = await getImage();
+    print(result!.path);
+    fileCommercialRegisterDoc = File(result!.path);
+  }
+
+  Future<void> pickLogoAr() async {
+    var result = await getImage();
+    fileLogoAr = File(result!.path);
+  }
+
+  Future<void> pickLogoEn() async {
+    var result = await getImage();
+    fileLogoEn = File(result!.path);
+  }
+
+  Future<void> pickCoverEn() async {
+    var result = await getImage();
+    fileCoveEn = File(result!.path);
+  }
+
+  Future<void> pickCoverAr() async {
+    var result = await getImage();
+    fileCoveAr = File(result!.path);
   }
 
   onLocationClick(context) async {
