@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/restaurant/add_plate/data/repositories/add_plate_repo.dart';
 import 'package:trainee_restaurantapp/features/trainer/add_course/data/repositories/add_course_repo.dart';
 import '../../../../../core/models/categories_model.dart';
@@ -92,9 +93,6 @@ class AddCourseCubit extends Cubit<AddCourseState> {
         arDescription: arDescriptionController.text,
         enDescription: enDescriptionController.text,
       );
-      print(await addCourseModel.toJson());
-      unFocus(context);
-      emit(AddCourseLoading());
       final res = await addCourseRepo.addCourse(addCourseModel);
       res.fold(
         (err) {
@@ -102,8 +100,8 @@ class AddCourseCubit extends Cubit<AddCourseState> {
           emit(AddCourseError());
         },
         (res) async {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const SuccessCourseAdd()));
+          NavigationHelper.gotoReplacement(
+              screen: const SuccessCourseAdd(), context: context);
           emit(AddCourseLoaded());
         },
       );

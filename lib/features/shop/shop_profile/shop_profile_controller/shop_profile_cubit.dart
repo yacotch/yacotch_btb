@@ -93,18 +93,25 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
 
   Future updateShopProfile(BuildContext context) async {
     if (formKey.currentState!.validate()) {
-      if (fileLogoAr != null &&
-          fileLogoEn != null &&
-          fileCommercialRegisterDoc != null &&
-          fileCoveAr != null &&
-          fileCoveEn != null) {
-        await Future.wait([
-          uploadImage(context, fileLogoAr!),
-          uploadImage(context, fileLogoEn!),
-          uploadImage(context, fileCommercialRegisterDoc!),
-          uploadImage(context, fileCoveAr!),
-          uploadImage(context, fileCoveEn!)
-        ]);
+      List<Future> futureList = [];
+      if (fileLogoAr != null) {
+        futureList.add(uploadImage(context, fileLogoAr!));
+      }
+      if (fileLogoEn != null) {
+        futureList.add(uploadImage(context, fileLogoEn!));
+      }
+      if (fileCoveAr != null) {
+        futureList.add(uploadImage(context, fileCoveAr!));
+      }
+      if (fileCoveEn != null) {
+        futureList.add(uploadImage(context, fileCoveEn!));
+      }
+      if (fileCommercialRegisterDoc != null) {
+        futureList.add(uploadImage(context, fileCommercialRegisterDoc!));
+      }
+      if (formKey.currentState!.validate()) {
+        emit(UploadImageLoading());
+        await Future.wait(futureList);
         UpdateShopProfileModel updateShopProfileModel = UpdateShopProfileModel(
           id: shopModel!.id,
           arName: nameArController.text,
@@ -129,7 +136,6 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
           longitude: locationCubit.state.model!.lng,
         );
 
-        emit(UpdateShopProfileLoading());
         final res =
             await shopProfileRepo.updateShopProfile(updateShopProfileModel);
         res.fold(

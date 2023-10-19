@@ -52,7 +52,7 @@ class AddPlateCubit extends Cubit<AddPlateState> {
       },
       (res) async {
         img = res;
-        emit(UploadImageLoaded());
+        //  emit(UploadImageLoaded());
       },
     );
   }
@@ -76,7 +76,6 @@ class AddPlateCubit extends Cubit<AddPlateState> {
 
     if (formKey.currentState!.validate() && file != null) {
       await uploadImage(context, file!);
-      emit(AddPlateLoading());
       final res = await addPlateRepo.createDish(
         arName: nameArPlateController.text,
         enName: nameEnPlateController.text,

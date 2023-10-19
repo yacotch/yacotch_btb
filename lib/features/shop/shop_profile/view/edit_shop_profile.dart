@@ -305,7 +305,9 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                         SizedBox(
                           height: 44.h,
                           width: 217.w,
-                          child: CustomElevatedButton(
+                          child: (state is UploadImageLoading)
+                            ? const Center(child: CircularProgressIndicator())
+                            :CustomElevatedButton(
                             text: Translation.of(context).save,
                             onTap: () {
                               ShopProfileCubit.of(context)

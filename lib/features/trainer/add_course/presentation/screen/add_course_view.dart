@@ -101,20 +101,26 @@ class _AddCourseViewState extends State<AddCourseView> {
                               vertical: 45.0,
                               horizontal: 20,
                             ),
-                            child: CustomElevatedButton(
-                              borderRadius: 12,
-                              onTap: () {
-                                if (AddCourseCubit.of(context).file == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content:
-                                              Text(trans.choose_course_img)));
-                                } else {
-                                  AddCourseCubit.of(context).addCourse(context);
-                                }
-                              },
-                              text: LanguageHelper.getTranslation(context).add,
-                            ),
+                            child: (state is UploadImageLoading)
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : CustomElevatedButton(
+                                    borderRadius: 12,
+                                    onTap: () {
+                                      if (AddCourseCubit.of(context).file ==
+                                          null) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    trans.choose_course_img)));
+                                      } else {
+                                        AddCourseCubit.of(context)
+                                            .addCourse(context);
+                                      }
+                                    },
+                                    text: LanguageHelper.getTranslation(context)
+                                        .add,
+                                  ),
                           ),
                         ),
                       ],

@@ -222,32 +222,46 @@ class _MyCourseDetailsState extends State<MyCourseDetails> {
         child: Column(
           children: [
             TitleWidget(
-              title: "المتدريبين",
+              title: LanguageHelper.getTranslation(context).trainees,
               subtitleColorTapped: () {
                 Navigator.pushNamed(context, Routes.traineeScreen);
               },
               titleColor: AppColors.white,
               subtitleColor: AppColors.accentColorLight,
-              subtitle: "اظهار الكل",
+              subtitle: CoursesCubit.of(context)
+                      .courseModel!
+                      .traineesProgress!
+                      .isNotEmpty
+                  ? LanguageHelper.getTranslation(context).see_all
+                  : "",
               subtitleSize: AppConstants.textSize14,
             ),
             Expanded(
-              child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: CoursesCubit.of(context)
+              child: CoursesCubit.of(context)
                       .courseModel!
                       .traineesProgress!
-                      .length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: traineeCard(
-                          CoursesCubit.of(context)
-                              .courseModel!
-                              .traineesProgress![index],
-                          context: context),
-                    );
-                  }),
+                      .isNotEmpty
+                  ? ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: CoursesCubit.of(context)
+                          .courseModel!
+                          .traineesProgress!
+                          .length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: traineeCard(
+                              CoursesCubit.of(context)
+                                  .courseModel!
+                                  .traineesProgress![index],
+                              context: context),
+                        );
+                      })
+                  : Center(
+                      child: CustomText(
+                          text: LanguageHelper.getTranslation(context)
+                              .no_trainees),
+                    ),
             )
           ],
         ),

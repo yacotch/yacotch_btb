@@ -108,8 +108,10 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                            //home
+                           
                           InkWell(
-                            onTap: () {
+                           onTap: () {
                               _onItemTapped(0);
                             },
                             child: Padding(
@@ -218,6 +220,7 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
   }
 
   void _onItemTapped(int index) {
+    print(index);
     setState(() {
       _selectedPage = index;
       //

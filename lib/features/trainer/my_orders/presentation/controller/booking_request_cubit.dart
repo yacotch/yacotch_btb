@@ -7,7 +7,9 @@ import '../../data/repositories/booking_request_repo.dart';
 part 'booking_request_state.dart';
 
 class BookingRequestCubit extends Cubit<BookingRequestState> {
-  BookingRequestCubit() : super(BookingRequestInitial());
+  BookingRequestCubit() : super(BookingRequestInitial()) {
+    print("object");
+  }
 
   static BookingRequestCubit of(context) => BlocProvider.of(context);
 
@@ -22,6 +24,7 @@ class BookingRequestCubit extends Cubit<BookingRequestState> {
   }
 
   Future getBookingRequests(int status) async {
+    print("init");
     emit(GetBookingRequestsLoading());
     final res = await _bookingRequestRepo.getBookingRequests(status);
     res.fold(

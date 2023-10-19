@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/navigator_home/view/navigator_home_view.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/data/models/restaurants_model.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/data/models/update_rest_profile_model.dart';
@@ -26,6 +27,7 @@ class RestProfileCubit extends Cubit<RestProfileState> {
 
   final restProfileRepo = RestProfileRepo();
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   RestaurantsModel? restaurantsModel;
 
   String? imageNetwork;
@@ -68,7 +70,7 @@ class RestProfileCubit extends Cubit<RestProfileState> {
   final LocationCubit locationCubit = LocationCubit();
 
   Future uploadImage(BuildContext context, File file) async {
-    emit(UploadImageLoading());
+    // emit(UploadImageLoading());
     final res = await restProfileRepo.uploadImage(file);
     res.fold(
       (err) {
@@ -87,51 +89,70 @@ class RestProfileCubit extends Cubit<RestProfileState> {
         } else if (file == fileCommercialRegisterDoc) {
           imgCommercialRegisterDoc = res;
         }
-        emit(UploadImageLoaded());
       },
     );
   }
 
   Future updateRestaurantProfile(BuildContext context) async {
-    UpdateRestProfileModel updateRestProfileModel = UpdateRestProfileModel(
-      id: restaurantsModel!.id,
-      arName: nameArController.text,
-      enName: nameEnController.text,
-      arDescription: descArController.text,
-      enDescription: descEnController.text,
-      arLogo: imgLogoAr== null ? restaurantsModel!.arLogo : imgLogoAr,
-      enLogo: imgLogoEn== null ? restaurantsModel!.enLogo : imgLogoEn,
-      arCover: imgCoveAr== null ? restaurantsModel!.arCover : imgCoveAr,
-      enCover: imgCoveEn == null ? restaurantsModel!.enCover : imgCoveEn,
-      commercialRegisterNumber: commercialRegisterNumberController.text,
-      commercialRegisterDocument: imgCommercialRegisterDoc == null ? restaurantsModel!.commercialRegisterDocument : imgCommercialRegisterDoc,
-      phoneNumber: phoneController.text,
-      facebookUrl: facebookController.text,
-      instagramUrl: instegramController.text,
-      twitterUrl: twitterController.text,
-      websiteUrl: websiteController.text,
-      latitude: locationCubit.state.model!.lat,
-      longitude: locationCubit.state.model!.lng,
-    );
+    List<Future> futureList = [];
+    if (fileLogoAr != null) {
+      futureList.add(uploadImage(context, fileLogoAr!));
+    }
+    if (fileLogoEn != null) {
+      futureList.add(uploadImage(context, fileLogoEn!));
+    }
+    if (fileCoveAr != null) {
+      futureList.add(uploadImage(context, fileCoveAr!));
+    }
+    if (fileCoveEn != null) {
+      futureList.add(uploadImage(context, fileCoveEn!));
+    }
+    if (fileCommercialRegisterDoc != null) {
+      futureList.add(uploadImage(context, fileCommercialRegisterDoc!));
+    }
+    if (formKey.currentState!.validate()) {
+      emit(UploadImageLoading());
+      await Future.wait(futureList);
 
-    print(await updateRestProfileModel.toJson());
+      UpdateRestProfileModel updateRestProfileModel = UpdateRestProfileModel(
+        id: restaurantsModel!.id,
+        arName: nameArController.text,
+        enName: nameEnController.text,
+        arDescription: descArController.text,
+        enDescription: descEnController.text,
+        arLogo: imgLogoAr ?? restaurantsModel!.arLogo,
+        enLogo: imgLogoEn ?? restaurantsModel!.enLogo,
+        arCover: imgCoveAr ?? restaurantsModel!.arCover,
+        enCover: imgCoveEn ?? restaurantsModel!.enCover,
+        commercialRegisterNumber: commercialRegisterNumberController.text,
+        commercialRegisterDocument: imgCommercialRegisterDoc ??
+            restaurantsModel!.commercialRegisterDocument,
+        phoneNumber: phoneController.text,
+        facebookUrl: facebookController.text,
+        instagramUrl: instegramController.text,
+        twitterUrl: twitterController.text,
+        websiteUrl: websiteController.text,
+        latitude: locationCubit.state.model!.lat,
+        longitude: locationCubit.state.model!.lng,
+      );
 
-    emit(UpdateRestProfileLoading());
-    final res = await restProfileRepo.updateRestProfile(updateRestProfileModel);
-    res.fold(
-      (err) {
-        Toast.show(err);
-        emit(UpdateRestProfileError());
-      },
-      (res) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (context) => NavigatorScreen(homeType: 3)),
-            (route) => false);
-        emit(UpdateRestProfileLoaded());
-      },
-    );
+      print(await updateRestProfileModel.toJson());
+
+      final res =
+          await restProfileRepo.updateRestProfile(updateRestProfileModel);
+      res.fold(
+        (err) {
+          print(err);
+          Toast.show(err);
+          emit(UpdateRestProfileError());
+        },
+        (res) {
+          NavigationHelper.gotoAndRemove(
+              screen: NavigatorScreen(homeType: 3), context: context);
+          emit(UpdateRestProfileLoaded());
+        },
+      );
+    }
   }
 
   Future getRestaurantProfile(BuildContext context) async {
@@ -197,5 +218,36 @@ class RestProfileCubit extends Cubit<RestProfileState> {
         },
       ),
     );
+  }
+
+  Future<void> pickCommericalDoc() async {
+    var result = await getImage();
+    print(result!.path);
+    fileCommercialRegisterDoc = File(result!.path);
+    emit(ImageCommericalPicked());
+  }
+
+  Future<void> pickLogoAr() async {
+    var result = await getImage();
+    fileLogoAr = File(result!.path);
+    emit(ImageLogoArPicked());
+  }
+
+  Future<void> pickLogoEn() async {
+    var result = await getImage();
+    fileLogoEn = File(result!.path);
+    emit(ImageLogoEnPicked());
+  }
+
+  Future<void> pickCoverEn() async {
+    var result = await getImage();
+    fileCoveEn = File(result!.path);
+    emit(ImageCoverEnPicked());
+  }
+
+  Future<void> pickCoverAr() async {
+    var result = await getImage();
+    fileCoveAr = File(result!.path);
+    emit(ImageCoverArPicked());
   }
 }

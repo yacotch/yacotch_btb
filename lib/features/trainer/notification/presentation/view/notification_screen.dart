@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/chat_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 
 import '../../../../../core/ui/loader.dart';
@@ -64,33 +66,41 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          CircleAvatar(
-            radius: 22.w,
-            backgroundColor: Colors.white,
-            backgroundImage: const NetworkImage(defaultAvatar),
-          ),
-          SizedBox(width: 8.w),
-          Expanded(
-              child: Text(
-            LanguageHelper.isAr(context)
-                ? notificationModel.arMessage ?? ""
-                : notificationModel.enMessage ?? "",
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 12.sp),
-          )),
-          SizedBox(width: 3.w),
-          Text(
-            notificationModel.creationTime!.substring(0, 10),
-            style: const TextStyle(color: Colors.white, fontSize: 14),
-          )
-        ],
+    return InkWell(
+      onTap: () {
+        if (notificationModel.msgType == 0) {
+          NavigationHelper.gotoReplacement(
+              screen: const ChatView(), context: context);
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            CircleAvatar(
+              radius: 22.w,
+              backgroundColor: Colors.white,
+              backgroundImage: const NetworkImage(defaultAvatar),
+            ),
+            SizedBox(width: 8.w),
+            Expanded(
+                child: Text(
+              LanguageHelper.isAr(context)
+                  ? notificationModel.arMessage ?? ""
+                  : notificationModel.enMessage ?? "",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12.sp),
+            )),
+            SizedBox(width: 3.w),
+            Text(
+              notificationModel.creationTime!.substring(0, 10),
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+            )
+          ],
+        ),
       ),
     );
   }

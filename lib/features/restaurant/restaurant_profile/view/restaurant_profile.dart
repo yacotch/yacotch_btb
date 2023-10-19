@@ -10,7 +10,6 @@ import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/vie
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/constants/app/app_constants.dart';
-import '../../../../core/navigation/route_generator.dart';
 import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../core/ui/widgets/custom_text.dart';
@@ -144,102 +143,12 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
     );
   }
 
-  Widget traineeCard({required context}) {
-    return MaterialButton(
-      onPressed: () {
-        Navigator.of(context).pushNamed(Routes.traineeProfileScreen);
-      },
-      child: Row(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    AppColors.linearCardTrainee1Color.withOpacity(1),
-                    AppColors.linearCardTrainee2Color.withOpacity(1),
-                    AppColors.linearCardTrainee3Color.withOpacity(1),
-                    AppColors.linearCardTrainee4Color.withOpacity(1),
-                  ]),
-                  borderRadius: const BorderRadius.all(Radius.circular(8))),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CustomText(
-                    text: "رامي المصري",
-                    fontSize: AppConstants.textSize18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.white,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text: "العدد: ",
-                        color: AppColors.white,
-                        fontSize: AppConstants.textSize14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      CustomText(
-                        text: " 4",
-                        color: AppColors.accentColorLight,
-                        fontSize: AppConstants.textSize14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomText(
-                          text: "2000 ريال",
-                          fontSize: AppConstants.textSize14,
-                          maxLines: 2,
-                          textAlign: TextAlign.start,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.accentColorLight,
-                        ),
-                      ),
-                      Expanded(
-                        child: CustomText(
-                          text: DateTime.now().toString().substring(0, 10),
-                          fontSize: AppConstants.textSize14,
-                          maxLines: 2,
-                          textAlign: TextAlign.start,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.backgroundColorLight,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Gaps.hGap4,
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(AppConstants.COACH1_IMAGE),
-                      fit: BoxFit.cover),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _restaurantProfileData(RestaurantsModel restaurantsModel) {
     var tr = LanguageHelper.getTranslation(context);
     final List<String> restaurantProfileMochitDataList = [
       restaurantsModel.phoneNumber ?? '',
       restaurantsModel.commercialRegisterNumber ?? '',
-      restaurantsModel.commercialRegisterDocument!.split("/").last,
+      restaurantsModel.commercialRegisterDocument!,
       restaurantsModel.manager?.name ?? ''
       // restaurantsModel.city?.text ?? '',
       // restaurantsModel.city?.text ?? '',
@@ -276,12 +185,39 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                       fontWeight: FontWeight.w500,
                       fontSize: AppConstants.textSize14,
                     ),
-                    CustomText(
-                      text: restaurantProfileMochitDataList[index],
-                      color: AppColors.white.withOpacity(0.6),
-                      fontWeight: FontWeight.w500,
-                      fontSize: AppConstants.textSize12,
-                    ),
+                    index == 2
+                        ? InkWell(
+                            child: CustomText(
+                              text: "image.png",
+                              color: AppColors.white.withOpacity(0.6),
+                              fontWeight: FontWeight.w500,
+                              fontSize: AppConstants.textSize12,
+                            ),
+                            onTap: () => NavigationHelper.goto(
+                                screen: Scaffold(
+                                  appBar: AppBar(
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0,
+                                  ),
+                                  body: Center(
+                                    child: Image.network(
+                                      restaurantProfileMochitDataList[index],
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset(
+                                            AppConstants.COACH1_IMAGE);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                context: context),
+                          )
+                        : CustomText(
+                            text: restaurantProfileMochitDataList[index],
+                            color: AppColors.white.withOpacity(0.6),
+                            fontWeight: FontWeight.w500,
+                            fontSize: AppConstants.textSize12,
+                          ),
                   ],
                 ),
               );

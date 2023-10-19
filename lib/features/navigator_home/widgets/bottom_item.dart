@@ -50,7 +50,7 @@ class CustomButtomNavigationItem extends StatelessWidget {
               ),
             CustomText(
               text: text,
-              color: selectedIndex == 2
+              color: selectedIndex == index
                   ? AppColors.accentColorLight
                   : AppColors.white,
             )

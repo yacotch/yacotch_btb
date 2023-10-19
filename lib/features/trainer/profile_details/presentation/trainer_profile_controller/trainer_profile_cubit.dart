@@ -97,7 +97,10 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
       latitude: locationCubit.state.model!.lat,
       longitude: locationCubit.state.model!.lng,
     );
-
+    updateTrainerProfileModel.toJson().map((key, value) {
+      print("$key $value");
+      return MapEntry(key, value);
+    });
     final res = await trainerProfileRepo
         .updateTrainerProfile(updateTrainerProfileModel);
     res.fold(
@@ -105,7 +108,7 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
         Toast.show(err);
         emit(UpdateTranierProfileError());
       },
-      (res) {
+      (res) async {
         log(res.toString());
         emit(UpdateTranierProfileLoaded());
       },

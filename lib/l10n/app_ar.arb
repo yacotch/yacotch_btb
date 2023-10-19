@@ -355,8 +355,9 @@
 "change":"تغير",
 "old_pass":"كلمة السر القديمة",
 "every_year":"كل سنة",
-"free_susbcription":"الباقة المجانية"
-
-
+"free_susbcription":"الباقة المجانية",
+"dish_added_succ":"تم اضافة طبقك بنجاح",
+"go_to_my_dishes":"الذهاب الى اطباقي",
+"num_orders":"عدد الطلبات"
 
 }

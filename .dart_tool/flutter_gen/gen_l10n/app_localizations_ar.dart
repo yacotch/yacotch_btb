@@ -893,4 +893,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get free_susbcription => 'الباقة المجانية';
+
+  @override
+  String get dish_added_succ => 'تم اضافة طبقك بنجاح';
+
+  @override
+  String get go_to_my_dishes => 'الذهاب الى اطباقي';
+
+  @override
+  String get num_orders => 'عدد الطلبات';
 }

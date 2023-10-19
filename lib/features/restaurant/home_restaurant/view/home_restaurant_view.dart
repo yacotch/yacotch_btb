@@ -61,8 +61,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
             const Expanded(
               flex: 4,
               child: Padding(
-                padding:
-                    EdgeInsets.only(bottom: 23.0, left: 23, right: 23),
+                padding: EdgeInsets.only(bottom: 23.0, left: 23, right: 23),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -712,7 +711,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                                     CustomText(
                                       text: restaurantsModel
                                               ?.subscription?.name ??
-                                          "",
+                                          LanguageHelper.getTranslation(context)
+                                              .free_susbcription,
                                       color: AppColors.accentColorLight,
                                       fontSize: AppConstants.textSize14,
                                       fontWeight: FontWeight.w600,
@@ -753,12 +753,11 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: CustomSliverDelegate(
-                        latitude: restaurantsModel.latitude ?? 30.033333,
-                        longitude: restaurantsModel.longitude ?? 31.233334,
-                        expandedHeight: 230.h,
-                        child:
-                            const FreeTempBlanWidget(3) // _buildSubscriptionWidget(),
-                        ),
+                      latitude: restaurantsModel.latitude ?? 30.033333,
+                      longitude: restaurantsModel.longitude ?? 31.233334,
+                      expandedHeight: 230.h,
+                      child: _buildSubscriptionWidget(),
+                    ),
                   ),
                   SliverFillRemaining(
                     hasScrollBody: false,

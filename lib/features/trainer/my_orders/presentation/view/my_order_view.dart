@@ -34,68 +34,78 @@ class _MyOrderViewState extends State<MyOrderView>
       ),
       body: BlocProvider(
           create: (context) => BookingRequestCubit()..getBookingRequests(0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 60.h,
-                child: Row(
-                  children: [
-                    FilterTabItem(
-                        index: 1,
-                        label: LanguageHelper.getTranslation(context).pending,
-                        tabbed: BookingRequestCubit.of(context).tabbed,
-                        onTap: () {
-                          setState(() {
-                            BookingRequestCubit.of(context).updateCurrentTap(1);
-                            BookingRequestCubit.of(context)
-                                .getBookingRequests(0);
-                            tabController!.animateTo(0);
-                          });
-                        }),
-                    FilterTabItem(
-                        index: 2,
-                        label: LanguageHelper.getTranslation(context).approved,
-                        tabbed: BookingRequestCubit.of(context).tabbed,
-                        onTap: () {
-                          setState(() {
-                            BookingRequestCubit.of(context).updateCurrentTap(2);
-                            BookingRequestCubit.of(context)
-                                .getBookingRequests(1);
-                            tabController!.animateTo(1);
-                          });
-                        }),
-                    FilterTabItem(
-                        index: 3,
-                        label: LanguageHelper.getTranslation(context).cancelled,
-                        tabbed: BookingRequestCubit.of(context).tabbed,
-                        onTap: () => setState(() {
-                              BookingRequestCubit.of(context)
-                                ..updateCurrentTap(3)
-                                ..getBookingRequests(2);
-                              tabController!.animateTo(2);
-                            })),
-                  ],
+          child: BlocBuilder<BookingRequestCubit, BookingRequestState>(
+              builder: (context, state) {
+            return Column(
+              children: [
+                SizedBox(
+                  height: 60.h,
+                  child: Row(
+                    children: [
+                      FilterTabItem(
+                          index: 1,
+                          label: LanguageHelper.getTranslation(context).pending,
+                          tabbed: BlocProvider.of<BookingRequestCubit>(context)
+                              .tabbed,
+                          onTap: () {
+                            setState(() {
+                              BlocProvider.of<BookingRequestCubit>(context)
+                                  .updateCurrentTap(1);
+                              BlocProvider.of<BookingRequestCubit>(context)
+                                  .getBookingRequests(0);
+                              tabController!.animateTo(0);
+                            });
+                          }),
+                      FilterTabItem(
+                          index: 2,
+                          label:
+                              LanguageHelper.getTranslation(context).approved,
+                          tabbed: BlocProvider.of<BookingRequestCubit>(context)
+                              .tabbed,
+                          onTap: () {
+                            setState(() {
+                              BlocProvider.of<BookingRequestCubit>(context)
+                                  .updateCurrentTap(2);
+                              BlocProvider.of<BookingRequestCubit>(context)
+                                  .getBookingRequests(1);
+                              tabController!.animateTo(1);
+                            });
+                          }),
+                      FilterTabItem(
+                          index: 3,
+                          label:
+                              LanguageHelper.getTranslation(context).cancelled,
+                          tabbed: BlocProvider.of<BookingRequestCubit>(context)
+                              .tabbed,
+                          onTap: () => setState(() {
+                                BlocProvider.of<BookingRequestCubit>(context)
+                                  ..updateCurrentTap(3)
+                                  ..getBookingRequests(2);
+                                tabController!.animateTo(2);
+                              })),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: tabController,
-                  children: <Widget>[
-                    BookingList(
-                        selectedCard: false,
-                        bloc: BookingRequestCubit.of(context)),
-                    BookingList(
-                        selectedCard: true,
-                        bloc: BookingRequestCubit.of(context)),
-                    BookingList(
-                        selectedCard: true,
-                        bloc: BookingRequestCubit.of(context)),
-                  ],
-                ),
-              )
-            ],
-          )),
+                Expanded(
+                  child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: tabController,
+                    children: <Widget>[
+                      BookingList(
+                          selectedCard: false,
+                          bloc: BlocProvider.of<BookingRequestCubit>(context)),
+                      BookingList(
+                          selectedCard: true,
+                          bloc: BlocProvider.of<BookingRequestCubit>(context)),
+                      BookingList(
+                          selectedCard: true,
+                          bloc: BlocProvider.of<BookingRequestCubit>(context)),
+                    ],
+                  ),
+                )
+              ],
+            );
+          })),
     );
   }
 }

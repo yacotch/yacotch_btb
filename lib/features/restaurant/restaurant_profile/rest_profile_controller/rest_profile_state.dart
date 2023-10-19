@@ -22,3 +22,13 @@ class GetImageState extends RestProfileState {}
 class UploadImageLoading extends RestProfileState {}
 
 class UploadImageLoaded extends RestProfileState {}
+
+class ImageLogoArPicked extends RestProfileState {}
+
+class ImageLogoEnPicked extends RestProfileState {}
+
+class ImageCoverArPicked extends RestProfileState {}
+
+class ImageCoverEnPicked extends RestProfileState {}
+
+class ImageCommericalPicked extends RestProfileState {}

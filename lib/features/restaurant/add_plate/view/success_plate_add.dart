@@ -3,6 +3,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 
@@ -44,7 +45,8 @@ class SuccessPlateAdd extends StatelessWidget {
                       ),
                     ),
                     CustomText(
-                      text: "تمت اضافة طبقك بنجاح",
+                      text: LanguageHelper.getTranslation(context)
+                          .dish_added_succ,
                       color: AppColors.white,
                       fontSize: AppConstants.textSize18,
                       fontWeight: FontWeight.w600,
@@ -61,7 +63,7 @@ class SuccessPlateAdd extends StatelessWidget {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => const AllPlatesScreen()));
                 },
-                text: "الذهاب الي اطباقي",
+                text: LanguageHelper.getTranslation(context).go_to_my_dishes,
               ),
             ))
           ],

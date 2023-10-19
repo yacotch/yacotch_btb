@@ -1868,6 +1868,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Free Subscription'**
   String get free_susbcription;
+
+  /// No description provided for @dish_added_succ.
+  ///
+  /// In en, this message translates to:
+  /// **'Your dish has been added successfully'**
+  String get dish_added_succ;
+
+  /// No description provided for @go_to_my_dishes.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to my dishes'**
+  String get go_to_my_dishes;
+
+  /// No description provided for @num_orders.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of orders'**
+  String get num_orders;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -303,5 +303,8 @@
 "change":"change",
 "old_pass":"Old Password",
 "every_year":"Every year",
-"free_susbcription":"Free Subscription"
+"free_susbcription":"Free Subscription",
+"dish_added_succ":"Your dish has been added successfully",
+"go_to_my_dishes":"Go to my dishes",
+"num_orders":"Number of orders"
 }

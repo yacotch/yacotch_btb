@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
-import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/controller/my_orders_restaurant_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/controller/my_plates_cubit.dart';
 import 'package:trainee_restaurantapp/core/models/order_model.dart';
 
@@ -15,7 +14,6 @@ import '../../../../core/navigation/route_generator.dart';
 import '../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../core/ui/widgets/custom_rating_bar_widget.dart';
 import '../../../../core/ui/widgets/custom_text.dart';
-import '../../../../core/ui/widgets/precentage_show.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
@@ -85,11 +83,14 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height: 10.h),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CustomText(
-                            text: "عدد الطلبات: ",
+                            text:
+                                "${LanguageHelper.getTranslation(context).num_orders} :",
                             color: AppColors.white,
                             fontSize: AppConstants.textSize14,
                             fontWeight: FontWeight.w500,
@@ -102,19 +103,21 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                           ),
                         ],
                       ),
-                      CustomText(
-                        text: "المده المتبقيه: يوم و 3 ساعات",
-                        fontSize: AppConstants.textSize14,
-                        maxLines: 2,
-                        textAlign: TextAlign.start,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.white,
-                      ),
+                      //   CustomText(
+                      //     text: "المده المتبقيه: يوم و 3 ساعات",
+                      //     fontSize: AppConstants.textSize14,
+                      //     maxLines: 2,
+                      //     textAlign: TextAlign.start,
+                      //     fontWeight: FontWeight.w500,
+                      //     color: AppColors.white,
+                      //   ),
+                      SizedBox(height: 10.h),
                       Row(
                         children: [
                           Expanded(
                             child: CustomText(
-                              text: "${item.price} ريال",
+                              text:
+                                  "${item.price} ${LanguageHelper.getTranslation(context).saudi_riyal}",
                               fontSize: AppConstants.textSize14,
                               maxLines: 2,
                               textAlign: TextAlign.start,
@@ -124,6 +127,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 10.h),
                     ],
                   ),
                 ),
@@ -217,11 +221,11 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
       builder: (context, state) {
         List<ReviewModel> listOfReviews =
             MyPlatesCubit.of(context).listOfReviews;
-        if(state is GetDishReviewsLoading){
+        if (state is GetDishReviewsLoading) {
           return const Loader();
-        }else{
-          if(listOfReviews.isNotEmpty){
-            return  Padding(
+        } else {
+          if (listOfReviews.isNotEmpty) {
+            return Padding(
               padding: EdgeInsets.only(right: 12.w),
               child: SizedBox(
                 height: 128.h,
@@ -233,8 +237,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                         height: 128.h,
                         borderRadius: AppConstants.borderRadius4,
                         child: _buildCommentItemWidget(
-                          image:
-                          listOfReviews[index].reviewer!.imageUrl ?? '',
+                          image: listOfReviews[index].reviewer!.imageUrl ?? '',
                           date: listOfReviews[index].creationTime ?? '',
                           name: listOfReviews[index].reviewer!.name ?? '',
                           body: listOfReviews[index].comment ?? '',
@@ -245,7 +248,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                 ),
               ),
             );
-          }else{
+          } else {
             return const SizedBox();
           }
         }
@@ -347,10 +350,10 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
     return BlocBuilder<MyPlatesCubit, MyPlatesState>(
       builder: (context, state) {
         List<OrderModel> listOfOrders = MyPlatesCubit.of(context).listOfOrders;
-        if(state is GetDishOrdersLoading){
+        if (state is GetDishOrdersLoading) {
           return const Loader();
-        }else{
-          if(listOfOrders.isNotEmpty){
+        } else {
+          if (listOfOrders.isNotEmpty) {
             return SizedBox(
               height: 200.h,
               child: Padding(
@@ -372,7 +375,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                           itemBuilder: (context, index) {
                             return Padding(
                               padding:
-                              const EdgeInsets.symmetric(vertical: 8.0),
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: traineeCard(
                                   context: context,
                                   orderModel: listOfOrders[index]),
@@ -383,7 +386,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                 ),
               ),
             );
-          }else{
+          } else {
             return const SizedBox();
           }
         }
@@ -473,7 +476,8 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                     SliverPersistentHeader(
                       pinned: true,
                       delegate: CustomSliverDelegate(
-                        image: item.images!.isNotEmpty ? item.images!.first : '',
+                        image:
+                            item.images!.isNotEmpty ? item.images!.first : '',
                         expandedHeight: 260.h,
                         child: _buildSubscriptionWidget(item),
                       ),

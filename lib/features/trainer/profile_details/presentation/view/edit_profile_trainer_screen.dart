@@ -30,6 +30,7 @@ class EditProfileScreenContent extends StatefulWidget {
 class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
   @override
   void initState() {
+    initailzeControllers(context);
     TrainerProfileCubit.of(context).getTrainerProfile(context);
     super.initState();
   }
@@ -41,9 +42,9 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
         title: Translation.of(context).edit_profile,
       ),
       body: BlocConsumer<TrainerProfileCubit, TrainerProfileState>(
-        listener: (context, state) {
-          initailzeControllers(context);
+        listener: (context, state) async {
           if (state is UpdateTranierProfileLoaded) {
+            await TrainerProfileCubit.of(context).getTrainerProfile(context);
             Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => const ProfileTrainerScreenView(),
             ));
@@ -142,15 +143,17 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                       SizedBox(
                         height: 44.h,
                         width: 217.w,
-                        child: CustomElevatedButton(
-                          text: Translation.of(context).save,
-                          onTap: () {
-                            return TrainerProfileCubit.of(context)
-                                .updateTrainerProfile();
-                          },
-                          textSize: AppConstants.textSize20,
-                          borderRadius: AppConstants.borderRadius4,
-                        ),
+                        child: (state is UploadImageLoading)
+                            ? const Center(child: CircularProgressIndicator())
+                            : CustomElevatedButton(
+                                text: Translation.of(context).save,
+                                onTap: () {
+                                  return TrainerProfileCubit.of(context)
+                                      .updateTrainerProfile();
+                                },
+                                textSize: AppConstants.textSize20,
+                                borderRadius: AppConstants.borderRadius4,
+                              ),
                       ),
                       Gaps.vGap24,
                     ],
