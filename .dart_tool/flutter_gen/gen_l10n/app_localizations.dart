@@ -1712,6 +1712,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Subscription plan'**
   String get subscription_plan;
+
+  /// No description provided for @add_a_dish.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Dish'**
+  String get add_a_dish;
+
+  /// No description provided for @dish_name_in_arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Dish Name in Arabic'**
+  String get dish_name_in_arabic;
+
+  /// No description provided for @dish_name_in_english.
+  ///
+  /// In en, this message translates to:
+  /// **'Dish Name in English'**
+  String get dish_name_in_english;
+
+  /// No description provided for @attach_an_illustrative_image_of_the_dish.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach an Illustrative Image of the Dish'**
+  String get attach_an_illustrative_image_of_the_dish;
+
+  /// No description provided for @choose_the_category.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the Category'**
+  String get choose_the_category;
+
+  /// No description provided for @dish_price.
+  ///
+  /// In en, this message translates to:
+  /// **'Dish Price'**
+  String get dish_price;
+
+  /// No description provided for @dish_components_in_arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Dish Components in Arabic'**
+  String get dish_components_in_arabic;
+
+  /// No description provided for @dish_components_in_english.
+  ///
+  /// In en, this message translates to:
+  /// **'Dish Components in English'**
+  String get dish_components_in_english;
+
+  /// No description provided for @complete_data.
+  ///
+  /// In en, this message translates to:
+  /// **'complete the data'**
+  String get complete_data;
+
+  /// No description provided for @details_in_arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Details in arabic'**
+  String get details_in_arabic;
+
+  /// No description provided for @details_in_english.
+  ///
+  /// In en, this message translates to:
+  /// **'Details in english'**
+  String get details_in_english;
+
+  /// No description provided for @to.
+  ///
+  /// In en, this message translates to:
+  /// **'to'**
+  String get to;
+
+  /// No description provided for @add_Product.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Product'**
+  String get add_Product;
+
+  /// No description provided for @product_Name_Arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Name in Arabic'**
+  String get product_Name_Arabic;
+
+  /// No description provided for @product_Name_English.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Name in English'**
+  String get product_Name_English;
+
+  /// No description provided for @attach_Image_Product.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach an Image Representing the Product'**
+  String get attach_Image_Product;
+
+  /// No description provided for @product_price.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Price'**
+  String get product_price;
+
+  /// No description provided for @product_ingred_ar.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Ingredients in Arabic'**
+  String get product_ingred_ar;
+
+  /// No description provided for @product_ingred_en.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Ingredients in English'**
+  String get product_ingred_en;
+
+  /// No description provided for @most_wanted_products.
+  ///
+  /// In en, this message translates to:
+  /// **'The most wanted products'**
+  String get most_wanted_products;
+
+  /// No description provided for @my_products.
+  ///
+  /// In en, this message translates to:
+  /// **'My products'**
+  String get my_products;
+
+  /// No description provided for @my_plates.
+  ///
+  /// In en, this message translates to:
+  /// **'My plates'**
+  String get my_plates;
+
+  /// No description provided for @change.
+  ///
+  /// In en, this message translates to:
+  /// **'change'**
+  String get change;
+
+  /// No description provided for @old_pass.
+  ///
+  /// In en, this message translates to:
+  /// **'Old Password'**
+  String get old_pass;
+
+  /// No description provided for @every_year.
+  ///
+  /// In en, this message translates to:
+  /// **'Every year'**
+  String get every_year;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

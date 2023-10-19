@@ -27,7 +27,7 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
 
   @override
   Widget build(BuildContext context) {
-   return Card(
+    return Card(
         color: Color(int.parse(
             "0xff${widget.subscriptionModel.colorCode!.replaceAll("#", '')}")),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -50,10 +50,10 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
                 child: SubscriptionPriceWidget(
                     subscriptionModel: widget.subscriptionModel),
               ),
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: Text("كل سنة",
-                    style: TextStyle(color: Colors.black, fontSize: 14)),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(LanguageHelper.getTranslation(context).every_year,
+                    style: const TextStyle(color: Colors.black, fontSize: 14)),
               ),
               if (isExpanded)
                 Stack(
@@ -119,7 +119,7 @@ class SubscriptionDescriptionWidget extends StatelessWidget {
               width: 2,
             ),
           ),
-          child: Icon(
+          child: const Icon(
             Icons.done,
             color: AppColors.greenColorButton,
           ),
@@ -130,7 +130,7 @@ class SubscriptionDescriptionWidget extends StatelessWidget {
               BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * .45),
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: AppColors.lightGreyFontColor,
             ),

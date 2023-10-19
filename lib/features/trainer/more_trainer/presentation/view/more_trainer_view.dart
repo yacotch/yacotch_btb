@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/localization/localization_provider.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/change_password_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/feedback_screen.dart';
@@ -314,7 +315,10 @@ class MoreTrainerScreen extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  //Nav.to(ChangePasswordScreen.routeName);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChangePasswordScreen(
+                            screenNumber: typeUser,
+                          )));
                 },
                 child: Padding(
                   padding: EdgeInsets.all(6.h),

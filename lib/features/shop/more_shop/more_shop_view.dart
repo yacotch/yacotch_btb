@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/features/shop/my_orders_shop/view/my_order_shop_view.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/feedback_screen.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
@@ -102,9 +105,9 @@ class MoreShopScreen extends StatelessWidget {
                           : null,
                       child: Center(
                           child: CustomText(
-                            text: Translation.of(context).arabic,
-                            fontSize: AppConstants.textSize14,
-                          )),
+                        text: Translation.of(context).arabic,
+                        fontSize: AppConstants.textSize14,
+                      )),
                     ),
                   );
                 },
@@ -136,8 +139,7 @@ class MoreShopScreen extends StatelessWidget {
             ],
           ),
           GestureDetector(
-            onTap: () {
-            },
+            onTap: () {},
             behavior: HitTestBehavior.opaque,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -170,7 +172,11 @@ class MoreShopScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //     Nav.to(FeedbackScreen.routeName);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FeedbackScreen(),
+                  ));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -183,7 +189,11 @@ class MoreShopScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //   Nav.to(AboutAppScreen.routeName);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AboutAppScreen(),
+                  ));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -237,7 +247,7 @@ class MoreShopScreen extends StatelessWidget {
                 // runSpacing: 16.h,
                 children: [
                   _buildChipWidget(
-                    title: 'منتجاتي',
+                    title: LanguageHelper.getTranslation(context).my_products,
                     imgPath: AppConstants.SWIMMING_IMG,
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -259,10 +269,8 @@ class MoreShopScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SubscriptionScreen(
-                              typeUser: typeUser,
-                            ),
-                          ));
+                              builder: (context) =>
+                                  SubscriptionScreen(typeUser: typeUser)));
                     },
                   ),
                 ],
@@ -275,11 +283,10 @@ class MoreShopScreen extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  //Nav.to(ChangePasswordScreen.routeName);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChangePasswordScreen(
-                        screenNumber: typeUser,
-                      )));
+                            screenNumber: typeUser,
+                          )));
                 },
                 child: Padding(
                   padding: EdgeInsets.all(6.h),

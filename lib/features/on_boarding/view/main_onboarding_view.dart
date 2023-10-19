@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/login_screen.dart';
-import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/restaurant.dart';
-import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/shop.dart';
-import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/trainer.dart';
 import 'package:trainee_restaurantapp/generated/l10n.dart';
 
 import '../../../core/constants/app/app_constants.dart';

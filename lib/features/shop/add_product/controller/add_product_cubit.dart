@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/features/restaurant/add_plate/controller/add_plate_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/add_product/data/repositories/add_product_repo.dart';
 
 import '../../../../core/ui/toast.dart';
@@ -47,11 +49,11 @@ class AddProductCubit extends Cubit<AddProductState> {
     print(res);
     print("?????????");
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
         emit(AddProductInitial());
       },
-          (res) async {
+      (res) async {
         img = res;
         emit(UploadImageLoaded());
       },
@@ -62,10 +64,10 @@ class AddProductCubit extends Cubit<AddProductState> {
     emit(GetCategoryLoading());
     final res = await addProductRepo.getCategories();
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
       },
-          (res) {
+      (res) {
         listOfCates.addAll(res.result!.items ?? []);
         emit(GetCategoryLoaded());
       },
@@ -74,6 +76,7 @@ class AddProductCubit extends Cubit<AddProductState> {
 
   Future createProducr(BuildContext context) async {
     if (formKey.currentState!.validate() && file != null) {
+      await uploadImage(context, file!);
       emit(AddProductLoading());
       final res = await addProductRepo.createProducr(
         arName: nameArProductController.text,
@@ -85,11 +88,11 @@ class AddProductCubit extends Cubit<AddProductState> {
         image: img!,
       );
       res.fold(
-            (err) {
+        (err) {
           Toast.show(err);
           emit(AddProductError());
         },
-            (res) {
+        (res) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -97,16 +100,17 @@ class AddProductCubit extends Cubit<AddProductState> {
           emit(AddProductLoaded());
         },
       );
-    }else{
-      Toast.show('استكمل البيانات');
+    } else {
+      Toast.show(LanguageHelper.getTranslation(context).complete_data);
     }
   }
 
-  Future<File?> getImage() async {
+  getProductImage() async {
     ImagePicker picker = ImagePicker();
     var result = await picker.pickImage(source: ImageSource.gallery);
     if (result != null) {
-      return File(result.path);
+      file = File(result.path);
+      emit(ProductImageSelected());
     }
   }
 }

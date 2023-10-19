@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
+import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
@@ -77,6 +79,7 @@ class _AddProductViewState extends State<AddProductView> {
 
   @override
   Widget build(BuildContext context) {
+    var tr = LanguageHelper.getTranslation(context);
     return BlocProvider(
       create: (context) => AddProductCubit()..getCategories(),
       child: BlocBuilder<AddProductCubit, AddProductState>(
@@ -96,14 +99,18 @@ class _AddProductViewState extends State<AddProductView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text: "أضافة منتج",
+                                text: tr.add_Product,
                                 color: AppColors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: AppConstants.textSize18,
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "اسم المنتج باللغه العربيه",
+                                text: tr.product_Name_Arabic,
+                                validator: (input) =>
+                                    !Validators.isArabic(input!)
+                                        ? tr.enter_at_letters
+                                        : null,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -115,7 +122,11 @@ class _AddProductViewState extends State<AddProductView> {
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "اسم المنتج باللغه الانجليزيه",
+                                text: tr.product_Name_English,
+                                validator: (input) =>
+                                    !Validators.isEnglish(input!)
+                                        ? tr.enter_eng_letters
+                                        : null,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -127,27 +138,19 @@ class _AddProductViewState extends State<AddProductView> {
                               ),
                               Gaps.vGap16,
                               uploadSignUpFile(
-                                text: "ارفق صوره تعبيريه عن المنتج",
+                                text: tr.attach_Image_Product,
                                 file: AddProductCubit.of(context).file,
-                                onTap: () async {
-                                  AddProductCubit.of(context).file =
-                                  await AddProductCubit.of(context)
-                                      .getImage();
-                                  AddProductCubit.of(context).uploadImage(
-                                      context, AddProductCubit.of(context).file!);
-                                  AddProductCubit.of(context)
-                                      .emit(UploadSignUpFileState());
-                                },
+                                onTap: () async =>
+                                    await AddProductCubit.of(context)
+                                        .getProductImage(),
                               ),
                               Gaps.vGap16,
                               DropdownButton<Items>(
                                 value: AddProductCubit.of(context)
                                     .dropdownValueCate,
-                                hint: const Text(
-                                  'اختار التصنيف',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+                                hint: Text(
+                                  tr.choose_category,
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                                 dropdownColor: Colors.grey,
                                 underline: Container(
@@ -174,7 +177,10 @@ class _AddProductViewState extends State<AddProductView> {
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "سعر المنتج",
+                                keboardType: TextInputType.number,
+                                validator: (input) =>
+                                    Validators.isNumber(input!, context),
+                                text: tr.product_price,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -186,7 +192,11 @@ class _AddProductViewState extends State<AddProductView> {
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "مكونات المنتج باللغه العربيه",
+                                validator: (input) =>
+                                    !Validators.isArabic(input!)
+                                        ? tr.enter_at_letters
+                                        : null,
+                                text: tr.product_ingred_ar,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -198,7 +208,11 @@ class _AddProductViewState extends State<AddProductView> {
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "مكونات المنتج باللغه الانجليزيه",
+                                validator: (input) =>
+                                    !Validators.isEnglish(input!)
+                                        ? tr.enter_eng_letters
+                                        : null,
+                                text: tr.product_ingred_en,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -215,11 +229,9 @@ class _AddProductViewState extends State<AddProductView> {
                                       vertical: 45.0, horizontal: 20),
                                   child: CustomElevatedButton(
                                     borderRadius: 12,
-                                    onTap: () {
-                                      AddProductCubit.of(context)
-                                          .createProducr(context);
-                                    },
-                                    text: 'اضافه',
+                                    onTap: () => AddProductCubit.of(context)
+                                        .createProducr(context),
+                                    text: tr.add,
                                   ),
                                 ),
                               )

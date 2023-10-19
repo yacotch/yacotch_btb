@@ -815,4 +815,79 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get subscription_plan => 'Subscription plan';
+
+  @override
+  String get add_a_dish => 'Add a Dish';
+
+  @override
+  String get dish_name_in_arabic => 'Dish Name in Arabic';
+
+  @override
+  String get dish_name_in_english => 'Dish Name in English';
+
+  @override
+  String get attach_an_illustrative_image_of_the_dish => 'Attach an Illustrative Image of the Dish';
+
+  @override
+  String get choose_the_category => 'Choose the Category';
+
+  @override
+  String get dish_price => 'Dish Price';
+
+  @override
+  String get dish_components_in_arabic => 'Dish Components in Arabic';
+
+  @override
+  String get dish_components_in_english => 'Dish Components in English';
+
+  @override
+  String get complete_data => 'complete the data';
+
+  @override
+  String get details_in_arabic => 'Details in arabic';
+
+  @override
+  String get details_in_english => 'Details in english';
+
+  @override
+  String get to => 'to';
+
+  @override
+  String get add_Product => 'Add Product';
+
+  @override
+  String get product_Name_Arabic => 'Product Name in Arabic';
+
+  @override
+  String get product_Name_English => 'Product Name in English';
+
+  @override
+  String get attach_Image_Product => 'Attach an Image Representing the Product';
+
+  @override
+  String get product_price => 'Product Price';
+
+  @override
+  String get product_ingred_ar => 'Product Ingredients in Arabic';
+
+  @override
+  String get product_ingred_en => 'Product Ingredients in English';
+
+  @override
+  String get most_wanted_products => 'The most wanted products';
+
+  @override
+  String get my_products => 'My products';
+
+  @override
+  String get my_plates => 'My plates';
+
+  @override
+  String get change => 'change';
+
+  @override
+  String get old_pass => 'Old Password';
+
+  @override
+  String get every_year => 'Every year';
 }

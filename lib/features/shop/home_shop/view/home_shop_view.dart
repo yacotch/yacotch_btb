@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
-import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
 import 'package:trainee_restaurantapp/features/shop/home_shop/controller/home_shop_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/product_details_view.dart';
@@ -16,10 +16,7 @@ import '../../../../core/library/carousel/custom_carousel.dart';
 import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/physics/custom_scroll_physics.dart';
 import '../../../../core/ui/widgets/blur_widget.dart';
-import '../../../../core/ui/widgets/clock_widget.dart';
-import '../../../../core/ui/widgets/custom_button.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
-import '../../../../generated/l10n.dart';
 import '../../../trainer/subscription/presentation/view/subscription_screen.dart';
 import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
 import '../../shop_profile/shop_profile_controller/shop_profile_cubit.dart';
@@ -38,10 +35,8 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
   Widget _buildMyProductItemWidget(Items item) {
     return MaterialButton(
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => MyProductDetails(
-                  productId: item.id!,
-                )));
+        NavigationHelper.goto(
+            screen: MyProductDetails(productId: item.id!), context: context);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -118,7 +113,8 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(8.w, 0, 0, 0),
                             child: CustomText(
-                              text: "${item.price ?? ''} ريال سعودي",
+                              text:
+                                  "${item.price ?? 0} ${LanguageHelper.getTranslation(context).saudi_riyal}",
                               fontWeight: FontWeight.w600,
                               color: AppColors.accentColorLight,
                               fontSize: AppConstants.textSize12,
@@ -160,13 +156,14 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: TitleWidget(
-              title: "المنتجات الأكثر طلبا",
+              title:
+                  LanguageHelper.getTranslation(context).most_wanted_products,
               subtitleColorTapped: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const AllProductsScreen()));
               },
               titleColor: AppColors.accentColorLight,
-              subtitle: "اظهار الكل",
+              subtitle: LanguageHelper.getTranslation(context).see_all,
             ),
           ),
           Gaps.vGap16,
@@ -174,8 +171,9 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 4.w),
               child: listOfProducts.isEmpty
-                  ? const Center(
-                      child: Text('no data'),
+                  ? Center(
+                      child: Text(
+                          LanguageHelper.getTranslation(context).no_data_found),
                     )
                   : CustomCarousel(
                       items: List.generate(
@@ -216,7 +214,8 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                   child: Column(
                     children: [
                       TitleWidget(
-                        title: "الباقه الحاليه",
+                        title: LanguageHelper.getTranslation(context)
+                            .subscription_plan,
                         subtitleColorTapped: () {},
                         subtitle: "",
                         titleColor: AppColors.accentColorLight,
@@ -255,7 +254,7 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                                       ),
                                       CustomText(
                                         text:
-                                            "${restaurantsModel.subscription!.fee} ريال سعودي",
+                                            "${restaurantsModel.subscription!.fee ?? 0} ${LanguageHelper.getTranslation(context).saudi_riyal}",
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.white,
                                         fontSize: AppConstants.textSize16,
@@ -283,14 +282,10 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                                 child: Center(
                                   child: MaterialButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                SubscriptionScreen(
-                                              typeUser: widget.typeUser,
-                                            ),
-                                          ));
+                                      NavigationHelper.goto(
+                                          screen: SubscriptionScreen(
+                                              typeUser: widget.typeUser),
+                                          context: context);
                                     },
                                     child: const Icon(
                                       Icons.arrow_forward,
@@ -353,11 +348,15 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                               height: 100.w,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                image: shopModel?.logo == null ? const DecorationImage(
-                                    image: AssetImage(AppConstants.AVATER_IMG),
-                                    fit: BoxFit.fill ) : DecorationImage(
-                                    image: NetworkImage(shopModel?.logo ?? ''),
-                                    fit: BoxFit.fill),
+                                image: shopModel?.logo == null
+                                    ? const DecorationImage(
+                                        image:
+                                            AssetImage(AppConstants.AVATER_IMG),
+                                        fit: BoxFit.fill)
+                                    : DecorationImage(
+                                        image:
+                                            NetworkImage(shopModel?.logo ?? ''),
+                                        fit: BoxFit.fill),
                               ),
                             ),
                             SizedBox(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
@@ -71,7 +72,8 @@ class _MyOrderRestaurantViewState extends State<MyOrderRestaurantView>
                               : null,
                           child: Center(
                             child: CustomText(
-                              text: "قيد الأنتظار",
+                              text: LanguageHelper.getTranslation(context)
+                                  .pending,
                               color: AppColors.white,
                               fontWeight: FontWeight.w600,
                               fontSize: AppConstants.textSize16,
@@ -106,7 +108,8 @@ class _MyOrderRestaurantViewState extends State<MyOrderRestaurantView>
                               : null,
                           child: Center(
                             child: CustomText(
-                              text: "الموافق عليها",
+                              text: LanguageHelper.getTranslation(context)
+                                  .approved,
                               color: AppColors.white,
                               fontWeight: FontWeight.w600,
                               fontSize: AppConstants.textSize16,
@@ -141,7 +144,8 @@ class _MyOrderRestaurantViewState extends State<MyOrderRestaurantView>
                               : null,
                           child: Center(
                             child: CustomText(
-                              text: "الملغاه",
+                              text: LanguageHelper.getTranslation(context)
+                                  .cancelled,
                               color: AppColors.white,
                               fontWeight: FontWeight.w600,
                               fontSize: AppConstants.textSize16,
@@ -195,8 +199,9 @@ class WaitingList extends StatelessWidget {
                 },
               );
             } else {
-              return const Center(
-                child: Text('لا توجد طلبات'),
+              return Center(
+                child:
+                    Text(LanguageHelper.getTranslation(context).no_data_found),
               );
             }
           } else {
@@ -232,8 +237,9 @@ class AcceptedList extends StatelessWidget {
                     );
                   });
             } else {
-              return const Center(
-                child: Text('لا توجد طلبات'),
+              return Center(
+                child:
+                    Text(LanguageHelper.getTranslation(context).no_data_found),
               );
             }
           } else {
@@ -269,8 +275,9 @@ class RefusedList extends StatelessWidget {
                     );
                   });
             } else {
-              return const Center(
-                child: Text('لا توجد طلبات'),
+              return Center(
+                child:
+                    Text(LanguageHelper.getTranslation(context).no_data_found),
               );
             }
           } else {
@@ -385,7 +392,8 @@ class CardDetails extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: CustomText(
-                        text: "${orderModel.price} ريال سعودي",
+                        text:
+                            "${orderModel.price} ${LanguageHelper.getTranslation(context).saudi_riyal}",
                         color: AppColors.accentColorLight,
                         fontWeight: FontWeight.w600,
                         fontSize: AppConstants.textSize14,

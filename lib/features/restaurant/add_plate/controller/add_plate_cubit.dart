@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 
 import '../../../../core/ui/toast.dart';
 import '../../../navigator_home/view/navigator_home_view.dart';
@@ -44,11 +46,11 @@ class AddPlateCubit extends Cubit<AddPlateState> {
     emit(UploadImageLoading());
     final res = await addPlateRepo.uploadImage(file);
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
         emit(AddPlateInitial());
       },
-          (res) async {
+      (res) async {
         img = res;
         emit(UploadImageLoaded());
       },
@@ -70,7 +72,10 @@ class AddPlateCubit extends Cubit<AddPlateState> {
   }
 
   Future createDish(BuildContext context) async {
+    print("ssssssssssss");
+
     if (formKey.currentState!.validate() && file != null) {
+      // await uploadImage(context, file!);
       emit(AddPlateLoading());
       final res = await addPlateRepo.createDish(
         arName: nameArPlateController.text,
@@ -87,23 +92,22 @@ class AddPlateCubit extends Cubit<AddPlateState> {
           emit(AddPlateError());
         },
         (res) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const SuccessPlateAdd()));
+          NavigationHelper.gotoReplacement(
+              screen: const SuccessPlateAdd(), context: context);
           emit(AddPlateLoaded());
         },
       );
-    }else{
-      Toast.show('استكمل البيانات');
+    } else {
+      Toast.show(LanguageHelper.getTranslation(context).complete_data);
     }
   }
 
-  Future<File?> getImage() async {
+  getPlateImage() async {
     ImagePicker picker = ImagePicker();
     var result = await picker.pickImage(source: ImageSource.gallery);
     if (result != null) {
-      return File(result.path);
+      file = File(result.path);
+      emit(plateImageSelected());
     }
   }
 }

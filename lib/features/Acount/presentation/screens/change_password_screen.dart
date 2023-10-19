@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../core/ui/widgets/custom_text_field.dart';
@@ -15,6 +16,7 @@ class ChangePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = LanguageHelper.getTranslation(context);
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: BlocBuilder<AuthCubit, AuthState>(
@@ -22,10 +24,8 @@ class ChangePasswordScreen extends StatelessWidget {
             previous != current || current is PasswordSecureState,
         builder: (context, state) {
           return GeneralAuthScreen(
-            appBar: TransparentAppBar(
-              title: 'تغيير كلمه السر',
-            ),
-            buttonText: 'تغيير',
+            appBar: TransparentAppBar(title: tr.change_password),
+            buttonText: tr.change,
             additionalText: '',
             additionalTapText: '',
             isloading: AuthCubit.of(context).isLoading,
@@ -46,7 +46,7 @@ class ChangePasswordScreen extends StatelessWidget {
                       height: 0.16.sh,
                     ),
                     PasswordTextField(
-                      text: 'كلمه السر القديمه',
+                      text: tr.old_pass,
                       controller: AuthCubit.of(context).passwordController,
                       passwordSecure: AuthCubit.of(context).passwordSecure,
                       textInputAction: TextInputAction.done,
@@ -57,7 +57,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     ),
                     Gaps.vGap8,
                     PasswordTextField(
-                      text: 'كلمه السر الجديده',
+                      text: tr.new_password,
                       controller:
                           AuthCubit.of(context).confirmPasswordController,
                       passwordSecure:

@@ -327,7 +327,34 @@
     "manager_phone": "رقم هاتف المدير",
     
 "search_for_chat":"ابحث عن محادثة",
-"subscription_plan":"الباقة الحالية"
+"subscription_plan":"الباقة الحالية",
+"add_a_dish": "أضافة طبق",
+"dish_name_in_arabic": "اسم الطبق باللغه العربيه",
+"dish_name_in_english": "اسم الطبق باللغه الانجليزيه",
+"attach_an_illustrative_image_of_the_dish": "ارفق صوره تعبيريه عن الطبق",
+"choose_the_category": "اختار التصنيف",
+"dish_price": "سعر الطبق",
+"dish_components_in_arabic": "مكونات الطبق باللغه العربيه",
+"dish_components_in_english": "مكونات الطبق باللغه الانجليزيه",
+"add": "اضافه",
+"complete_data":"استكمل البيانات",
+"details_in_arabic": "التفاصيل باللغه العربيه",
+"details_in_english": "التفاصيل باللغه الانجليزيه",
+"to":"الى",
+"add_Product": "أضافة منتج",
+"product_Name_Arabic": "اسم المنتج باللغه العربيه",
+"product_Name_English": "اسم المنتج باللغه الانجليزيه",
+"attach_Image_Product": "ارفق صوره تعبيريه عن المنتج",
+"product_price":"سعر المنتج",
+"product_ingred_ar":"مكونات المنتج باللغة العربية",
+"product_ingred_en":"مكونات المنتج باللغة الانجليزية",
+"most_wanted_products":"المنتجات الأكثر طلبا",
+
+"my_products":"منتجاتي",
+"my_plates":"أطباقي",
+"change":"تغير",
+"old_pass":"كلمة السر القديمة",
+"every_year":"كل سنة"
 
 
 }

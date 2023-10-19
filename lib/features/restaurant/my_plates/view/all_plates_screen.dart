@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
@@ -67,7 +68,8 @@ class AllPlatesScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: CustomText(
-                              text: "${dish.price} ريال",
+                              text:
+                                  "${dish.price} ${LanguageHelper.getTranslation(context).saudi_riyal}",
                               fontSize: AppConstants.textSize16,
                               maxLines: 2,
                               textAlign: TextAlign.start,
@@ -123,8 +125,8 @@ class AllPlatesScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => MyPlatesCubit()..getAllDishs(),
       child: Scaffold(
-        appBar: const TransparentAppBar(
-          title: 'أطباقي',
+        appBar: TransparentAppBar(
+          title: LanguageHelper.getTranslation(context).my_plates,
         ),
         body: BlocBuilder<MyPlatesCubit, MyPlatesState>(
           builder: (context, state) {
@@ -135,8 +137,10 @@ class AllPlatesScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: listOfDishs.isEmpty
-                            ? const Center(
-                                child: Text('no data'),
+                            ? Center(
+                                child: Text(
+                                    LanguageHelper.getTranslation(context)
+                                        .no_data_found),
                               )
                             : ListView.builder(
                                 itemCount: listOfDishs.length,

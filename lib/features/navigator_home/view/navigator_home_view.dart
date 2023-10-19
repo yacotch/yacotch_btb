@@ -52,25 +52,17 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
     _pageController = PageController();
     _pages = widget.homeType == 1
         ? [
-            HomeTrainerScreen(
-              typeUser: widget.homeType,
-            ),
+            HomeTrainerScreen(typeUser: widget.homeType),
             const ChatView(),
             const ProfileTrainerScreenView(),
-            MoreTrainerScreen(
-              typeUser: widget.homeType,
-            ),
+            MoreTrainerScreen(typeUser: widget.homeType),
           ]
         : widget.homeType == 3
             ? [
-                HomeRestaurantScreen(
-                  typeUser: widget.homeType,
-                ),
+                HomeRestaurantScreen(typeUser: widget.homeType),
                 const MyOrderRestaurantView(),
                 const RestaurantProfile(),
-                MoreRestaurantScreen(
-                  typeUser: widget.homeType,
-                ),
+                MoreRestaurantScreen(typeUser: widget.homeType),
               ]
             : [
                 HomeShopScreen(

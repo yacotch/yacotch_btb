@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -6,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
+import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
@@ -77,6 +80,7 @@ class _AddPlateViewState extends State<AddPlateView> {
 
   @override
   Widget build(BuildContext context) {
+    var tr = LanguageHelper.getTranslation(context);
     return BlocProvider(
       create: (context) => AddPlateCubit()..getCategories(),
       child: BlocBuilder<AddPlateCubit, AddPlateState>(
@@ -96,14 +100,18 @@ class _AddPlateViewState extends State<AddPlateView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text: "أضافة طبق",
+                                text: tr.add_a_dish,
                                 color: AppColors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: AppConstants.textSize18,
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "اسم الطبق باللغه العربيه",
+                                validator: (input) =>
+                                    !Validators.isArabic(input!)
+                                        ? tr.enter_at_letters
+                                        : null,
+                                text: tr.dish_name_in_arabic,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -115,7 +123,11 @@ class _AddPlateViewState extends State<AddPlateView> {
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "اسم الطبق باللغه الانجليزيه",
+                                validator: (input) =>
+                                    !Validators.isEnglish(input!)
+                                        ? tr.enter_eng_letters
+                                        : null,
+                                text: tr.dish_name_in_english,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -127,25 +139,20 @@ class _AddPlateViewState extends State<AddPlateView> {
                               ),
                               Gaps.vGap16,
                               uploadSignUpFile(
-                                text: "ارفق صوره تعبيريه عن الطبق",
+                                text:
+                                    tr.attach_an_illustrative_image_of_the_dish,
                                 file: AddPlateCubit.of(context).file,
-                                onTap: () async {
-                                  AddPlateCubit.of(context).file =
-                                      await AddPlateCubit.of(context)
-                                          .getImage();
-                                  AddPlateCubit.of(context).uploadImage(
-                                      context, AddPlateCubit.of(context).file!);
-                                  AddPlateCubit.of(context)
-                                      .emit(UploadSignUpFileState());
-                                },
+                                onTap: () async =>
+                                    await AddPlateCubit.of(context)
+                                        .getPlateImage(),
                               ),
                               Gaps.vGap16,
                               DropdownButton<Items>(
                                 isExpanded: true,
                                 value:
                                     AddPlateCubit.of(context).dropdownValueCate,
-                                hint: const Text(
-                                  'اختار التصنيف',
+                                hint: Text(
+                                  tr.choose_category,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -175,7 +182,10 @@ class _AddPlateViewState extends State<AddPlateView> {
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "سعر الطبق",
+                                keboardType: TextInputType.number,
+                                validator: (input) =>
+                                    Validators.isNumber(input!, context),
+                                text: tr.dish_price,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -186,7 +196,11 @@ class _AddPlateViewState extends State<AddPlateView> {
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "مكونات الطبق باللغه العربيه",
+                                validator: (input) =>
+                                    !Validators.isArabic(input!)
+                                        ? tr.enter_at_letters
+                                        : null,
+                                text: tr.dish_components_in_arabic,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -197,7 +211,11 @@ class _AddPlateViewState extends State<AddPlateView> {
                               ),
                               Gaps.vGap16,
                               EmailTextField(
-                                text: "مكونات الطبق باللغه الانجليزيه",
+                                validator: (input) =>
+                                    !Validators.isEnglish(input!)
+                                        ? tr.enter_eng_letters
+                                        : null,
+                                text: tr.dish_components_in_english,
                                 onFiledSubmitted: () {
                                   // FocusScope.of(context).requestFocus(passwordFocusNode);
                                 },
@@ -214,10 +232,11 @@ class _AddPlateViewState extends State<AddPlateView> {
                                   child: CustomElevatedButton(
                                     borderRadius: 12,
                                     onTap: () {
+                                      log("ssssssssssssssssssssssss");
                                       AddPlateCubit.of(context)
                                           .createDish(context);
                                     },
-                                    text: 'اضافه',
+                                    text: tr.add,
                                   ),
                                 ),
                               )

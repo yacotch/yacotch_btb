@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/subscription/presentation/view/subscription_screen.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -90,7 +93,7 @@ class MoreRestaurantScreen extends StatelessWidget {
               Consumer<LocalizationProvider>(
                 builder: (_, provider, __) {
                   return InkWell(
-                    onTap: () async{
+                    onTap: () async {
                       provider.changeLanguage(
                           const Locale(AppConstants.LANG_AR), context);
                     },
@@ -113,7 +116,7 @@ class MoreRestaurantScreen extends StatelessWidget {
               Consumer<LocalizationProvider>(
                 builder: (_, provider, __) {
                   return InkWell(
-                    onTap: () async{
+                    onTap: () async {
                       provider.changeLanguage(
                           const Locale(AppConstants.LANG_EN), context);
                     },
@@ -152,27 +155,7 @@ class MoreRestaurantScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            height: 19.h,
-            child: Row(
-              children: [
-                CustomText(
-                  text: Translation.of(context).enable_notifications,
-                  fontSize: AppConstants.textSize16,
-                ),
-                const Spacer(),
-                Transform.scale(
-                  scale: 1.5,
-                  child: CustomCheckbox(
-                    value: true,
-                    onChanged: (value) {},
-                    checkColor: AppColors.white,
-                    activeColor: AppColors.accentColorLight,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          EnableNotificationsWidget(),
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -250,7 +233,7 @@ class MoreRestaurantScreen extends StatelessWidget {
                 // runSpacing: 16.h,
                 children: [
                   _buildChipWidget(
-                      title: 'اطباقي',
+                      title: LanguageHelper.getTranslation(context).my_plates,
                       imgPath: AppConstants.SWIMMING_IMG,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -270,7 +253,7 @@ class MoreRestaurantScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => SubscriptionScreen(
-                                  typeUser: typeUser,
+                                  typeUser: typeUser
                                 )));
                       }),
                   // _buildChipWidget(
@@ -316,5 +299,42 @@ class MoreRestaurantScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class EnableNotificationsWidget extends StatelessWidget {
+  const EnableNotificationsWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) => MoreTrainerCubit(),
+        child: BlocBuilder<MoreTrainerCubit, MoreTrainerState>(
+          builder: (context, state) => SizedBox(
+            height: 19.h,
+            child: Row(
+              children: [
+                CustomText(
+                  text: Translation.of(context).enable_notifications,
+                  fontSize: AppConstants.textSize16,
+                ),
+                const Spacer(),
+                Transform.scale(
+                  scale: 1.5,
+                  child: CustomCheckbox(
+                    value:
+                        MoreTrainerCubit.of(context).isEnableNotification,
+                    onChanged: (value) => MoreTrainerCubit.of(context)
+                        .enableNotifications(),
+                    checkColor: AppColors.white,
+                    activeColor: AppColors.accentColorLight,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }

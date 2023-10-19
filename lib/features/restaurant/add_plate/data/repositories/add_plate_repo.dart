@@ -11,10 +11,11 @@ import '../../../../../core/net/api_url.dart';
 
 class AddPlateRepo {
   Future<Either<String, String>> uploadImage(File file) async {
-    FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
-        filename: file.path
-            .split('/')
-            .last , contentType: MediaType("image", "jpeg"))});
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(file.path,
+          filename: file.path.split('/').last,
+          contentType: MediaType("image", "jpeg"))
+    });
     final response = await DioHelper.post(
       APIUrls.API_Upload_Image,
       formData: formData,
@@ -55,6 +56,7 @@ class AddPlateRepo {
       required String enComponents,
       required String arComponents,
       required String image}) async {
+    print("before");
     final response = await DioHelper.post(
       APIUrls.API_Create_Dish,
       body: {
@@ -68,10 +70,12 @@ class AddPlateRepo {
         'images': [image],
       },
     );
+    print("after");
     try {
       if (response.data['success'] == true) {
         return const Right(true);
       } else {
+        print(response.data);
         return Left(response.data['error']['message']);
       }
     } catch (e) {

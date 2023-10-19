@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
+import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/view/edit_restaurant_profile.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/constants/app/app_constants.dart';
@@ -469,7 +471,8 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
         actions: [
           GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, Routes.editRestProfileScreen);
+                NavigationHelper.goto(
+                    screen: EditRestaurantScreenContent(), context: context);
               },
               child:
                   const ImageIcon(AssetImage(AppConstants.EDIT_PROFILE_ICON))),

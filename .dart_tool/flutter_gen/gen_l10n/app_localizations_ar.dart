@@ -679,7 +679,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get choose_course_img => 'يرجى اختيار صورة الدورة';
 
   @override
-  String get add => 'إضافة';
+  String get add => 'اضافه';
 
   @override
   String get cource => 'سعر الدورة';
@@ -815,4 +815,79 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get subscription_plan => 'الباقة الحالية';
+
+  @override
+  String get add_a_dish => 'أضافة طبق';
+
+  @override
+  String get dish_name_in_arabic => 'اسم الطبق باللغه العربيه';
+
+  @override
+  String get dish_name_in_english => 'اسم الطبق باللغه الانجليزيه';
+
+  @override
+  String get attach_an_illustrative_image_of_the_dish => 'ارفق صوره تعبيريه عن الطبق';
+
+  @override
+  String get choose_the_category => 'اختار التصنيف';
+
+  @override
+  String get dish_price => 'سعر الطبق';
+
+  @override
+  String get dish_components_in_arabic => 'مكونات الطبق باللغه العربيه';
+
+  @override
+  String get dish_components_in_english => 'مكونات الطبق باللغه الانجليزيه';
+
+  @override
+  String get complete_data => 'استكمل البيانات';
+
+  @override
+  String get details_in_arabic => 'التفاصيل باللغه العربيه';
+
+  @override
+  String get details_in_english => 'التفاصيل باللغه الانجليزيه';
+
+  @override
+  String get to => 'الى';
+
+  @override
+  String get add_Product => 'أضافة منتج';
+
+  @override
+  String get product_Name_Arabic => 'اسم المنتج باللغه العربيه';
+
+  @override
+  String get product_Name_English => 'اسم المنتج باللغه الانجليزيه';
+
+  @override
+  String get attach_Image_Product => 'ارفق صوره تعبيريه عن المنتج';
+
+  @override
+  String get product_price => 'سعر المنتج';
+
+  @override
+  String get product_ingred_ar => 'مكونات المنتج باللغة العربية';
+
+  @override
+  String get product_ingred_en => 'مكونات المنتج باللغة الانجليزية';
+
+  @override
+  String get most_wanted_products => 'المنتجات الأكثر طلبا';
+
+  @override
+  String get my_products => 'منتجاتي';
+
+  @override
+  String get my_plates => 'أطباقي';
+
+  @override
+  String get change => 'تغير';
+
+  @override
+  String get old_pass => 'كلمة السر القديمة';
+
+  @override
+  String get every_year => 'كل سنة';
 }

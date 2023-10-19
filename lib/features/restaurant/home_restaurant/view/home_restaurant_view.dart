@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/controller/home_restaurant_cubit.dart';
@@ -276,21 +278,6 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                               fontSize: AppConstants.textSize12,
                             ),
                           ),
-                          // Padding(
-                          //   padding:
-                          //       EdgeInsetsDirectional.fromSTEB(8.w, 0, 8.w, 0),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       CustomText(
-                          //         text: "المده المتبقيه: يوم و 3 ساعات",
-                          //         fontWeight: FontWeight.w500,
-                          //         color: AppColors.white,
-                          //         fontSize: AppConstants.textSize14,
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -312,35 +299,41 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: TitleWidget(
-              title: "الاطباق الأكثر طلبا",
+              title: LanguageHelper.getTranslation(context).dishsMostOrder,
               subtitleColorTapped: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const AllPlatesScreen()));
               },
               titleColor: AppColors.accentColorLight,
-              subtitle: "اظهار الكل",
+              subtitle: LanguageHelper.getTranslation(context).see_all,
             ),
           ),
           Gaps.vGap16,
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 4.w),
-              child: listOfDishs.isEmpty ? const Center(
-                child: Text('no data'),
-              ) : CustomCarousel(
-                items: List.generate(listOfDishs.length,
-                    (index) => _buildMyCourseItemWidget(listOfDishs[index])),
-                options: CarouselOptions(
-                  height: 344.h,
-                  viewportFraction: 0.8,
-                  initialPage: 0,
-                  enableInfiniteScroll: false,
-                  scrollPhysics: const CustomScrollPhysics(itemDimension: 1),
-                  autoPlay: false,
-                  enlargeCenterPage: true,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
+              child: listOfDishs.isEmpty
+                  ? Center(
+                      child: Text(
+                          LanguageHelper.getTranslation(context).no_data_found),
+                    )
+                  : CustomCarousel(
+                      items: List.generate(
+                          listOfDishs.length,
+                          (index) =>
+                              _buildMyCourseItemWidget(listOfDishs[index])),
+                      options: CarouselOptions(
+                        height: 344.h,
+                        viewportFraction: 0.8,
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        scrollPhysics:
+                            const CustomScrollPhysics(itemDimension: 1),
+                        autoPlay: false,
+                        enlargeCenterPage: true,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
             ),
           ),
         ],
@@ -548,100 +541,104 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
         return const Loader();
       } else {
         var restaurantsModel = RestProfileCubit.of(context).restaurantsModel;
-        return restaurantsModel!.subscription != null ? Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 100.h,
-            child: Column(
-              children: [
-                TitleWidget(
-                  title: "الباقه الحاليه",
-                  subtitleColorTapped: () {},
-                  subtitle: "",
-                  titleColor: AppColors.accentColorLight,
-                ),
-                Gaps.vGap14,
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        return restaurantsModel!.subscription != null
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 100.h,
+                  child: Column(
                     children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(AppConstants.borderRadius10)),
-                              gradient: const LinearGradient(colors: [
-                                AppColors.lightColor,
-                                AppColors.accentColorLight
-                              ])),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomText(
-                                  text: restaurantsModel!.subscription!.name ??
-                                      '',
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize16,
-                                ),
-                                CustomText(
-                                  text:
-                                      "${restaurantsModel.subscription!.fee} ريال سعودي",
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize16,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                      TitleWidget(
+                        title: LanguageHelper.getTranslation(context)
+                            .subscription_plan,
+                        subtitleColorTapped: () {},
+                        subtitle: "",
+                        titleColor: AppColors.accentColorLight,
                       ),
-                      Gaps.hGap16,
+                      Gaps.vGap14,
                       Expanded(
-                        flex: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      AppColors.transparent.withOpacity(0.2)),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(AppConstants.blurDegree10)),
-                              gradient: LinearGradient(colors: [
-                                AppColors.transparent.withOpacity(0.0),
-                                AppColors.transparent.withOpacity(0.5)
-                              ])),
-                          child: Center(
-                            child: MaterialButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => SubscriptionScreen(
-                                          typeUser: widget.typeUser,
-                                        )));
-                              },
-                              child: const Icon(
-                                Icons.arrow_forward,
-                                color: AppColors.white,
-                                size: 30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            AppConstants.borderRadius10)),
+                                    gradient: const LinearGradient(colors: [
+                                      AppColors.lightColor,
+                                      AppColors.accentColorLight
+                                    ])),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        text: restaurantsModel!
+                                                .subscription!.name ??
+                                            '',
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.white,
+                                        fontSize: AppConstants.textSize16,
+                                      ),
+                                      CustomText(
+                                        text:
+                                            "${restaurantsModel.subscription!.fee ?? 0} ${LanguageHelper.getTranslation(context).saudi_riyal}",
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.white,
+                                        fontSize: AppConstants.textSize16,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            Gaps.hGap16,
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: AppColors.transparent
+                                            .withOpacity(0.2)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(
+                                            AppConstants.blurDegree10)),
+                                    gradient: LinearGradient(colors: [
+                                      AppColors.transparent.withOpacity(0.0),
+                                      AppColors.transparent.withOpacity(0.5)
+                                    ])),
+                                child: Center(
+                                  child: MaterialButton(
+                                    onPressed: () {
+                                      NavigationHelper.goto(
+                                          screen: SubscriptionScreen(
+                                              typeUser: widget.typeUser),
+                                          context: context);
+                                    },
+                                    child: const Icon(
+                                      Icons.arrow_forward,
+                                      color: AppColors.white,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-
-                      // widgets.length > 3
-                      //     ?
-                      // : const SizedBox.shrink(),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ) : const SizedBox();
+              )
+            : const SizedBox();
       }
     });
   }
@@ -684,12 +681,15 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                               height: 100.w,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                image: restaurantsModel?.logo == null ? const DecorationImage(
-                                    image: AssetImage(AppConstants.AVATER_IMG),
-                                    fit: BoxFit.fill ) : DecorationImage(
-                                    image: NetworkImage(
-                                        restaurantsModel?.logo ?? ''),
-                                    fit: BoxFit.fill),
+                                image: restaurantsModel?.logo == null
+                                    ? const DecorationImage(
+                                        image:
+                                            AssetImage(AppConstants.AVATER_IMG),
+                                        fit: BoxFit.fill)
+                                    : DecorationImage(
+                                        image: NetworkImage(
+                                            restaurantsModel?.logo ?? ''),
+                                        fit: BoxFit.fill),
                               ),
                             ),
                             SizedBox(
@@ -752,8 +752,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: CustomSliverDelegate(
-                      latitude: restaurantsModel.latitude?? 30.033333,
-                      longitude: restaurantsModel.longitude?? 31.233334,
+                      latitude: restaurantsModel.latitude ?? 30.033333,
+                      longitude: restaurantsModel.longitude ?? 31.233334,
                       expandedHeight: 230.h,
                       child: _buildSubscriptionWidget(),
                     ),
@@ -766,7 +766,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                         children: [
                           BlocBuilder<HomeRestaurantCubit, HomeRestaurantState>(
                             builder: (context, state) {
-                              return  mostWantedCourse(
+                              return mostWantedCourse(
                                   HomeRestaurantCubit.of(context).listOfDishs);
                             },
                           ),

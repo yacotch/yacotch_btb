@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/dimens.dart';
 import '../../../../core/common/style/gaps.dart';
@@ -37,6 +38,7 @@ class _EditRestaurantScreenContentState
 
   @override
   Widget build(BuildContext context) {
+    var tr = LanguageHelper.getTranslation(context);
     return Scaffold(
       appBar: TransparentAppBar(
         title: Translation.of(context).edit_profile,
@@ -108,17 +110,17 @@ class _EditRestaurantScreenContentState
                       height: 55.h,
                     ),
                     _buildTextFiledWidget(
-                        title: "أسم المطعم باللغه العربيه",
+                        title: tr.rest_name_ar,
                         textEditingController:
                             RestProfileCubit.of(context).nameArController),
                     Gaps.vGap24,
                     _buildTextFiledWidget(
-                        title: "أسم المطعم باللغه الانجيليزيه",
+                        title: tr.rest_name_en,
                         textEditingController:
                             RestProfileCubit.of(context).nameEnController),
                     Gaps.vGap24,
                     uploadSignUpFile(
-                      text: "لوغو المطعم بالعربي",
+                      text: tr.logo_ar,
                       file: RestProfileCubit.of(context).fileLogoAr ?? File(''),
                       asset: AppConstants.AVATER_IMG,
                       image: RestProfileCubit.of(context).logoArNetwork ?? '',
@@ -136,7 +138,7 @@ class _EditRestaurantScreenContentState
                     ),
                     Gaps.vGap8,
                     uploadSignUpFile(
-                      text: "لوغو المطعم بالأنجليزي",
+                      text: tr.logo_en,
                       file: RestProfileCubit.of(context).fileLogoEn ?? File(''),
                       asset: AppConstants.AVATER_IMG,
                       image: RestProfileCubit.of(context).logoEnNetwork ?? '',
@@ -154,7 +156,7 @@ class _EditRestaurantScreenContentState
                     ),
                     Gaps.vGap8,
                     uploadSignUpFile(
-                      text: "صورة الغلاف بالأنجليزي",
+                      text: tr.cover_en,
                       file: RestProfileCubit.of(context).fileCoveEn ?? File(''),
                       image: RestProfileCubit.of(context).coveEnNetwork ?? '',
                       asset: AppConstants.COVER_IMG,
@@ -172,7 +174,7 @@ class _EditRestaurantScreenContentState
                     ),
                     Gaps.vGap8,
                     uploadSignUpFile(
-                      text: "صورة الغلاف بالعربي",
+                      text:tr.cover_ar,
                       file: RestProfileCubit.of(context).fileCoveAr ?? File(''),
                       asset: AppConstants.COVER_IMG,
                       image: RestProfileCubit.of(context).coveArNetwork ?? '',
@@ -195,12 +197,12 @@ class _EditRestaurantScreenContentState
                             RestProfileCubit.of(context).phoneController),
                     Gaps.vGap24,
                     _buildTextFiledWidget(
-                        title: "رقم السجل التجاري",
+                        title:tr.commericalNumber,
                         textEditingController: RestProfileCubit.of(context)
                             .commercialRegisterNumberController),
                     Gaps.vGap24,
                     uploadSignUpFile(
-                      text: "ملف السجل التجاري",
+                      text:tr.commericalFile,
                       file: RestProfileCubit.of(context)
                               .fileCommercialRegisterDoc ??
                           File(''),
@@ -238,17 +240,17 @@ class _EditRestaurantScreenContentState
                     //     textEditingController:
                     //         RestProfileCubit.of(context).buildNumController),
                     _buildTextFiledWidget(
-                        title: "التفاصيل باللغه العربيه",
+                        title: tr.details_in_arabic,
                         textEditingController:
                             RestProfileCubit.of(context).descArController),
                     Gaps.vGap24,
                     _buildTextFiledWidget(
-                        title: "التفاصيل باللغه الانجليزيه",
+                        title: tr.details_in_english,
                         textEditingController:
                             RestProfileCubit.of(context).descEnController),
                     Gaps.vGap24,
                     _buildTextFiledWidget(
-                        title: "اسم مدير المطعم",
+                        title: tr.restaurantManagerName,
                         textEditingController:
                             RestProfileCubit.of(context).mangerController),
                     Gaps.vGap24,
@@ -256,10 +258,11 @@ class _EditRestaurantScreenContentState
                       children: [
                         InkWell(
                           onTap: () async {
-                            RestProfileCubit.of(context).onLocationClick(context);
+                            RestProfileCubit.of(context)
+                                .onLocationClick(context);
                           },
                           child: CustomText(
-                            text: "حدد موقعك علي الخريطه ",
+                            text: tr.select_your_location,
                             color: AppColors.accentColorLight,
                             fontSize: AppConstants.textSize16,
                             fontWeight: FontWeight.w600,
@@ -269,7 +272,7 @@ class _EditRestaurantScreenContentState
                     ),
                     Gaps.vGap8,
                     _buildSocialMediaContainer(
-                        title: "روابط مواقع التواصل الاجتماعي",
+                        title: tr.social_media_links,
                         controller:
                             RestProfileCubit.of(context).facebookController,
                         icon: FontAwesomeIcons.squareFacebook),
@@ -647,7 +650,7 @@ class _EditRestaurantScreenContentState
                     Expanded(
                       child: SizedBox(
                         height: 20.h,
-                        child: const CustomText(text: "الي"),
+                        child:  CustomText(text: LanguageHelper.getTranslation(context).to),
                       ),
                     ),
                     Gaps.hGap4,
