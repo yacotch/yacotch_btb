@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/features/restaurant/more_restaurant/more_restaurant_view.dart';
 import 'package:trainee_restaurantapp/features/shop/my_orders_shop/view/my_order_shop_view.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
@@ -149,27 +150,7 @@ class MoreShopScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            height: 19.h,
-            child: Row(
-              children: [
-                CustomText(
-                  text: Translation.of(context).enable_notifications,
-                  fontSize: AppConstants.textSize16,
-                ),
-                const Spacer(),
-                Transform.scale(
-                  scale: 1.5,
-                  child: CustomCheckbox(
-                    value: true,
-                    onChanged: (value) {},
-                    checkColor: AppColors.white,
-                    activeColor: AppColors.accentColorLight,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          EnableNotificationsWidget(),
           GestureDetector(
             onTap: () {
               Navigator.push(

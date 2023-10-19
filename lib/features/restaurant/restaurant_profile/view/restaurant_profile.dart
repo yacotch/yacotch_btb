@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/view/edit_restaurant_profile.dart';
@@ -234,6 +235,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
   }
 
   Widget _restaurantProfileData(RestaurantsModel restaurantsModel) {
+    var tr = LanguageHelper.getTranslation(context);
     final List<String> restaurantProfileMochitDataList = [
       restaurantsModel.phoneNumber ?? '',
       restaurantsModel.commercialRegisterNumber ?? '',
@@ -244,21 +246,32 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
       // restaurantsModel.street ?? '',
       // "بناء رقم ${restaurantsModel.buildingNumber}"
     ];
+
+    final List<String> restaurantProfileConstantList = [
+      tr.phone,
+      tr.commericalNumber,
+      tr.commericalFile,
+      tr.restaurantManagerName,
+      //"البلد",
+      //"المدينه",
+      //"الشارع",
+      // "رقم البناء"
+    ];
+
     return SizedBox(
       height: 220.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return SizedBox(
-                height: 50,
+                height: .06.sh,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomText(
-                      text: RestProfileCubit.of(context)
-                          .restaurantProfileConstantList[index],
+                      text: restaurantProfileConstantList[index],
                       color: AppColors.accentColorLight,
                       fontWeight: FontWeight.w500,
                       fontSize: AppConstants.textSize14,
@@ -376,15 +389,16 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
   }
 
   Widget _restaurantProfileSocialMedia(RestaurantsModel restaurantsModel) {
+    var nodata = LanguageHelper.getTranslation(context).no_data_found;
     List<SocialModel> listOfSocial = [
-      SocialModel(FontAwesomeIcons.facebook,
-          restaurantsModel.facebookUrl ?? 'لا توجد بيانات'),
-      SocialModel(FontAwesomeIcons.sitemap,
-          restaurantsModel.websiteUrl ?? 'لا توجد بيانات'),
-      SocialModel(FontAwesomeIcons.instagram,
-          restaurantsModel.instagramUrl ?? 'لا توجد بيانات'),
-      SocialModel(FontAwesomeIcons.twitter,
-          restaurantsModel.twitterUrl ?? 'لا توجد بيانات'),
+      SocialModel(
+          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? nodata),
+      SocialModel(
+          FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? nodata),
+      SocialModel(
+          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? nodata),
+      SocialModel(
+          FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? nodata),
     ];
     return SizedBox(
       height: 300.h,
@@ -394,7 +408,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: CustomText(
-              text: "مواقع التواصل الأجتماعي",
+              text: LanguageHelper.getTranslation(context).social_media_links,
               fontWeight: FontWeight.w600,
               fontSize: AppConstants.textSize18,
               color: AppColors.white,

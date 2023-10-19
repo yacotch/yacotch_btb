@@ -169,17 +169,6 @@ class RestProfileCubit extends Cubit<RestProfileState> {
     return day ?? '';
   }
 
-  final List<String> restaurantProfileConstantList = [
-    "رقم الهاتف",
-    "رقم السجل التجاري",
-    "السجيل التجاري",
-    "مدير المطعم",
-    //"البلد",
-    //"المدينه",
-    //"الشارع",
-    // "رقم البناء"
-  ];
-
   Future<XFile?> getImage() async {
     ImagePicker picker = ImagePicker();
     var result = await picker.pickImage(source: ImageSource.gallery);

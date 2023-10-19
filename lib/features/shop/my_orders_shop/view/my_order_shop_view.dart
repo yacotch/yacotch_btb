@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
@@ -72,7 +73,8 @@ class _MyOrderShopViewState extends State<MyOrderShopView>
                               : null,
                           child: Center(
                             child: CustomText(
-                              text: "قيد الأنتظار",
+                              text: LanguageHelper.getTranslation(context)
+                                  .pending,
                               color: AppColors.white,
                               fontWeight: FontWeight.w600,
                               fontSize: AppConstants.textSize16,
@@ -107,7 +109,8 @@ class _MyOrderShopViewState extends State<MyOrderShopView>
                               : null,
                           child: Center(
                             child: CustomText(
-                              text: "الموافق عليها",
+                              text: LanguageHelper.getTranslation(context)
+                                  .approved,
                               color: AppColors.white,
                               fontWeight: FontWeight.w600,
                               fontSize: AppConstants.textSize16,
@@ -142,7 +145,8 @@ class _MyOrderShopViewState extends State<MyOrderShopView>
                               : null,
                           child: Center(
                             child: CustomText(
-                              text: "الملغاه",
+                              text: LanguageHelper.getTranslation(context)
+                                  .cancelled,
                               color: AppColors.white,
                               fontWeight: FontWeight.w600,
                               fontSize: AppConstants.textSize16,
@@ -181,8 +185,8 @@ class WaitingList extends StatelessWidget {
         builder: (context, state) {
           List<OrderModel> listOfOrders =
               MyOrdersShopCubit.of(context).listOfOrders;
-          if(state is GetMyOrdersLoaded){
-            if(listOfOrders.isNotEmpty){
+          if (state is GetMyOrdersLoaded) {
+            if (listOfOrders.isNotEmpty) {
               return ListView.builder(
                   itemCount: listOfOrders.length,
                   itemBuilder: (context, index) {
@@ -194,12 +198,13 @@ class WaitingList extends StatelessWidget {
                       ),
                     );
                   });
-            }else{
-              return const Center(
-                child: Text('لا توجد طلبات'),
+            } else {
+              return Center(
+                child:
+                    Text(LanguageHelper.getTranslation(context).no_data_found),
               );
             }
-          }else{
+          } else {
             return const Loader();
           }
         },
@@ -218,8 +223,8 @@ class AcceptedList extends StatelessWidget {
         builder: (context, state) {
           List<OrderModel> listOfOrders =
               MyOrdersShopCubit.of(context).listOfOrders;
-          if(state is GetMyOrdersLoaded){
-            if(listOfOrders.isNotEmpty){
+          if (state is GetMyOrdersLoaded) {
+            if (listOfOrders.isNotEmpty) {
               return ListView.builder(
                   itemCount: listOfOrders.length,
                   itemBuilder: (context, index) {
@@ -231,12 +236,13 @@ class AcceptedList extends StatelessWidget {
                       ),
                     );
                   });
-            }else{
-              return const Center(
-                child: Text('لا توجد طلبات'),
+            } else {
+              return Center(
+                child:
+                    Text(LanguageHelper.getTranslation(context).no_data_found),
               );
             }
-          }else{
+          } else {
             return const Loader();
           }
         },
@@ -255,8 +261,8 @@ class RefusedList extends StatelessWidget {
         builder: (context, state) {
           List<OrderModel> listOfOrders =
               MyOrdersShopCubit.of(context).listOfOrders;
-          if(state is GetMyOrdersLoaded){
-            if(listOfOrders.isNotEmpty){
+          if (state is GetMyOrdersLoaded) {
+            if (listOfOrders.isNotEmpty) {
               return ListView.builder(
                   itemCount: listOfOrders.length,
                   itemBuilder: (context, index) {
@@ -268,12 +274,13 @@ class RefusedList extends StatelessWidget {
                       ),
                     );
                   });
-            }else{
-              return const Center(
-                child: Text('لا توجد طلبات'),
+            } else {
+              return Center(
+                child:
+                    Text(LanguageHelper.getTranslation(context).no_data_found),
               );
             }
-          }else{
+          } else {
             return const Loader();
           }
         },
@@ -407,7 +414,8 @@ class CardDetails extends StatelessWidget {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  MyOrdersShopCubit.of(context).changeStatus(context, orderModel.id!, 1);
+                                  MyOrdersShopCubit.of(context)
+                                      .changeStatus(context, orderModel.id!, 1);
                                 },
                                 child: const CircleAvatar(
                                   radius: 15,
@@ -421,7 +429,8 @@ class CardDetails extends StatelessWidget {
                               Gaps.hGap12,
                               InkWell(
                                 onTap: () {
-                                  MyOrdersShopCubit.of(context).changeStatus(context, orderModel.id!, 2);
+                                  MyOrdersShopCubit.of(context)
+                                      .changeStatus(context, orderModel.id!, 2);
                                 },
                                 child: const CircleAvatar(
                                   radius: 15,

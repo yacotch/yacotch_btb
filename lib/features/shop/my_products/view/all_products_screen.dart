@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/controller/my_products_cubit.dart';
@@ -64,7 +65,8 @@ class AllProductsScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: CustomText(
-                              text: "${product.price} ريال سعودي",
+                              text:
+                                  "${product.price} ${LanguageHelper.getTranslation(context).saudi_riyal}",
                               fontSize: AppConstants.textSize16,
                               maxLines: 2,
                               textAlign: TextAlign.start,
@@ -84,14 +86,14 @@ class AllProductsScreen extends StatelessWidget {
                         itemSize: 24.0,
                         direction: Axis.horizontal,
                       ),
-                      CustomText(
-                        text: "المده المتبقيه يوم و 3 ساعات",
-                        fontSize: AppConstants.textSize16,
-                        maxLines: 2,
-                        textAlign: TextAlign.start,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white,
-                      ),
+                      // CustomText(
+                      //   text: "المده المتبقيه يوم و 3 ساعات",
+                      //   fontSize: AppConstants.textSize16,
+                      //   maxLines: 2,
+                      //   textAlign: TextAlign.start,
+                      //   fontWeight: FontWeight.w400,
+                      //   color: AppColors.white,
+                      // ),
                     ],
                   ),
                 ),
@@ -118,11 +120,12 @@ class AllProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = LanguageHelper.getTranslation(context);
     return BlocProvider(
       create: (context) => MyProductsCubit()..getAllProduct(),
       child: Scaffold(
-        appBar: const TransparentAppBar(
-          title: 'منتجاتي',
+        appBar: TransparentAppBar(
+          title: tr.my_products,
         ),
         body: BlocBuilder<MyProductsCubit, MyProductsState>(
           builder: (context, state) {
@@ -134,8 +137,8 @@ class AllProductsScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: listOfProducts.isEmpty
-                            ? const Center(
-                                child: Text('no data'),
+                            ? Center(
+                                child: Text(tr.no_data_found),
                               )
                             : ListView.builder(
                                 itemCount: listOfProducts.length,

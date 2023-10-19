@@ -75,7 +75,7 @@ class AddPlateCubit extends Cubit<AddPlateState> {
     print("ssssssssssss");
 
     if (formKey.currentState!.validate() && file != null) {
-      // await uploadImage(context, file!);
+      await uploadImage(context, file!);
       emit(AddPlateLoading());
       final res = await addPlateRepo.createDish(
         arName: nameArPlateController.text,
