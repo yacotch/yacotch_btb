@@ -65,10 +65,8 @@ class SocialMediaLinksWiget extends StatelessWidget {
                             Expanded(
                               flex: 10,
                               child: InkWell(
-                                onTap: () {
-                                  UrlLauncherHelper()
-                                      .open(listOfSocial[index].text, context);
-                                },
+                                onTap: () => UrlLauncherHelper.open(
+                                    listOfSocial[index].text, context),
                                 child: CustomText(
                                   textAlign: TextAlign.start,
                                   text: listOfSocial[index].text,
