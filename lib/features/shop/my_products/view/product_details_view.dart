@@ -459,49 +459,51 @@ class _MyProductDetailsState extends State<MyProductDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MyProductsCubit, MyProductsState>(
-      builder: (context, state) {
-        Items? item = MyProductsCubit.of(context).item;
-        if (item == null) {
-          return const Loader();
-        } else {
-          return SafeArea(
-            child: CustomScrollView(slivers: <Widget>[
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: CustomSliverDelegate(
-                  image: item.images!.isEmpty ? '' : item.images!.first ?? '',
-                  expandedHeight: 260.h,
-                  child: _buildSubscriptionWidget(item),
-                ),
-              ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      Gaps.vGap10,
-                      _trainee(),
-                      // _buildRatingWidget(
-                      //   average: item.rate!.toDouble(),
-                      //   fifthRate: item.ratingDetails!.i5!.toDouble(),
-                      //   firstRate: item.ratingDetails!.i1!.toDouble(),
-                      //   forthRate: item.ratingDetails!.i4!.toDouble(),
-                      //   secondRate: item.ratingDetails!.i2!.toDouble(),
-                      //   thirdRate: item.ratingDetails!.i3!.toDouble(),
-                      // ),
-                      Gaps.vGap24,
-                      _buildCommentsWidget(),
-                      Gaps.vGap24,
-                    ],
+    return Scaffold(
+      body: BlocBuilder<MyProductsCubit, MyProductsState>(
+        builder: (context, state) {
+          Items? item = MyProductsCubit.of(context).item;
+          if (item == null) {
+            return const Loader();
+          } else {
+            return SafeArea(
+              child: CustomScrollView(slivers: <Widget>[
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliverDelegate(
+                    image: item.images!.isEmpty ? '' : item.images!.first ?? '',
+                    expandedHeight: 260.h,
+                    child: _buildSubscriptionWidget(item),
                   ),
                 ),
-              ),
-            ]),
-          );
-        }
-      },
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Gaps.vGap10,
+                        _trainee(),
+                        // _buildRatingWidget(
+                        //   average: item.rate!.toDouble(),
+                        //   fifthRate: item.ratingDetails!.i5!.toDouble(),
+                        //   firstRate: item.ratingDetails!.i1!.toDouble(),
+                        //   forthRate: item.ratingDetails!.i4!.toDouble(),
+                        //   secondRate: item.ratingDetails!.i2!.toDouble(),
+                        //   thirdRate: item.ratingDetails!.i3!.toDouble(),
+                        // ),
+                        Gaps.vGap24,
+                        _buildCommentsWidget(),
+                        Gaps.vGap24,
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            );
+          }
+        },
+      ),
     );
   }
 }
