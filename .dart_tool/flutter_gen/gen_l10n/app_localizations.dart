@@ -1946,6 +1946,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Changes in BMI'**
   String get changes_in_bmi;
+
+  /// No description provided for @order.
+  ///
+  /// In en, this message translates to:
+  /// **'Order'**
+  String get order;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

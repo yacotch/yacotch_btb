@@ -10,7 +10,6 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/shop/home_shop/controller/home_shop_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/product_details_view.dart';
-import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/widgets/subscription_plan.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/library/carousel/custom_carousel.dart';
@@ -82,60 +81,13 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomText(
-                                  text: item.name ?? '',
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize14,
-                                ),
+                                _Name(item.name),
                                 Gaps.hGap4,
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      FontAwesomeIcons.cube,
-                                      size: 16,
-                                      color: AppColors.accentColorLight,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                      child: CustomText(
-                                        text: "0 طلب",
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: AppConstants.textSize12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                _OrdersNumber(item.orderCount),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(8.w, 0, 0, 0),
-                            child: CustomText(
-                              text:
-                                  "${item.price ?? 0} ${LanguageHelper.getTranslation(context).saudi_riyal}",
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.accentColorLight,
-                              fontSize: AppConstants.textSize12,
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(8.w, 0, 8.w, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomText(
-                                  text: "المده المتبقيه: يوم و 3 ساعات",
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize14,
-                                ),
-                              ],
-                            ),
-                          ),
+                          _Price(price: item.price),
                         ],
                       ),
                     ),
@@ -448,6 +400,75 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
             );
           }
         },
+      ),
+    );
+  }
+}
+
+class _Price extends StatelessWidget {
+  final int? price;
+  const _Price({
+    required this.price,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.symmetric(horizontal: 8.w, vertical: 4.h),
+      child: CustomText(
+        text:
+            "${price ?? 0} ${LanguageHelper.getTranslation(context).saudi_riyal}",
+        fontWeight: FontWeight.w600,
+        color: AppColors.accentColorLight,
+        fontSize: AppConstants.textSize12,
+      ),
+    );
+  }
+}
+
+class _OrdersNumber extends StatelessWidget {
+  final int? num;
+  const _OrdersNumber(this.num);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(
+          FontAwesomeIcons.cube,
+          size: 16,
+          color: AppColors.accentColorLight,
+        ),
+        SizedBox(
+          height: 10,
+          child: CustomText(
+            text:
+                " ${num ?? 0} ${LanguageHelper.getTranslation(context).order}",
+            fontWeight: FontWeight.w500,
+            fontSize: AppConstants.textSize12,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Name extends StatelessWidget {
+  final String? name;
+  const _Name(this.name);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: .3.sw,
+      child: CustomText(
+        text: name ?? LanguageHelper.getTranslation(context).no_data_found,
+        fontWeight: FontWeight.w500,
+        color: AppColors.white,
+        fontSize: AppConstants.textSize14,
+        textAlign: TextAlign.start,
+        maxLines: 2,
       ),
     );
   }

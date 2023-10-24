@@ -932,4 +932,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get changes_in_bmi => 'التغيرات في كتلة الجسم';
+
+  @override
+  String get order => 'طلب';
 }

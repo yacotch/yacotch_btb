@@ -932,4 +932,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changes_in_bmi => 'Changes in BMI';
+
+  @override
+  String get order => 'Order';
 }
