@@ -1,3 +1,5 @@
+import 'package:trainee_restaurantapp/core/models/course_model.dart';
+
 class ProductModel {
   Result? result;
   Null? targetUrl;
@@ -8,15 +10,14 @@ class ProductModel {
 
   ProductModel(
       {this.result,
-        this.targetUrl,
-        this.success,
-        this.error,
-        this.unAuthorizedRequest,
-        this.bAbp});
+      this.targetUrl,
+      this.success,
+      this.error,
+      this.unAuthorizedRequest,
+      this.bAbp});
 
   ProductModel.fromJson(Map<String, dynamic> json) {
-    result =
-    json['result'] != null ? Result.fromJson(json['result']) : null;
+    result = json['result'] != null ? Result.fromJson(json['result']) : null;
     targetUrl = json['targetUrl'];
     success = json['success'];
     error = json['error'];
@@ -82,25 +83,27 @@ class Items {
   String? enName;
   String? name;
   int? id;
+  RatingDetails? ratingDetails;
 
   Items(
-      {this.enComponents,
-        this.arComponents,
-        this.components,
-        this.price,
-        this.shopId,
-        this.shop,
-        this.categoryId,
-        this.category,
-        this.creationTime,
-        this.images,
-        this.rate,
-        this.orderCount,
-        this.isActive,
-        this.arName,
-        this.enName,
-        this.name,
-        this.id});
+      {this.ratingDetails,
+      this.enComponents,
+      this.arComponents,
+      this.components,
+      this.price,
+      this.shopId,
+      this.shop,
+      this.categoryId,
+      this.category,
+      this.creationTime,
+      this.images,
+      this.rate,
+      this.orderCount,
+      this.isActive,
+      this.arName,
+      this.enName,
+      this.name,
+      this.id});
 
   Items.fromJson(Map<String, dynamic> json) {
     enComponents = json['enComponents'];
@@ -111,7 +114,7 @@ class Items {
     shop = json['shop'] != null ? Shop.fromJson(json['shop']) : null;
     categoryId = json['categoryId'];
     category =
-    json['category'] != null ? Shop.fromJson(json['category']) : null;
+        json['category'] != null ? Shop.fromJson(json['category']) : null;
     creationTime = json['creationTime'];
     images = json['images'].cast<String>();
     rate = json['rate'];
@@ -121,6 +124,10 @@ class Items {
     enName = json['enName'];
     name = json['name'];
     id = json['id'];
+    print(json['ratingDetails']);
+    ratingDetails = json['ratingDetails'] != null
+        ? RatingDetails.fromJson(json['ratingDetails'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {

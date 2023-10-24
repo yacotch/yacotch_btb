@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
@@ -622,14 +623,14 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                           BlocBuilder<HomeRestaurantCubit, HomeRestaurantState>(
                             builder: (context, state) {
                               if (state is GetAllDishMostOrderedHomeLoading) {
-                                return const _WantedPlates();
+                                return const SizedBox(
+                                  height: 350,
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
                               }
-                              return const SizedBox(
-                                height: 350,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
+                              return const _WantedPlates();
                             },
                           ),
                           Gaps.vGap16,
@@ -728,7 +729,7 @@ class DishesView extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "$price ر.س ",
+                            "$price ${LanguageHelper.getTranslation(context).saudi_riyal}",
                             style: const TextStyle(
                                 color: Colors.grey, fontSize: 10),
                           ),

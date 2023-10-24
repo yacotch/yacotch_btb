@@ -26,9 +26,12 @@ class MyProductsRepo {
   }
 
   Future<Either<String, Items>> getProductDetails(int dishId) async {
-    final response = await DioHelper.get(APIUrls.API_Get_Product_Details, query: {
+    print(dishId);
+    final response =
+        await DioHelper.get(APIUrls.API_Get_Product_Details, query: {
       'Id': dishId,
     });
+    print(response.data);
     try {
       if (response.data['success'] == true) {
         return Right(Items.fromJson(response.data['result']));
@@ -41,7 +44,8 @@ class MyProductsRepo {
     }
   }
 
-  Future<Either<String, List<ReviewModel>>> getProductReviews(int productId) async {
+  Future<Either<String, List<ReviewModel>>> getProductReviews(
+      int productId) async {
     final response =
         await DioHelper.get(APIUrls.API_GET_TRAINER_REVIEWS, query: {
       "RefType": 4,
@@ -64,9 +68,9 @@ class MyProductsRepo {
     }
   }
 
-  Future<Either<String, List<OrderModel>>> getProductOrders(int productId) async {
-    final response =
-    await DioHelper.get(APIUrls.API_GetAll_Order, query: {
+  Future<Either<String, List<OrderModel>>> getProductOrders(
+      int productId) async {
+    final response = await DioHelper.get(APIUrls.API_GetAll_Order, query: {
       "Status": 6,
       "ProductId": productId,
     });
@@ -74,8 +78,7 @@ class MyProductsRepo {
       if (response.data['success'] == true) {
         List<OrderModel> reviews = [];
         for (int i = 0; i < response.data['result']["items"].length; i++) {
-          reviews
-              .add(OrderModel.fromJson(response.data['result']["items"][i]));
+          reviews.add(OrderModel.fromJson(response.data['result']["items"][i]));
         }
         return Right(reviews);
       } else {

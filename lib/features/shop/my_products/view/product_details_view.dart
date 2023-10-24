@@ -160,52 +160,50 @@ class _MyProductDetailsState extends State<MyProductDetails> {
     required String image,
     required String date,
   }) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.all(8.w),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 56.h,
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(AppConstants.borderRadius8),
-                      child: Image.network(
-                        image,
-                        height: 56.h,
-                        width: 46.w,
+    return Padding(
+      padding: EdgeInsets.all(8.w),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 56.h,
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(AppConstants.borderRadius8),
+                    child: Image.network(
+                      image,
+                      height: 56.h,
+                      width: 46.w,
+                    ),
+                  ),
+                  Gaps.hGap8,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      CustomText(
+                        text: name,
+                        fontWeight: FontWeight.bold,
+                        fontSize: AppConstants.textSize12,
                       ),
-                    ),
-                    Gaps.hGap8,
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        CustomText(
-                          text: name,
-                          fontWeight: FontWeight.bold,
-                          fontSize: AppConstants.textSize12,
-                        ),
-                        CustomText(text: date.substring(0, 10))
-                      ],
-                    ),
-                  ],
-                ),
+                      CustomText(text: date.substring(0, 10))
+                    ],
+                  ),
+                ],
               ),
-              Gaps.vGap8,
-              CustomText(
-                text: body,
-                fontSize: AppConstants.textSize10,
-                maxLines: 2,
-                height: 2.5,
-                textOverflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.start,
-              )
-            ],
-          ),
+            ),
+            Gaps.vGap8,
+            CustomText(
+              text: body,
+              fontSize: AppConstants.textSize10,
+              maxLines: 2,
+              height: 2.5,
+              textOverflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
+            )
+          ],
         ),
       ),
     );
@@ -341,52 +339,50 @@ class _MyProductDetailsState extends State<MyProductDetails> {
     );
   }
 
-  Widget _trainee() {
-    return BlocBuilder<MyProductsCubit, MyProductsState>(
-      builder: (context, state) {
-        List<OrderModel> listOfOrders =
-            MyProductsCubit.of(context).listOfOrders;
-        if (state is GetProductOrdersLoading) {
-          return const Loader();
-        } else {
-          if (listOfOrders.isNotEmpty) {
-            return SizedBox(
-              height: 200.h,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                child: Column(
-                  children: [
-                    TitleWidget(
-                      title: "الطلبات",
-                      subtitleColorTapped: () {},
-                      titleColor: AppColors.white,
-                      subtitleColor: AppColors.accentColorLight,
-                      subtitle: "اظهار الكل",
-                      subtitleSize: AppConstants.textSize14,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: listOfOrders.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: traineeCard(
-                                  context: context,
-                                  orderModel: listOfOrders[index]),
-                            );
-                          }),
-                    )
-                  ],
-                ),
-              ),
-            );
+  Widget _orders() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      child: BlocBuilder<MyProductsCubit, MyProductsState>(
+        builder: (context, state) {
+          List<OrderModel> listOfOrders =
+              MyProductsCubit.of(context).listOfOrders;
+          if (state is GetProductOrdersLoading) {
+            return const Loader();
           } else {
-            return const SizedBox();
+            if (listOfOrders.isNotEmpty) {
+              return SizedBox(
+                height: 200.h,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: listOfOrders.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: traineeCard(
+                                    context: context,
+                                    orderModel: listOfOrders[index]),
+                              );
+                            }),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return Center(
+                child:
+                    Text(LanguageHelper.getTranslation(context).no_data_found),
+              );
+            }
           }
-        }
-      },
+        },
+      ),
     );
   }
 
@@ -483,15 +479,32 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                     child: Column(
                       children: [
                         Gaps.vGap10,
-                        _trainee(),
-                        // _buildRatingWidget(
-                        //   average: item.rate!.toDouble(),
-                        //   fifthRate: item.ratingDetails!.i5!.toDouble(),
-                        //   firstRate: item.ratingDetails!.i1!.toDouble(),
-                        //   forthRate: item.ratingDetails!.i4!.toDouble(),
-                        //   secondRate: item.ratingDetails!.i2!.toDouble(),
-                        //   thirdRate: item.ratingDetails!.i3!.toDouble(),
-                        // ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 13.w),
+                          child: TitleWidget(
+                            title: LanguageHelper.getTranslation(context)
+                                .my_orders,
+                            subtitleColorTapped: () {},
+                            titleColor: AppColors.white,
+                            subtitleColor: AppColors.accentColorLight,
+                            subtitle: MyProductsCubit.of(context)
+                                    .listOfOrders
+                                    .isNotEmpty
+                                ? LanguageHelper.getTranslation(context).see_all
+                                : null,
+                            subtitleSize: AppConstants.textSize14,
+                          ),
+                        ),
+                        _orders(),
+                        SizedBox(height: 25.h),
+                        _buildRatingWidget(
+                          average: item.rate!.toDouble(),
+                          fifthRate: item.ratingDetails!.i5!.toDouble(),
+                          firstRate: item.ratingDetails!.i1!.toDouble(),
+                          forthRate: item.ratingDetails!.i4!.toDouble(),
+                          secondRate: item.ratingDetails!.i2!.toDouble(),
+                          thirdRate: item.ratingDetails!.i3!.toDouble(),
+                        ),
                         Gaps.vGap24,
                         _buildCommentsWidget(),
                         Gaps.vGap24,
