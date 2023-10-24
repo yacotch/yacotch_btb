@@ -197,7 +197,7 @@ class AuthCubit extends Cubit<AuthState> {
         } else if (file == fileCommercialRegisterDoc) {
           imgCommercialRegisterDoc = res;
         }
-      //  emit(UploadImageLoaded());
+        //  emit(UploadImageLoaded());
       },
     );
   }
@@ -385,7 +385,7 @@ class AuthCubit extends Cubit<AuthState> {
       email: emailController.text,
       password: passwordController.text,
       phoneNumber: phoneController.text,
-      commercialRegisterDocument: "", //imgCommercialRegisterDoc,
+      commercialRegisterDocument: imgCommercialRegisterDoc,
       commercialRegisterNumber: commercialNumberController.text,
       cityId: 1,
       managerCountryCode: countryCode,

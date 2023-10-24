@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/feed_back/button.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
@@ -16,12 +17,10 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../core/datasources/shared_preference.dart';
 import '../../../core/localization/localization_provider.dart';
 import '../../Acount/data/repositories/auth_repo.dart';
 import '../../Acount/presentation/screens/change_password_screen.dart';
 import '../../trainer/more_trainer/presentation/view/about_app_screen.dart';
-import '../../trainer/more_trainer/presentation/view/feedback_screen.dart';
 import '../../trainer/more_trainer/presentation/view/privacy_policy_screen.dart';
 
 class MoreRestaurantScreen extends StatelessWidget {
@@ -155,24 +154,8 @@ class MoreRestaurantScreen extends StatelessWidget {
               ),
             ),
           ),
-          EnableNotificationsWidget(),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FeedbackScreen(),
-                  ));
-            },
-            behavior: HitTestBehavior.opaque,
-            child: Padding(
-              padding: EdgeInsets.only(top: 16.h, bottom: 8.h),
-              child: CustomText(
-                text: Translation.of(context).feedback,
-                fontSize: AppConstants.textSize16,
-              ),
-            ),
-          ),
+          const EnableNotificationsWidget(),
+          const FeedBackButton(),
           GestureDetector(
             onTap: () {
               Navigator.push(

@@ -6,6 +6,7 @@ import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/localization/localization_provider.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/change_password_screen.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/feed_back/button.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/feedback_screen.dart';
@@ -187,23 +188,7 @@ class MoreTrainerScreen extends StatelessWidget {
                   ),
                 ),
               )),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FeedbackScreen(),
-                  ));
-            },
-            behavior: HitTestBehavior.opaque,
-            child: Padding(
-              padding: EdgeInsets.only(top: 16.h, bottom: 8.h),
-              child: CustomText(
-                text: Translation.of(context).feedback,
-                fontSize: AppConstants.textSize16,
-              ),
-            ),
-          ),
+          FeedBackButton(),
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -270,21 +255,21 @@ class MoreTrainerScreen extends StatelessWidget {
                       imgPath: AppConstants.SWIMMING_IMG,
                       onPressed: () {
                         NavigationHelper.goto(
-                            context: context, screen: MyCoursesView());
+                            context: context, screen: const MyCoursesView());
                       }),
                   _buildChipWidget(
                       title: Translation.of(context).trainee,
                       imgPath: AppConstants.COACH1_IMAGE,
                       onPressed: () {
                         NavigationHelper.goto(
-                            context: context, screen: AllTraineeScreen());
+                            context: context, screen: const AllTraineeScreen());
                       }),
                   _buildChipWidget(
                       title: LanguageHelper.getTranslation(context).my_booking,
                       imgPath: AppConstants.MOTCHY2_IMG,
                       onPressed: () {
                         NavigationHelper.goto(
-                            screen: MyOrderView(), context: context);
+                            screen: const MyOrderView(), context: context);
                       }),
                   _buildChipWidget(
                       title: LanguageHelper.getTranslation(context)

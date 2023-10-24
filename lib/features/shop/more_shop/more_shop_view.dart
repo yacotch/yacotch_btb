@@ -2,25 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/feed_back/button.dart';
 import 'package:trainee_restaurantapp/features/restaurant/more_restaurant/more_restaurant_view.dart';
 import 'package:trainee_restaurantapp/features/shop/my_orders_shop/view/my_order_shop_view.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
-import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/feedback_screen.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
 import '../../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../../core/ui/widgets/custom_appbar.dart';
-import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../core/appStorage/app_storage.dart';
 import '../../../core/localization/localization_provider.dart';
 import '../../Acount/data/repositories/auth_repo.dart';
 import '../../Acount/presentation/screens/change_password_screen.dart';
-import '../../on_boarding/view/main_onboarding_view.dart';
 import '../../trainer/subscription/presentation/view/subscription_screen.dart';
 
 class MoreShopScreen extends StatelessWidget {
@@ -150,24 +147,8 @@ class MoreShopScreen extends StatelessWidget {
               ),
             ),
           ),
-          EnableNotificationsWidget(),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FeedbackScreen(),
-                  ));
-            },
-            behavior: HitTestBehavior.opaque,
-            child: Padding(
-              padding: EdgeInsets.only(top: 16.h, bottom: 8.h),
-              child: CustomText(
-                text: Translation.of(context).feedback,
-                fontSize: AppConstants.textSize16,
-              ),
-            ),
-          ),
+          const EnableNotificationsWidget(),
+          const FeedBackButton(),
           GestureDetector(
             onTap: () {
               Navigator.push(
