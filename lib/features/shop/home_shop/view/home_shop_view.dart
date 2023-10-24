@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -261,7 +263,14 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                       children: [
                         BlocBuilder<HomeShopCubit, HomeShopState>(
                           builder: (context, state) {
-                            return const _WantedProducts();
+                            if (state is GetAllProductMostOrderedHomeLoaded) {
+                              return const _WantedProducts();
+                            }
+                            return const SizedBox(
+                                height: 350,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),);
                           },
                         ),
                         Gaps.vGap16,
@@ -281,9 +290,7 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
 }
 
 class _WantedProducts extends StatelessWidget {
-  const _WantedProducts({
-    super.key,
-  });
+  const _WantedProducts();
 
   @override
   Widget build(BuildContext context) {

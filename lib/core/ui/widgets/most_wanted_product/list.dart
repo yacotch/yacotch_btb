@@ -47,7 +47,7 @@ class MostWantedProducts extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(right: 4.w),
               child: items.isEmpty
-                  ? _NoData()
+                  ? const _NoData()
                   : CustomCarousel(
                       items: List.generate(
                         items.length,

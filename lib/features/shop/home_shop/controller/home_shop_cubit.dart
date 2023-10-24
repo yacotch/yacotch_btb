@@ -19,12 +19,13 @@ class HomeShopCubit extends Cubit<HomeShopState> {
   Future getAllProductMostOrderedHome() async {
     emit(GetAllProductMostOrderedHomeLoading());
     final res = await homeShopRepo.getAllProductMostOrderedHome();
+
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
       },
-          (res) {
-            listOfProduct.addAll(res.result!.items ?? []);
+      (res) {
+        listOfProduct.addAll(res.result!.items ?? []);
         emit(GetAllProductMostOrderedHomeLoaded());
       },
     );

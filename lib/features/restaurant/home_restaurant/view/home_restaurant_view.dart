@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,15 +13,10 @@ import 'package:trainee_restaurantapp/core/ui/widgets/most_wanted_product/produc
 import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/controller/home_restaurant_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
-import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/widgets/subscription_plan.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
-import '../../../../core/library/carousel/custom_carousel.dart';
 import '../../../../core/ui/loader.dart';
-import '../../../../core/ui/physics/custom_scroll_physics.dart';
 import '../../../../core/ui/widgets/blur_widget.dart';
-import '../../../../core/ui/widgets/clock_widget.dart';
-import '../../../../core/ui/widgets/custom_button.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../../trainer/subscription/presentation/view/subscription_screen.dart';
@@ -197,56 +191,6 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget mostWantdCourse(List<Items> listOfDishs) {
-    return SizedBox(
-      height: 350,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: TitleWidget(
-              title: LanguageHelper.getTranslation(context).dishsMostOrder,
-              subtitleColorTapped: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AllPlatesScreen()));
-              },
-              titleColor: AppColors.accentColorLight,
-              subtitle: LanguageHelper.getTranslation(context).see_all,
-            ),
-          ),
-          Gaps.vGap16,
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 4.w),
-              child: listOfDishs.isEmpty
-                  ? Center(
-                      child: Text(
-                          LanguageHelper.getTranslation(context).no_data_found),
-                    )
-                  : CustomCarousel(
-                      items: List.generate(
-                          listOfDishs.length,
-                          (index) =>
-                              _buildMyCourseItemWidget(listOfDishs[index])),
-                      options: CarouselOptions(
-                        height: 344.h,
-                        viewportFraction: 0.8,
-                        initialPage: 0,
-                        enableInfiniteScroll: false,
-                        scrollPhysics:
-                            const CustomScrollPhysics(itemDimension: 1),
-                        autoPlay: false,
-                        enlargeCenterPage: true,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -677,7 +621,15 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                         children: [
                           BlocBuilder<HomeRestaurantCubit, HomeRestaurantState>(
                             builder: (context, state) {
-                              return const _WantedPlates();
+                              if (state is GetAllDishMostOrderedHomeLoading) {
+                                return const _WantedPlates();
+                              }
+                              return const SizedBox(
+                                height: 350,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
                             },
                           ),
                           Gaps.vGap16,
