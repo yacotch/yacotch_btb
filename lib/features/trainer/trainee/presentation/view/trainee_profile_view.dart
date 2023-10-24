@@ -6,10 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/models/trainee_model.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
-import 'package:trainee_restaurantapp/features/trainer/trainee/presentation/controller/update_trainee_progress_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
@@ -22,9 +23,11 @@ import '../../../chat/view/chat_details_view.dart';
 import 'add_new_trainee_entry_screen.dart';
 
 class TraineeProfileScreen extends StatefulWidget {
-  final Map args;
-
-  const TraineeProfileScreen({Key? key, required this.args}) : super(key: key);
+  final int courseId;
+  final TraineeModel trainee;
+  const TraineeProfileScreen(
+      {Key? key, required this.courseId, required this.trainee})
+      : super(key: key);
 
   @override
   State<TraineeProfileScreen> createState() => _TraineeProfileScreenState();
@@ -34,7 +37,7 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
   @override
   void initState() {
     HomeTrainerCubit.of(context)
-        .getTrainee(widget.args["courseId"], widget.args["traineeId"]);
+        .getTrainee(widget.courseId, widget.trainee.id!);
     super.initState();
   }
 
@@ -70,7 +73,16 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                       NewElevatedButton(
                         text: LanguageHelper.getTranslation(context)
                             .start_training,
-                        onTap: () {},
+                        onTap: () {
+                          NavigationHelper.goto(
+                              screen: ChatDetailsView(
+                                  chatModel: ChatModel(
+                                      traineeId: widget.trainee.id!,
+                                      traineeImage: widget.trainee.imageUrl ??
+                                          defaultAvatar,
+                                      traineeName: widget.trainee.name)),
+                              context: context);
+                        },
                         color: AppColors.accentColorLight,
                       ),
                       NewElevatedButton(
@@ -78,8 +90,7 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                         onTap: () {
                           NavigationHelper.goto(
                               screen: AddNewTraineeEntryScreen(
-                                  widget.args["courseId"],
-                                  widget.args["traineeId"]),
+                                  widget.courseId, widget.trainee.id!),
                               context: context);
                         },
                         color: null,

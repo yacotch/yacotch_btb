@@ -128,11 +128,7 @@ class AppRoute {
       // case Routes.homeRestScreen:
       //   return MaterialPageRoute(
       //       builder: (context) => const HomeRestaurantScreen());
-      case Routes.traineeProfileScreen:
-        return MaterialPageRoute(
-            builder: (context) => TraineeProfileScreen(
-                  args: settings.arguments as Map,
-                ));
+
       case Routes.MyCourseDetailsScreen:
         return MaterialPageRoute(
             builder: (context) => MyCourseDetails(

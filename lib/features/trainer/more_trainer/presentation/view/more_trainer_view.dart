@@ -9,12 +9,10 @@ import 'package:trainee_restaurantapp/features/Acount/presentation/screens/chang
 import 'package:trainee_restaurantapp/features/core_features/more/feed_back/button.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
-import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/feedback_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/privacy_policy_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/my_order_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/trainee/presentation/view/all_trainee_screen.dart';
-
 import '../../../../../core/appStorage/app_storage.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';

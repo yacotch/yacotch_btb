@@ -18,7 +18,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         title: Translation.of(context).feedback,
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: FeedbackScreenContent(),
+      body: const FeedbackScreenContent(),
     );
   }
 }

@@ -9,6 +9,7 @@ import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 import 'package:trainee_restaurantapp/features/trainer/trainee/presentation/view/trainee_profile_view.dart';
 
 import '../../../../../core/models/new_trainee_model.dart';
@@ -22,10 +23,9 @@ class AllTraineeScreen extends StatelessWidget {
     return InkWell(
       onTap: () {
         NavigationHelper.goto(
-            screen: TraineeProfileScreen(args: {
-              "courseId": newTraineeModel.course!.value,
-              "traineeId": newTraineeModel.trainee!.id
-            }),
+            screen: TraineeProfileScreen(
+                courseId: newTraineeModel.course!.value!,
+                trainee: newTraineeModel.trainee!),
             context: context);
       },
       child: Padding(
@@ -64,14 +64,6 @@ class AllTraineeScreen extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: AppColors.white,
                       ),
-                      // CustomText(
-                      //   text: "${newTraineeModel.trainee} ريال",
-                      //   fontSize: AppConstants.textSize16,
-                      //   maxLines: 2,
-                      //   textAlign: TextAlign.start,
-                      //   fontWeight: FontWeight.w400,
-                      //   color: AppColors.accentColorLight,
-                      // ),
                       PrecentageShow(
                         prescentageValue: newTraineeModel.progress!.toInt(),
                       )
@@ -86,7 +78,8 @@ class AllTraineeScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(
-                              newTraineeModel.trainee!.imageUrl ?? ""),
+                              newTraineeModel.trainee!.imageUrl ??
+                                  defaultAvatar),
                           fit: BoxFit.cover),
                       borderRadius: const BorderRadius.all(Radius.circular(8))),
                 ),
