@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
+import 'package:trainee_restaurantapp/features/core_features/profile/social_media/links_model.dart';
+import 'package:trainee_restaurantapp/features/core_features/profile/social_media/social_media.dart';
 import 'package:trainee_restaurantapp/features/shop/shop_profile/shop_profile_controller/shop_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/shop_profile/view/edit_shop_profile.dart';
 import '../../../../core/common/app_colors.dart';
@@ -391,87 +393,6 @@ class _ShopProfileState extends State<ShopProfile> {
     );
   }
 
-  Widget _restaurantProfileSocialMedia(ShopModel restaurantsModel) {
-    var nodata = LanguageHelper.getTranslation(context).no_data_found;
-    List<SocialModel> listOfSocial = [
-      SocialModel(
-          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? nodata),
-      SocialModel(
-          FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? nodata),
-      SocialModel(
-          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? nodata),
-      SocialModel(
-          FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? nodata),
-    ];
-    return SizedBox(
-      height: 300.h,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: CustomText(
-              text: LanguageHelper.getTranslation(context).social_media_links,
-              fontWeight: FontWeight.w600,
-              fontSize: AppConstants.textSize18,
-              color: AppColors.white,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              color: AppColors.accentColorLight,
-                              child: Icon(
-                                listOfSocial[index].iconData,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 2,
-                              color: AppColors.grey,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 10,
-                            child: CustomText(
-                              textAlign: TextAlign.end,
-                              text: listOfSocial[index].text,
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: AppConstants.textSize14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Container(
-                      height: 2,
-                      color: AppColors.grey,
-                    );
-                  },
-                  itemCount: 4),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   TextEditingController commentController = TextEditingController();
 
   @override
@@ -533,7 +454,14 @@ class _ShopProfileState extends State<ShopProfile> {
                         Gaps.vGap10,
                         _restaurantProfileData(restaurantsModel),
                         // _restaurantProfileWorkingHours(restaurantsModel),
-                        _restaurantProfileSocialMedia(restaurantsModel)
+
+                        SocialMediaLinksWiget(
+                            links: SocialMediaLinks(
+                          facebook: restaurantsModel.facebookUrl,
+                          instagramUrl: restaurantsModel.instagramUrl,
+                          twitterUrl: restaurantsModel.twitterUrl,
+                          websiteUrl: restaurantsModel.websiteUrl,
+                        )),
                       ],
                     ),
                   ),

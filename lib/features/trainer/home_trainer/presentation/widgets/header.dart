@@ -20,8 +20,6 @@ Widget trainerProfile() {
         return const Loader();
       } else {
         var trainerModel = TrainerProfileCubit.of(context).trainerModel;
-        print(trainerModel?.subscription ?? "null");
-        print("subscriptions :ssssssssssssssssssssssssssssssssssssssssssssss");
         return InkWell(
           onTap: () => NavigationHelper.goto(
               screen: const ProfileTrainerScreenView(), context: context),

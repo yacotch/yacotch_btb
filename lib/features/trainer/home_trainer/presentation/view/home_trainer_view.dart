@@ -288,10 +288,8 @@ class TrainerProfileImageWidget extends StatelessWidget {
                   child: trainerModel!.imageUrl != null
                       ? Image.network(
                           trainerModel!.imageUrl ?? "",
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(Icons.error);
-                          },
+                          fit: BoxFit.cover,
+                          height: 225.h,
                         )
                       : Image.asset(
                           AppConstants.AVATER_IMG,
