@@ -76,7 +76,7 @@ class _SearchContainerState extends State<SearchContainer> {
               errorBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
-              prefixIcon: Icon(
+              prefixIcon:const Icon(
                 Icons.search,
                 color: Colors.white,
               ),

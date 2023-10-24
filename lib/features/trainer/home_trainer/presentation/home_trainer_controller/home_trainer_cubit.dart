@@ -22,7 +22,6 @@ class HomeTrainerCubit extends Cubit<HomeTrainerState> {
     final res = await homeTrainerRepo.getMostWantedCourses();
     res.fold(
       (err) {
-        print(err);
         Toast.show(err);
         emit(GetMostWantedCoursesError());
       },

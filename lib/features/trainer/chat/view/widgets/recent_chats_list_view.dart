@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/data/model/chat_model.dart';
@@ -39,7 +40,10 @@ class RecentChatsListView extends StatelessWidget {
             }
           }
           return chats.isEmpty
-              ? const Text("no data")
+              ? Center(
+                  child: Text(
+                      LanguageHelper.getTranslation(context).no_data_found),
+                )
               : ListView.separated(
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {

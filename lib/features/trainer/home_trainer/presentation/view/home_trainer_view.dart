@@ -14,6 +14,7 @@ import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/widgets/subscription_plan.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_details.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_view.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -173,29 +174,27 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
   }
 
   Widget mostWantedCourse() {
-    return SizedBox(
-      child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
-        builder: (context, state) {
-          if (HomeTrainerCubit.of(context).topCourses != null) {
-            if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: TitleWidget(
-                      title: LanguageHelper.getTranslation(context)
-                          .mostWantedCourses,
-                      subtitleColorTapped: () => NavigationHelper.goto(
-                          screen: const MyCoursesView(), context: context),
-                      titleColor: AppColors.accentColorLight,
-                      subtitle:
-                          HomeTrainerCubit.of(context).topCourses!.isNotEmpty
-                              ? Translation.of(context).see_all
-                              : null,
-                    ),
-                  ),
-                  Gaps.vGap16,
-                  Padding(
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: TitleWidget(
+            title: LanguageHelper.getTranslation(context).mostWantedCourses,
+            subtitleColorTapped: () => NavigationHelper.goto(
+                screen: const MyCoursesView(), context: context),
+            titleColor: AppColors.accentColorLight,
+            subtitle: HomeTrainerCubit.of(context).topCourses!.isNotEmpty
+                ? Translation.of(context).see_all
+                : null,
+          ),
+        ),
+        Gaps.vGap16,
+        SizedBox(
+          child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+            builder: (context, state) {
+              if (HomeTrainerCubit.of(context).topCourses != null) {
+                if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
+                  return Padding(
                     padding: EdgeInsets.only(right: 4.w),
                     child: CustomCarousel(
                       items: List.generate(
@@ -214,19 +213,23 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                         scrollDirection: Axis.horizontal,
                       ),
                     ),
-                  ),
-                ],
-              );
-            } else {
-              return Center(
-                child: Text(LanguageHelper.getTranslation(context).no_courses),
-              );
-            }
-          } else {
-            return const Loader();
-          }
-        },
-      ),
+                  );
+                } else {
+                  return SizedBox(
+                    //height: 150.h,
+                    child: Center(
+                      child: Text(
+                          LanguageHelper.getTranslation(context).no_courses),
+                    ),
+                  );
+                }
+              } else {
+                return const Loader();
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -247,7 +250,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
             Gaps.vGap16,
             mostWantedCourse(),
             Gaps.vGap16,
-            buildNewTraineesSection(),
+            buildNewTraineesSection(context),
             Gaps.vGap16,
             trainerBouquet(widget.typeUser),
             Gaps.vGap60,
@@ -285,16 +288,11 @@ class TrainerProfileImageWidget extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 15.h),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.w),
-                  child: trainerModel!.imageUrl != null
-                      ? Image.network(
-                          trainerModel!.imageUrl ?? "",
-                          fit: BoxFit.cover,
-                          height: 225.h,
-                        )
-                      : Image.asset(
-                          AppConstants.AVATER_IMG,
-                          fit: BoxFit.fill,
-                        )),
+                  child: Image.network(
+                    trainerModel!.imageUrl ?? defaultAvatar,
+                    fit: BoxFit.cover,
+                    height: 225.h,
+                  )),
             )),
       ),
     );

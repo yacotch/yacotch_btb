@@ -6,6 +6,7 @@ import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/restaurant/add_plate/data/repositories/add_plate_repo.dart';
 import 'package:trainee_restaurantapp/features/trainer/add_course/data/repositories/add_course_repo.dart';
+import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import '../../../../../core/models/categories_model.dart';
 import '../../../../../core/ui/toast.dart';
 import '../../data/models/add_course_model.dart';
@@ -100,6 +101,8 @@ class AddCourseCubit extends Cubit<AddCourseState> {
           emit(AddCourseError());
         },
         (res) async {
+          await HomeTrainerCubit.of(context).getMostWantedCourses(context);
+
           NavigationHelper.gotoReplacement(
               screen: const SuccessCourseAdd(), context: context);
           emit(AddCourseLoaded());

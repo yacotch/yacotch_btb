@@ -64,157 +64,163 @@ Widget imageWithNameTrainee(NewTraineeModel newTraineeModel) {
   );
 }
 
-Widget buildNewTraineesSection() {
+Widget buildNewTraineesSection(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
-    child: SizedBox(
-      height: 300.h,
-      child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
-        builder: (context, state) {
-          if (HomeTrainerCubit.of(context).newTrainees != null) {
-            if (HomeTrainerCubit.of(context).newTrainees!.isNotEmpty) {
-              return Column(
-                children: [
-                  TitleWidget(
-                    title: LanguageHelper.getTranslation(context).new_trainees,
-                    subtitleColorTapped: () {
-                      NavigationHelper.goto(
-                          screen: AllTraineeScreen(), context: context);
-                    },
-                    subtitle:
-                        HomeTrainerCubit.of(context).newTrainees!.isNotEmpty
-                            ? Translation.of(context).see_all
-                            : null,
-                    titleColor: AppColors.accentColorLight,
-                  ),
-                  Gaps.vGap14,
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          flex: 4,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              if (HomeTrainerCubit.of(context)
-                                  .newTrainees!
-                                  .isNotEmpty)
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      if (HomeTrainerCubit.of(context)
-                                          .newTrainees!
-                                          .isNotEmpty)
-                                        Expanded(
-                                            child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed(
-                                                Routes.traineeProfileScreen,
-                                                arguments: {
-                                                  "courseId":
-                                                      HomeTrainerCubit.of(
-                                                              context)
-                                                          .newTrainees!
-                                                          .first
-                                                          .course!
-                                                          .value,
-                                                  "traineeId":
-                                                      HomeTrainerCubit.of(
-                                                              context)
-                                                          .newTrainees!
-                                                          .first
-                                                          .trainee!
-                                                          .id
-                                                });
-                                          },
-                                          child: imageWithNameTrainee(
-                                              HomeTrainerCubit.of(context)
-                                                  .newTrainees!
-                                                  .first),
-                                        )),
-                                      SizedBox(
-                                        height: 8.w,
-                                      ),
-                                      if (HomeTrainerCubit.of(context)
-                                              .newTrainees!
-                                              .length >
-                                          1)
-                                        Expanded(
-                                            child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed(
-                                                Routes.traineeProfileScreen,
-                                                arguments: {
-                                                  "courseId":
-                                                      HomeTrainerCubit.of(
-                                                              context)
-                                                          .newTrainees![1]
-                                                          .course!
-                                                          .value,
-                                                  "traineeId":
-                                                      HomeTrainerCubit.of(
-                                                              context)
-                                                          .newTrainees![1]
-                                                          .trainee!
-                                                          .id
-                                                });
-                                          },
-                                          child: imageWithNameTrainee(
-                                              HomeTrainerCubit.of(context)
-                                                  .newTrainees![1]),
-                                        ))
-                                    ],
-                                  ),
-                                ),
-                              SizedBox(width: 8.w),
-                              if (HomeTrainerCubit.of(context)
+    child: Column(
+      children: [
+        TitleWidget(
+          title: LanguageHelper.getTranslation(context).new_trainees,
+          subtitleColorTapped: () {
+            NavigationHelper.goto(screen: AllTraineeScreen(), context: context);
+          },
+          subtitle: HomeTrainerCubit.of(context).newTrainees!.isNotEmpty
+              ? Translation.of(context).see_all
+              : null,
+          titleColor: AppColors.accentColorLight,
+        ),
+        Gaps.vGap14,
+        SizedBox(
+          // height: 300.h,
+          child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+            builder: (context, state) {
+              if (HomeTrainerCubit.of(context).newTrainees != null) {
+                if (HomeTrainerCubit.of(context).newTrainees!.isNotEmpty) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  if (HomeTrainerCubit.of(context)
                                       .newTrainees!
-                                      .length >
-                                  2)
-                                Expanded(
-                                    flex: 2,
-                                    child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).pushNamed(
-                                              Routes.traineeProfileScreen,
-                                              arguments: {
-                                                "courseId":
-                                                    HomeTrainerCubit.of(context)
-                                                        .newTrainees![2]
-                                                        .course!
-                                                        .value,
-                                                "traineeId":
-                                                    HomeTrainerCubit.of(context)
-                                                        .newTrainees![2]
-                                                        .trainee!
-                                                        .id
-                                              });
-                                        },
-                                        child: imageWithNameTrainee(
-                                            HomeTrainerCubit.of(context)
-                                                .newTrainees![2]))),
-                            ],
-                          ),
+                                      .isNotEmpty)
+                                    Expanded(
+                                      flex: 3,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          if (HomeTrainerCubit.of(context)
+                                              .newTrainees!
+                                              .isNotEmpty)
+                                            Expanded(
+                                                child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pushNamed(
+                                                    Routes.traineeProfileScreen,
+                                                    arguments: {
+                                                      "courseId":
+                                                          HomeTrainerCubit.of(
+                                                                  context)
+                                                              .newTrainees!
+                                                              .first
+                                                              .course!
+                                                              .value,
+                                                      "traineeId":
+                                                          HomeTrainerCubit.of(
+                                                                  context)
+                                                              .newTrainees!
+                                                              .first
+                                                              .trainee!
+                                                              .id
+                                                    });
+                                              },
+                                              child: imageWithNameTrainee(
+                                                  HomeTrainerCubit.of(context)
+                                                      .newTrainees!
+                                                      .first),
+                                            )),
+                                          SizedBox(
+                                            height: 8.w,
+                                          ),
+                                          if (HomeTrainerCubit.of(context)
+                                                  .newTrainees!
+                                                  .length >
+                                              1)
+                                            Expanded(
+                                                child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pushNamed(
+                                                    Routes.traineeProfileScreen,
+                                                    arguments: {
+                                                      "courseId":
+                                                          HomeTrainerCubit.of(
+                                                                  context)
+                                                              .newTrainees![1]
+                                                              .course!
+                                                              .value,
+                                                      "traineeId":
+                                                          HomeTrainerCubit.of(
+                                                                  context)
+                                                              .newTrainees![1]
+                                                              .trainee!
+                                                              .id
+                                                    });
+                                              },
+                                              child: imageWithNameTrainee(
+                                                  HomeTrainerCubit.of(context)
+                                                      .newTrainees![1]),
+                                            ))
+                                        ],
+                                      ),
+                                    ),
+                                  SizedBox(width: 8.w),
+                                  if (HomeTrainerCubit.of(context)
+                                          .newTrainees!
+                                          .length >
+                                      2)
+                                    Expanded(
+                                        flex: 2,
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pushNamed(
+                                                  Routes.traineeProfileScreen,
+                                                  arguments: {
+                                                    "courseId":
+                                                        HomeTrainerCubit.of(
+                                                                context)
+                                                            .newTrainees![2]
+                                                            .course!
+                                                            .value,
+                                                    "traineeId":
+                                                        HomeTrainerCubit.of(
+                                                                context)
+                                                            .newTrainees![2]
+                                                            .trainee!
+                                                            .id
+                                                  });
+                                            },
+                                            child: imageWithNameTrainee(
+                                                HomeTrainerCubit.of(context)
+                                                    .newTrainees![2]))),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            } else {
-              return Center(
-                child: Text(LanguageHelper.getTranslation(context).no_trainees),
-              );
-            }
-          } else {
-            return const Loader();
-          }
-        },
-      ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                        LanguageHelper.getTranslation(context).no_trainees),
+                  );
+                }
+              } else {
+                return const Loader();
+              }
+            },
+          ),
+        ),
+      ],
     ),
   );
 }

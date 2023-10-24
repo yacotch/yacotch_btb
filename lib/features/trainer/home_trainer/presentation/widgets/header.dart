@@ -43,7 +43,7 @@ Widget trainerProfile() {
                       padding: const EdgeInsets.only(
                           bottom: 23.0, left: 23, right: 23),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(
@@ -51,11 +51,13 @@ Widget trainerProfile() {
                             fontSize: Dimens.dp20,
                             color: AppColors.white,
                             fontWeight: FontWeight.w700,
+                            textAlign: TextAlign.start,
                           ),
                           if (trainerModel.subscription != null)
                             CustomText(
                               text: trainerModel.subscription!.name ?? "",
-                              fontSize: Dimens.dp20,
+                              fontSize: Dimens.dp16,
+                              textAlign: TextAlign.start,
                               color: AppColors.accentColorLight,
                               fontWeight: FontWeight.w700,
                             ),

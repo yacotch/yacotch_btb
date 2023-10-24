@@ -28,61 +28,59 @@ class MostWantedCourses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
-        builder: (context, state) {
-          if (HomeTrainerCubit.of(context).topCourses != null) {
-            if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: TitleWidget(
-                      title: LanguageHelper.getTranslation(context)
-                          .mostWantedCourses,
-                      subtitleColorTapped: () => NavigationHelper.goto(
-                          screen: const MyCoursesView(), context: context),
-                      titleColor: AppColors.accentColorLight,
-                      subtitle:
-                          HomeTrainerCubit.of(context).topCourses!.isNotEmpty
-                              ? Translation.of(context).see_all
-                              : null,
+    return BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+      builder: (context, state) {
+        if (HomeTrainerCubit.of(context).topCourses != null) {
+          if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
+            return Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: TitleWidget(
+                    title: LanguageHelper.getTranslation(context)
+                        .mostWantedCourses,
+                    subtitleColorTapped: () => NavigationHelper.goto(
+                        screen: const MyCoursesView(), context: context),
+                    titleColor: AppColors.accentColorLight,
+                    subtitle:
+                        HomeTrainerCubit.of(context).topCourses!.isNotEmpty
+                            ? Translation.of(context).see_all
+                            : null,
+                  ),
+                ),
+                Gaps.vGap16,
+                Padding(
+                  padding: EdgeInsets.only(right: 4.w),
+                  child: CustomCarousel(
+                    items: List.generate(
+                      HomeTrainerCubit.of(context).topCourses!.length,
+                      (index) => CourseItemWidget(
+                          HomeTrainerCubit.of(context).topCourses![index]),
+                    ),
+                    options: CarouselOptions(
+                      height: 344.h,
+                      viewportFraction: 0.8,
+                      initialPage: 0,
+                      enableInfiniteScroll: false,
+                      scrollPhysics:
+                          const CustomScrollPhysics(itemDimension: 1),
+                      autoPlay: false,
+                      enlargeCenterPage: true,
+                      scrollDirection: Axis.horizontal,
                     ),
                   ),
-                  Gaps.vGap16,
-                  Padding(
-                    padding: EdgeInsets.only(right: 4.w),
-                    child: CustomCarousel(
-                      items: List.generate(
-                        HomeTrainerCubit.of(context).topCourses!.length,
-                        (index) => CourseItemWidget(
-                            HomeTrainerCubit.of(context).topCourses![index]),
-                      ),
-                      options: CarouselOptions(
-                        height: 344.h,
-                        viewportFraction: 0.8,
-                        initialPage: 0,
-                        enableInfiniteScroll: false,
-                        scrollPhysics:
-                            const CustomScrollPhysics(itemDimension: 1),
-                        autoPlay: false,
-                        enlargeCenterPage: true,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            } else {
-              return Center(
-                child: Text(LanguageHelper.getTranslation(context).no_courses),
-              );
-            }
+                ),
+              ],
+            );
           } else {
-            return const Loader();
+            return Center(
+              child: Text(LanguageHelper.getTranslation(context).no_courses),
+            );
           }
-        },
-      ),
+        } else {
+          return const Loader();
+        }
+      },
     );
   }
 }
