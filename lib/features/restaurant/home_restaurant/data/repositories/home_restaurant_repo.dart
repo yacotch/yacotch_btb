@@ -28,12 +28,10 @@ class HomeRestaurantRepo {
   }
 
   Future<Either<String, RecentDishesModel>> getRecentOrderedDishes() async {
-    final response = await DioHelper.get(
-      APIUrls.API_GetNewOrderedDishes_Dish,
-      query: {
-        'MaxResultCount' : 10,
-      }
-    );
+    final response =
+        await DioHelper.get(APIUrls.API_GetNewOrderedDishes_Dish, query: {
+      'MaxResultCount': 10,
+    });
     try {
       if (response.data['success'] == true) {
         return Right(RecentDishesModel.fromJson(response.data));

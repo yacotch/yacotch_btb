@@ -1,26 +1,22 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/most_wanted_product/list.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/most_wanted_product/product_entity.dart';
 import 'package:trainee_restaurantapp/features/shop/home_shop/controller/home_shop_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/product_details_view.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
-import '../../../../core/library/carousel/custom_carousel.dart';
 import '../../../../core/ui/loader.dart';
-import '../../../../core/ui/physics/custom_scroll_physics.dart';
-import '../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../trainer/subscription/presentation/view/subscription_screen.dart';
 import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
 import '../../shop_profile/shop_profile_controller/shop_profile_cubit.dart';
-import '../data/models/product_model.dart';
 
 class HomeShopScreen extends StatefulWidget {
   const HomeShopScreen({Key? key, required this.typeUser}) : super(key: key);
@@ -32,126 +28,6 @@ class HomeShopScreen extends StatefulWidget {
 }
 
 class _HomeShopScreenState extends State<HomeShopScreen> {
-  Widget _buildMyProductItemWidget(Items item) {
-    return MaterialButton(
-      onPressed: () {
-        NavigationHelper.goto(
-            screen: MyProductDetails(productId: item.id!), context: context);
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
-            image: DecorationImage(
-              image:
-                  NetworkImage(item.images!.isEmpty ? '' : item.images!.first),
-              fit: BoxFit.cover,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 7,
-                offset: const Offset(0, 0), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: 90.h,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-                    child: BlurWidget(
-                      blurColor: AppColors.grey.withOpacity(0.5),
-                      height: 100.h,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 8.w, right: 8.w, top: 14.h),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _Name(item.name),
-                                Gaps.hGap4,
-                                _OrdersNumber(item.orderCount),
-                              ],
-                            ),
-                          ),
-                          _Price(price: item.price),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget mostWantedCourse(List<Items> listOfProducts) {
-    return SizedBox(
-      height: 350,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: TitleWidget(
-              title:
-                  LanguageHelper.getTranslation(context).most_wanted_products,
-              subtitleColorTapped: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AllProductsScreen()));
-              },
-              titleColor: AppColors.accentColorLight,
-              subtitle: LanguageHelper.getTranslation(context).see_all,
-            ),
-          ),
-          Gaps.vGap16,
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 4.w),
-              child: listOfProducts.isEmpty
-                  ? Center(
-                      child: Text(
-                          LanguageHelper.getTranslation(context).no_data_found),
-                    )
-                  : CustomCarousel(
-                      items: List.generate(
-                          listOfProducts.length,
-                          (index) =>
-                              _buildMyProductItemWidget(listOfProducts[index])),
-                      options: CarouselOptions(
-                        height: 344.h,
-                        viewportFraction: 0.8,
-                        initialPage: 0,
-                        enableInfiniteScroll: false,
-                        scrollPhysics:
-                            const CustomScrollPhysics(itemDimension: 1),
-                        autoPlay: false,
-                        enlargeCenterPage: true,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget restaurantBouquet() {
     return BlocBuilder<ShopProfileCubit, ShopProfileState>(
         builder: (context, state) {
@@ -385,8 +261,7 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                       children: [
                         BlocBuilder<HomeShopCubit, HomeShopState>(
                           builder: (context, state) {
-                            return mostWantedCourse(
-                                HomeShopCubit.of(context).listOfProduct);
+                            return const _WantedProducts();
                           },
                         ),
                         Gaps.vGap16,
@@ -405,71 +280,26 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
   }
 }
 
-class _Price extends StatelessWidget {
-  final int? price;
-  const _Price({
-    required this.price,
+class _WantedProducts extends StatelessWidget {
+  const _WantedProducts({
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsDirectional.symmetric(horizontal: 8.w, vertical: 4.h),
-      child: CustomText(
-        text:
-            "${price ?? 0} ${LanguageHelper.getTranslation(context).saudi_riyal}",
-        fontWeight: FontWeight.w600,
-        color: AppColors.accentColorLight,
-        fontSize: AppConstants.textSize12,
-      ),
-    );
-  }
-}
-
-class _OrdersNumber extends StatelessWidget {
-  final int? num;
-  const _OrdersNumber(this.num);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Icon(
-          FontAwesomeIcons.cube,
-          size: 16,
-          color: AppColors.accentColorLight,
-        ),
-        SizedBox(
-          height: 10,
-          child: CustomText(
-            text:
-                " ${num ?? 0} ${LanguageHelper.getTranslation(context).order}",
-            fontWeight: FontWeight.w500,
-            fontSize: AppConstants.textSize12,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Name extends StatelessWidget {
-  final String? name;
-  const _Name(this.name);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: .3.sw,
-      child: CustomText(
-        text: name ?? LanguageHelper.getTranslation(context).no_data_found,
-        fontWeight: FontWeight.w500,
-        color: AppColors.white,
-        fontSize: AppConstants.textSize14,
-        textAlign: TextAlign.start,
-        maxLines: 2,
-      ),
-    );
+    return MostWantedProducts(
+        getDeatilsScreen: (index) => MyProductDetails(
+            productId: HomeShopCubit.of(context).listOfProduct[index].id!),
+        allProductsScreen: AllProductsScreen(),
+        title: LanguageHelper.getTranslation(context).most_wanted_products,
+        HomeShopCubit.of(context)
+            .listOfProduct
+            .map((e) => ProductEntity(
+                id: e.id,
+                images: e.images,
+                name: e.name,
+                numOfOrders: e.orderCount,
+                price: e.price))
+            .toList());
   }
 }
