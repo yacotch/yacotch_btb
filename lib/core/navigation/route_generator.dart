@@ -81,8 +81,6 @@ class AppRoute {
         var arg = settings.arguments as AccountVerificationScreenContent;
         return MaterialPageRoute(
           builder: (context) => AccountVerificationScreenContent(
-            email: "",
-            password: "",
             phone: arg.phone,
             userType: arg.userType,
           ),

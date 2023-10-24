@@ -320,16 +320,9 @@ class AuthRepo {
     }
   }
 
-  Future<Either<String, UserModel>> login(
+  Future<Either<Map<String,dynamic>, UserModel>> login(
       String phone, String password, int type) async {
-    print(
-      {
-        "userNameOrEmailAddress": phone,
-        "password": password,
-        "rememberClient": true,
-        "type": type,
-      },
-    );
+   
     final response = await DioHelper.post(
       APIUrls.API_LOGIN,
       body: {
@@ -345,10 +338,10 @@ class AuthRepo {
         await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
-        return Left(response.data['error']['message']);
+        return Left(response.data['error']);
       }
     } catch (e) {
-      return Left(e.toString());
+      return Left({"error":e.toString()});
     }
   }
 }

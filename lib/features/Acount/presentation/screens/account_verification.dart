@@ -13,14 +13,13 @@ import '../../../../core/navigation/route_generator.dart';
 import 'general_auth.dart';
 
 class AccountVerificationScreenContent extends StatefulWidget {
-  const AccountVerificationScreenContent(
-      {super.key,
-      required this.phone,
-      required this.userType,
-      required this.email,
-      required this.password});
+  const AccountVerificationScreenContent({
+    super.key,
+    required this.phone,
+    required this.userType,
+  });
 
-  final String phone, email, password;
+  final String phone;
   final int userType;
 
   @override
@@ -112,7 +111,6 @@ class _AccountVerificationScreenContentState
   }
 
   void _verifyAccount(context) {
-    AuthCubit.of(context).verifyAccount(context, widget.phone, widget.userType,
-        email: widget.email, password: widget.password);
+    AuthCubit.of(context).verifyAccount(context, widget.phone, widget.userType);
   }
 }

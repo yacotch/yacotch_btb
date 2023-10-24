@@ -18,15 +18,11 @@ import 'package:trainee_restaurantapp/features/Acount/presentation/controller/au
 import 'package:trainee_restaurantapp/generated/l10n.dart';
 
 class CreateRestaurantScreen extends StatefulWidget {
-  final String phone, email, passsword;
+  final String phone;
   final int userType;
 
   const CreateRestaurantScreen(
-      {super.key,
-      required this.phone,
-      required this.email,
-      required this.passsword,
-      required this.userType});
+      {super.key, required this.phone, required this.userType});
 
   @override
   State<CreateRestaurantScreen> createState() => _CreateRestaurantScreenState();

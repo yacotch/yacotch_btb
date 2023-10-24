@@ -271,8 +271,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future verifyAccount(BuildContext context, String phone, int userType,
-      {required String email, password}) async {
+  Future verifyAccount(BuildContext context, String phone, int userType) async {
     if (formKey.currentState!.validate() && codeController.text.length == 6) {
       unFocus(context);
       emit(VerifyAccountLoading());
@@ -302,8 +301,6 @@ class AuthCubit extends Cubit<AuthState> {
                 screen: CreateRestaurantScreen(
                   phone: phone,
                   userType: userType,
-                  email: email,
-                  passsword: password,
                 ),
                 context: context);
             emit(VerifyAccountLoaded());
@@ -355,8 +352,6 @@ class AuthCubit extends Cubit<AuthState> {
             log("res");
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => AccountVerificationScreenContent(
-                      email: emailController.text,
-                      password: passwordController.text,
                       phone: phoneRestaurantController.text,
                       userType: userType,
                     )));
@@ -411,8 +406,6 @@ class AuthCubit extends Cubit<AuthState> {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => AccountVerificationScreenContent(
                       phone: phoneRestaurantController.text,
-                      email: emailController.text,
-                      password: passwordController.text,
                       userType: userType,
                     )));
             isLoading = false;
@@ -455,8 +448,6 @@ class AuthCubit extends Cubit<AuthState> {
             submitPhoneNumber(newPhone: "$countryCode${phoneController.text}");
             NavigationHelper.goto(
                 screen: AccountVerificationScreenContent(
-                  email: "",
-                  password: "",
                   phone: phoneController.text,
                   userType: userType,
                 ),
@@ -541,11 +532,20 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       res.fold(
-        (err) {
+        (err) async {
           isLoading = false;
-          Toast.show(err);
+          Toast.show(err['details']);
           emit(LoginError());
-          print("err ${err}");
+          if (err['code'] == 4) {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => AccountVerificationScreenContent(
+                  phone: phone ?? phoneController.text,
+                  userType: userType,
+                ),
+              ),
+            );
+          }
         },
         (res) async {
           await AppStorage.cacheUserInfo(res);

@@ -114,9 +114,8 @@ class _ForgetPasswordVerificationScreenContentState
 
   void _verify(context) {
     if (AuthCubit.of(context).codeController.text.length == 6) {
-      AuthCubit.of(context).verifyAccount(
-          context, widget.phone, widget.userType,
-          email: widget.email, password: widget.passsword);
+      AuthCubit.of(context)
+          .verifyAccount(context, widget.phone, widget.userType);
       NavigationHelper.goto(
           screen: ResetPasswordScreen(
             userType: widget.userType,
