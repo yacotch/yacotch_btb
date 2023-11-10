@@ -7,8 +7,7 @@ import '../models/product_model.dart';
 class HomeShopRepo {
   Future<Either<String, ProductModel>> getAllProductMostOrderedHome() async {
     final response = await DioHelper.get(
-      "${APIUrls.API_GetAll_Product_MostOrdered}&ShopId=${AppStorage.getUserInfo!.result!.shopId}",
-    );
+        "${APIUrls.API_GetAll_Product_MostOrdered}&ShopId=${AppStorage.getUserInfo!.result!.shopId}");
     try {
       if (response.data['success'] == true) {
         return Right(ProductModel.fromJson(response.data));

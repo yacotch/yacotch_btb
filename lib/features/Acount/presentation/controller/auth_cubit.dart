@@ -11,8 +11,6 @@ import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_restaurant_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_shop_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/register_restaurant_model.dart';
-import 'package:trainee_restaurantapp/features/Acount/presentation/screens/completeing_information/restaurant.dart';
-import 'package:trainee_restaurantapp/features/Acount/presentation/screens/completeing_information/shop.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/login_screen.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
@@ -298,19 +296,11 @@ class AuthCubit extends Cubit<AuthState> {
             emit(VerifyAccountLoaded());
           } else if (userType == 3) {
             NavigationHelper.goto(
-                screen: CreateRestaurantScreen(
-                  phone: phone,
-                  userType: userType,
-                ),
-                context: context);
+                screen: LoginScreen(userType), context: context);
             emit(VerifyAccountLoaded());
           } else if (userType == 4) {
             NavigationHelper.goto(
-                screen: CompletingShopInformationScreen(
-                  phone: phone,
-                  userType: userType,
-                ),
-                context: context);
+                screen: LoginScreen(userType), context: context);
             emit(VerifyAccountLoaded());
           }
         },
@@ -373,6 +363,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   RegisterRestaurantModel? signUpRestaurantModel;
   Future registerRestaurant(BuildContext context, int userType) async {
+    emit(RegisterRestaurantLoading());
     await uploadImage(context, fileCommercialRegisterDoc!);
 
     signUpRestaurantModel = RegisterRestaurantModel(
@@ -390,7 +381,6 @@ class AuthCubit extends Cubit<AuthState> {
     if (formKey.currentState!.validate()) {
       if (boxChecked) {
         unFocus(context);
-        emit(RegisterRestaurantLoading());
         isLoading = true;
         final res = await authRepo.registerRestaurant(signUpRestaurantModel!);
         print(await signUpRestaurantModel!.toJson());
@@ -611,118 +601,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future createRestaurant(BuildContext context, int userType,
-      {required String commerical}) async {
-    await Future.wait([
-      uploadImage(context, fileCommercialRegisterDoc!),
-      uploadImage(context, fileLogoAr!),
-      uploadImage(context, fileLogoEn!),
-      uploadImage(context, fileCoveAr!),
-      uploadImage(context, fileCoveEn!),
-    ]);
-    CreateRestaurantModel model =
-        createRestaurantModel(commerical: commerical)!;
-
-    if (formKey.currentState!.validate()) {
-      unFocus(context);
-      emit(RegisterRestaurantLoading());
-      isLoading = true;
-      final res = await authRepo.createRestaurant(model);
-      res.fold(
-        (err) {
-          isLoading = false;
-          Toast.show(err);
-          emit(RegisterRestaurantError());
-        },
-        (res) async {
-          NavigationHelper.gotoAndRemove(
-              screen: const LoginScreen(3), context: context);
-
-          isLoading = false;
-          emit(RegisterRestaurantLoaded());
-        },
-      );
-    }
-  }
-
-  CreateRestaurantModel? createRestaurantModel({required String commerical}) {
-    CreateRestaurantModel? model;
-    try {
-      model = CreateRestaurantModel(
-        email: emailController.text,
-        password: passwordController.text,
-        phone: phoneController.text,
-        arName: nameArController.text,
-        enName: nameEnController.text,
-        arLogo: imgLogoAr!,
-        enLogo: imgLogoEn!,
-        arCover: imgCoveAr!,
-        enCover: imgCoveEn!,
-        arDescription: descArController.text,
-        enDescription: descEnController.text,
-        commercialRegisterDocument: imgCommercialRegisterDoc!,
-        commercialRegisterNumber: commerical,
-        managerName: mangerController.text,
-        managerPhoneNumber: phoneRestaurantController.text,
-        facebookUrl: facebookController.text,
-        instagramUrl: instegramController.text,
-        twitterUrl: twitterController.text,
-        websiteUrl: websiteController.text,
-        latitude: locationCubit.state.model!.lat,
-        longitude: locationCubit.state.model!.lng,
-      );
-    } catch (_) {}
-    print(model?.toJson());
-    return model;
-  }
-
-  Future createShop(BuildContext context, int userType, String phone) async {
-    await Future.wait([
-      uploadImage(context, fileLogoAr!),
-      uploadImage(context, fileLogoEn!),
-      uploadImage(context, fileCoveAr!),
-      uploadImage(context, fileCoveEn!),
-    ]);
-    CreateShopModel model = CreateShopModel(
-      managerEmail: emailController.text,
-      managerPassword: passwordController.text,
-      managerPhone: phoneRestaurantController.text,
-      phone: phoneController.text,
-      arName: nameArController.text,
-      enName: nameEnController.text,
-      arLogo: imgLogoAr!,
-      enLogo: imgLogoEn!,
-      arCover: imgCoveAr!,
-      enCover: imgCoveEn!,
-      arDescription: descArController.text,
-      enDescription: descEnController.text,
-      managerName: mangerController.text,
-      facebookUrl: facebookController.text,
-      instagramUrl: instegramController.text,
-      twitterUrl: twitterController.text,
-      websiteUrl: websiteController.text,
-      latitude: locationCubit.state.model!.lat,
-      longitude: locationCubit.state.model!.lng,
-    );
-    unFocus(context);
-    emit(RegisterShopLoading());
-    isLoading = true;
-    final res = await authRepo.createShop(model);
-    res.fold(
-      (err) {
-        print(err);
-        isLoading = false;
-        Toast.show(err);
-        emit(RegisterShopError());
-      },
-      (res) async {
-        NavigationHelper.gotoAndRemove(
-            screen: const LoginScreen(4), context: context);
-        isLoading = false;
-        emit(RegisterRestaurantLoaded());
-      },
-    );
-  }
 
   Future<void> pickFile() async {
     var result = await getImage();

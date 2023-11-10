@@ -185,22 +185,20 @@ class AuthRepo {
 
   Future<Either<String, UserModel>> registerRestaurant(
       RegisterRestaurantModel registerRestaurantModel) async {
-    await registerRestaurantModel
-        .toJson()
-        .then((value) => value.forEach((key, value) {
-              print("$key $value");
-            }));
     final response = await DioHelper.post(
       APIUrls.API_REGISTER_REST,
       body: await registerRestaurantModel.toJson(),
     );
     try {
+      print(response.data);
       if (response.data['success'] == true) {
         print("Success registerRestaurant");
+        print(response.data);
         // await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
         print(response);
+        print(response.data);
         return Left(response.data['error']['message']);
       }
     } catch (e) {
@@ -231,6 +229,9 @@ class AuthRepo {
 
   Future<Either<String, UserModel>> createRestaurant(
       CreateRestaurantModel createRestaurantModel) async {
+    (await createRestaurantModel.toJson()).forEach((key, value) {
+      print("$key $value");
+    });
     final response = await DioHelper.post(
       APIUrls.API_CREATE_REST,
       body: await createRestaurantModel.toJson(),
@@ -320,9 +321,8 @@ class AuthRepo {
     }
   }
 
-  Future<Either<Map<String,dynamic>, UserModel>> login(
+  Future<Either<Map<String, dynamic>, UserModel>> login(
       String phone, String password, int type) async {
-   
     final response = await DioHelper.post(
       APIUrls.API_LOGIN,
       body: {
@@ -341,7 +341,7 @@ class AuthRepo {
         return Left(response.data['error']);
       }
     } catch (e) {
-      return Left({"error":e.toString()});
+      return Left({"error": e.toString()});
     }
   }
 }

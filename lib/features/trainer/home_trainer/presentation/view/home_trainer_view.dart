@@ -176,16 +176,18 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
   Widget mostWantedCourse() {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: TitleWidget(
-            title: LanguageHelper.getTranslation(context).mostWantedCourses,
-            subtitleColorTapped: () => NavigationHelper.goto(
-                screen: const MyCoursesView(), context: context),
-            titleColor: AppColors.accentColorLight,
-            subtitle: HomeTrainerCubit.of(context).topCourses!.isNotEmpty
-                ? Translation.of(context).see_all
-                : null,
+        BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+          builder: (context, state) => Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: TitleWidget(
+              title: LanguageHelper.getTranslation(context).mostWantedCourses,
+              subtitleColorTapped: () => NavigationHelper.goto(
+                  screen: const MyCoursesView(), context: context),
+              titleColor: AppColors.accentColorLight,
+              subtitle: HomeTrainerCubit.of(context).topCourses!.isNotEmpty
+                  ? Translation.of(context).see_all
+                  : null,
+            ),
           ),
         ),
         Gaps.vGap16,

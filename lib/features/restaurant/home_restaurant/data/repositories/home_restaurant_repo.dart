@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -12,9 +13,11 @@ import '../models/recent_dishes_model.dart';
 
 class HomeRestaurantRepo {
   Future<Either<String, DishModel>> getAllDishMostOrderedHome() async {
+    log(APIUrls.API_GetAll_Dish_MostOrdered);
     final response = await DioHelper.get(
       APIUrls.API_GetAll_Dish_MostOrdered,
     );
+    print(response.data);
     try {
       if (response.data['success'] == true) {
         return Right(DishModel.fromJson(response.data));

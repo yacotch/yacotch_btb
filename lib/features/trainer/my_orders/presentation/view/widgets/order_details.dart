@@ -37,7 +37,7 @@ class CardDetails extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
               padding: EdgeInsets.symmetric(horizontal: 15.w),

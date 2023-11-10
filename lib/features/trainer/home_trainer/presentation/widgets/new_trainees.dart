@@ -69,19 +69,21 @@ Widget buildNewTraineesSection(BuildContext context) {
     padding: const EdgeInsets.all(8.0),
     child: Column(
       children: [
-        TitleWidget(
-          title: LanguageHelper.getTranslation(context).new_trainees,
-          subtitleColorTapped: () {
-            NavigationHelper.goto(screen: AllTraineeScreen(), context: context);
-          },
-          subtitle: HomeTrainerCubit.of(context).newTrainees!.isNotEmpty
-              ? Translation.of(context).see_all
-              : null,
-          titleColor: AppColors.accentColorLight,
-        ),
+        BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+            builder: (context, state) => TitleWidget(
+                  title: LanguageHelper.getTranslation(context).new_trainees,
+                  subtitleColorTapped: () {
+                    NavigationHelper.goto(
+                        screen: const AllTraineeScreen(), context: context);
+                  },
+                  subtitle: HomeTrainerCubit.of(context).newTrainees!.isNotEmpty
+                      ? Translation.of(context).see_all
+                      : null,
+                  titleColor: AppColors.accentColorLight,
+                )),
         Gaps.vGap14,
         SizedBox(
-          // height: 300.h,
+          height: 300.h,
           child: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
             builder: (context, state) {
               if (HomeTrainerCubit.of(context).newTrainees != null) {

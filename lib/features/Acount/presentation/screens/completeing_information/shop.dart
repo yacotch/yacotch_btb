@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -316,3 +317,4 @@ class _CompletingShopInformationScreenState
         BlocProvider.of<AuthCubit>(context).fileCoveEn != null;
   }
 }
+*/

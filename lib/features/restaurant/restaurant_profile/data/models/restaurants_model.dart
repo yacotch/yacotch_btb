@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../../../core/models/subscription_model.dart';
 
 class RestaurantsModel {
@@ -37,40 +39,43 @@ class RestaurantsModel {
 
   RestaurantsModel(
       {this.arDescription,
-        this.enDescription,
-        this.description,
-        this.arLogo,
-        this.enLogo,
-        this.logo,
-        this.arCover,
-        this.enCover,
-        this.cover,
-        this.commercialRegisterNumber,
-        this.commercialRegisterDocument,
-        this.cityId,
-        this.city,
-        this.street,
-        this.buildingNumber,
-        this.phoneNumber,
-        this.manager,
-        this.facebookUrl,
-        this.instagramUrl,
-        this.twitterUrl,
-        this.websiteUrl,
-        this.latitude,
-        this.longitude,
-        this.openingDays,
-        this.rate,
-        this.creationTime,
-        this.subscription,
-        this.ratingDetails,
-        this.isActive,
-        this.arName,
-        this.enName,
-        this.name,
-        this.id});
+      this.enDescription,
+      this.description,
+      this.arLogo,
+      this.enLogo,
+      this.logo,
+      this.arCover,
+      this.enCover,
+      this.cover,
+      this.commercialRegisterNumber,
+      this.commercialRegisterDocument,
+      this.cityId,
+      this.city,
+      this.street,
+      this.buildingNumber,
+      this.phoneNumber,
+      this.manager,
+      this.facebookUrl,
+      this.instagramUrl,
+      this.twitterUrl,
+      this.websiteUrl,
+      this.latitude,
+      this.longitude,
+      this.openingDays,
+      this.rate,
+      this.creationTime,
+      this.subscription,
+      this.ratingDetails,
+      this.isActive,
+      this.arName,
+      this.enName,
+      this.name,
+      this.id});
 
   RestaurantsModel.fromJson(Map<String, dynamic> json) {
+    json.forEach((key, value) {
+      print("$key $value");
+    });
     arDescription = json['arDescription'];
     enDescription = json['enDescription'];
     description = json['description'];
@@ -88,7 +93,7 @@ class RestaurantsModel {
     buildingNumber = json['buildingNumber'];
     phoneNumber = json['phoneNumber'];
     manager =
-    json['manager'] != null ? Manager.fromJson(json['manager']) : null;
+        json['manager'] != null ? Manager.fromJson(json['manager']) : null;
     facebookUrl = json['facebookUrl'];
     instagramUrl = json['instagramUrl'];
     twitterUrl = json['twitterUrl'];

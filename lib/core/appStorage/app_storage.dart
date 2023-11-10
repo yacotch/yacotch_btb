@@ -22,7 +22,7 @@ abstract class AppStorage {
   static Future<void> cacheNotificationsEnabled(bool value) =>
       _box.write('is_notifications_enabled', value);
   static bool get isNotificationsEnabled =>
-      _box.read('is_notifications_enabled');
+      _box.read('is_notifications_enabled') ?? true;
 
   static int get getUserId => getUserInfo!.result!.userId!;
 

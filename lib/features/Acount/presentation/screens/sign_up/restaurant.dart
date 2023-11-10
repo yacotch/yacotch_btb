@@ -52,9 +52,7 @@ class _RegisterRestaurantScreenViewState
             additionalTapText: Translation.of(context).login2,
             buttonText: Translation.of(context).signUp,
             isloading: AuthCubit.of(context).isLoading,
-            appBar: TransparentAppBar(
-              title: Translation.of(context).signUp,
-            ),
+            appBar: TransparentAppBar(title: Translation.of(context).signUp),
             onAdditionalTextTapped: _offToLoginScreen,
             child: Form(
               key: AuthCubit.of(context).formKey,

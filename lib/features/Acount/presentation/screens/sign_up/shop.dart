@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
-import 'package:trainee_restaurantapp/core/notifications/notification_service.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/general_auth.dart';
 import '../../../../../core/common/app_colors.dart';

@@ -1,9 +1,11 @@
 import "dart:developer";
+import "package:dio/dio.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_messaging/firebase_messaging.dart";
 import 'package:flutter/material.dart';
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:trainee_restaurantapp/core/appStorage/app_storage.dart";
+import "package:trainee_restaurantapp/core/dioHelper/dio_helper.dart";
 
 import "../../features/trainer/notification/presentation/view/notification_screen.dart";
 
@@ -91,8 +93,6 @@ void initLocalNotification() async {
 Future<void> registerNotification() async {
   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   firebaseMessaging.setAutoInitEnabled(false);
-  print("object");
-  
   await firebaseMessaging.requestPermission(
     alert: true,
     badge: true,
@@ -139,6 +139,10 @@ handleNotificationsTap(String? payload) async {
 
 void saveFcmToken() async {
   var token = await FirebaseMessaging.instance.getToken();
+  var response = await DioHelper.put(
+      "/services/app/Account/UpdateUserFirebaseToken",
+      body: {"token": token});
+  print(response.data);
   print("Firebase Fcm token : ${token.toString()}");
 }
 
@@ -147,6 +151,7 @@ void setupNotifications() {
   initializeFlutterFire();
   initLocalNotification();
   requestPermissions();
+
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage event) async {
     if (AppStorage.isNotificationsEnabled) {
@@ -155,8 +160,8 @@ void setupNotifications() {
       } else {
         showNotification(event, "${event.notification}");
       }
-      Navigator.of(navigatorKey.currentState!.context).push(
-          MaterialPageRoute(builder: (context) => const NotificationScreen()));
+      // Navigator.of(navigatorKey.currentState!.context).push(
+      //     MaterialPageRoute(builder: (context) => const NotificationScreen()));
       print(event.data);
       print("?????????1");
       // await AuthRepository(navigatorKey.currentState!.context).hasNewNotifications();

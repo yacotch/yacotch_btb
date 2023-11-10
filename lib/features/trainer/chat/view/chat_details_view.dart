@@ -108,9 +108,9 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
 
           return Expanded(
               child: messages.isEmpty
-                  ? const Center(
+                  ?  Center(
                       child: Text(
-                          "there is no messages yet!" //LanguageHelper.getTranslation(context).emptyScreen
+                         LanguageHelper.getTranslation(context).no_data_found
                           ),
                     )
                   : ListView.separated(

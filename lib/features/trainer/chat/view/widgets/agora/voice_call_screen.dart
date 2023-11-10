@@ -13,9 +13,7 @@ class VoiceCallScreen extends StatefulWidget {
 
 class _VoiceCallScreenState extends State<VoiceCallScreen> {
   final AgoraClient _client = AgoraClient(
-      agoraChannelData: AgoraChannelData(
-       
-      ),
+      agoraChannelData: AgoraChannelData(),
       agoraConnectionData: AgoraConnectionData(
         appId: AgoraConstants.appId,
         channelName: "esraaabdrabo23",
@@ -39,7 +37,7 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-          appBar: const TransparentAppBar(
+          appBar: TransparentAppBar(
             title: "chat",
           ),
           body: SafeArea(
@@ -52,8 +50,6 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
                 AgoraVideoButtons(
                   client: _client,
                   enabledButtons: const [
-                    // BuiltInButtons.toggleCamera,
-                    // BuiltInButtons.switchCamera,
                     BuiltInButtons.callEnd,
                     BuiltInButtons.toggleMic,
                   ],

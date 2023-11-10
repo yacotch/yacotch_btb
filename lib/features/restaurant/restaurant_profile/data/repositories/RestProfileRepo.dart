@@ -13,10 +13,11 @@ import '../../../../../core/models/trainer_model.dart';
 
 class RestProfileRepo {
   Future<Either<String, String>> uploadImage(File file) async {
-    FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
-        filename: file.path
-            .split('/')
-            .last  , contentType: MediaType("image", "jpeg"))});
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(file.path,
+          filename: file.path.split('/').last,
+          contentType: MediaType("image", "jpeg"))
+    });
     final response = await DioHelper.post(
       APIUrls.API_Upload_Image,
       formData: formData,
