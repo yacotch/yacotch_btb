@@ -36,6 +36,12 @@ class NotificationRepo {
       "msgType": messageType,
       "hiddenData": data
     });
+    print({
+      "userId": userId,
+      "NotificationType": 1,
+      "msgType": messageType,
+      "hiddenData": data
+    });
     log(response.data.toString());
     print("after request");
     try {

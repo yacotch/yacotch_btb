@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trainee_restaurantapp/core/notifications/notification_service.dart';
 import 'package:trainee_restaurantapp/firebase_options.dart';
 import 'app.dart';
 import 'core/appStorage/app_storage.dart';
@@ -31,11 +32,10 @@ void main() async {
 
 _initAppConfigs() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: SystemUiOverlay.values);
+    setupNotifications();
 
   /// Init Language.
   await LocalizationProvider().fetchLocale();

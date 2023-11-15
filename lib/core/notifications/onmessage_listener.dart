@@ -2,6 +2,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:trainee_restaurantapp/core/notifications/show.dart';
 
 void handleOnMessageListener(RemoteMessage event) {
+  print("has notififcation");
+  print(event);
   if (_hasChannelName(event)) {
     _showAgoraNotification(event);
   } else {

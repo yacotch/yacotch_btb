@@ -27,7 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    setupNotifications();
     Future.delayed(const Duration(seconds: 3)).then(
       (value) {
         if (AppStorage.isLogged) {

@@ -3,11 +3,14 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
+import 'package:trainee_restaurantapp/core/dioHelper/dio_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
+import 'package:trainee_restaurantapp/core/net/api_url.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_restaurant_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/create_shop_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/register_restaurant_model.dart';
@@ -551,6 +554,7 @@ class AuthCubit extends Cubit<AuthState> {
               context: context);
 
           isLoading = false;
+          await updateDeviceToken();
           emit(LoginLoaded());
         },
       );
@@ -601,7 +605,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-
   Future<void> pickFile() async {
     var result = await getImage();
     file = File(result!.path);
@@ -631,5 +634,15 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> pickCoverAr() async {
     var result = await getImage();
     fileCoveAr = File(result!.path);
+  }
+
+  Future<void> updateDeviceToken() async {
+    log("message");
+    var token = await FirebaseMessaging.instance.getToken();
+    print("fcm token : $token");
+    final result = await DioHelper.put(APIUrls.API_UPDATE_DEVICE_TOKEN,
+        body: {"token": token ?? ""});
+
+    print(result.data);
   }
 }

@@ -43,6 +43,9 @@ class APIUrls {
   static const API_GET_NOTIFICATIONS = "/services/app/Notification/GetAll";
   static const API_CREATE_NOTIFICATIONS =
       "/services/app/Notification/SendNewMessageNotification";
+
+  static const API_UPDATE_DEVICE_TOKEN =
+      "/services/app/Account/UpdateUserFirebaseToken";
   static const API_CREATE_REPORT = "/services/app/Report/Create";
 
   //rest
