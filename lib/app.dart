@@ -24,7 +24,6 @@ import 'features/trainer/my_orders/presentation/controller/booking_request_cubit
 import 'generated/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-final GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
 class App extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;

@@ -19,12 +19,13 @@ import 'core/net/http_overrides.dart';
 import 'core/ui/error_ui/errors_screens/build_error_screen.dart';
 import 'generated/l10n.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _initAppConfigs();
   await AppStorage.init();
 
-  final navigatorKey = GlobalKey<NavigatorState>();
   runApp(App(navigatorKey: navigatorKey));
 }
 

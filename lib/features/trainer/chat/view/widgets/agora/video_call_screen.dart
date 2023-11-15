@@ -1,62 +1,75 @@
 import 'dart:async';
 import 'package:agora_uikit/agora_uikit.dart';
 import 'package:flutter/material.dart';
-import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/buttons/disable_video.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/buttons/end_call.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/buttons/mute.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/buttons/switch_camera.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/disabled_video_widget.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/functions.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora_loading.dart';
 import 'agoraConfig.dart';
 
 class VideoCallScreen extends StatefulWidget {
-  const VideoCallScreen({Key? key}) : super(key: key);
+  static const String routeName = "/VideoScreen";
+
+  final int? remoterUserId;
+  final String channelName;
+  const VideoCallScreen(this.remoterUserId, this.channelName, {Key? key})
+      : super(key: key);
 
   @override
   State<VideoCallScreen> createState() => _VideoCallScreenState();
 }
 
 class _VideoCallScreenState extends State<VideoCallScreen> {
-  final AgoraClient _client = AgoraClient(
-      agoraConnectionData: AgoraConnectionData(
-          appId: AgoraConstants.appId,
-          channelName: "esraaabdrabo23",
-          tempToken:
-              "006a1be21131cd943aeab4fe2b0afa05a0bIAB4NGXk69ZyLlsCdlP/VX6TYf1EtUNqs5SQAN30J1NZ3wafZn0AAAAAIgAG8FocT7RHZQQAAQBPtEdlAgBPtEdlAwBPtEdlBABPtEdl"));
+  AgoraClient? _client;
 
   @override
   void initState() {
     super.initState();
-    _initAgora();
   }
 
   Future<void> _initAgora() async {
-    await _client.initialize();
+    _client = AgoraClient(
+      agoraConnectionData: AgoraConnectionData(
+        appId: AgoraConstants.appId,
+        channelName: widget.channelName,
+        tempToken: await AgoraFunctions.getToken(widget.channelName),
+      ),
+    );
+    await _client?.initialize();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-          appBar: const TransparentAppBar(
-            title: "chat",
-          ),
-          body: SafeArea(
-            child: Stack(
-              children: [
-                AgoraVideoViewer(
-                  client: _client,
-                  layoutType: Layout.floating,
-                  showNumberOfUsers: true,
-                ),
-                AgoraVideoButtons(
-                  client: _client,
-                  enabledButtons: const [
-                    BuiltInButtons.toggleCamera,
-                    BuiltInButtons.switchCamera,
-                    BuiltInButtons.callEnd,
-                    BuiltInButtons.toggleMic,
+    return FutureBuilder(
+        future: _initAgora(),
+        builder: (context, snapShot) => AgoraFunctions.isInitLoading(snapShot)
+            ? const AgoraLoadingBody()
+            : WillPopScope(
+                onWillPop: () async {
+                  _client!.release();
+                  return true;
+                },
+                child: Scaffold(
+                    body: Stack(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  children: [
+                    AgoraVideoViewer(
+                      client: _client!,
+                      disabledVideoWidget: DisabledVideoWidget(_client!),
+                      layoutType: Layout.floating,
+                      showNumberOfUsers: true,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      EndCallButton(_client!),
+                      DisableVideoButton(_client!),
+                      SwitchCameraButton(_client!),
+                      MuteVoiceButton(client: _client),
+                    ]),
                   ],
-                )
-              ],
-            ),
-          )),
-    );
+                )),
+              ));
   }
 }

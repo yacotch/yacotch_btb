@@ -1,62 +1,77 @@
 import 'dart:async';
 import 'package:agora_uikit/agora_uikit.dart';
+import 'package:agora_uikit/controllers/rtc_buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/buttons/end_call.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/buttons/mute.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/disabled_video_widget.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/functions.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora_loading.dart';
 import 'agoraConfig.dart';
 
 class VoiceCallScreen extends StatefulWidget {
-  const VoiceCallScreen({Key? key}) : super(key: key);
+  static const String routeName = "/VoiceScreen";
+
+  final int? remoteUserId;
+  final String channelName;
+  const VoiceCallScreen(this.remoteUserId, this.channelName, {Key? key})
+      : super(key: key);
 
   @override
   State<VoiceCallScreen> createState() => _VoiceCallScreenState();
 }
 
 class _VoiceCallScreenState extends State<VoiceCallScreen> {
-  final AgoraClient _client = AgoraClient(
-      agoraChannelData: AgoraChannelData(),
-      agoraConnectionData: AgoraConnectionData(
-        appId: AgoraConstants.appId,
-        channelName: "esraaabdrabo23",
-        tempToken:
-            "007eJxTYPjN8z7cPelE3DVnj3lVe+xdTHsfsOafzj/HWTfvpJb0ubMKDCmGKalJZkmJiZYGxiaWiYaWqWamZsZmxiZGlokGialGnpEqqQ2BjAwX9k9gZGSAQBCfjyG1uCgxMTEppSgxKd/ImIEBAKqvIvY=",
-      ));
+  AgoraClient? _client;
 
   @override
   void initState() {
     super.initState();
-    _initAgora();
   }
 
   Future<void> _initAgora() async {
-    await _client.initialize();
-    _client.engine.disableVideo();
+    _client = AgoraClient(
+      agoraConnectionData: AgoraConnectionData(
+        appId: AgoraConstants.appId,
+        channelName: widget.channelName,
+        tempToken: await AgoraFunctions.getToken(widget.channelName),
+      ),
+    );
+    await _client?.initialize();
+    await _client?.engine.disableVideo();
+    //must call toggle camera to show the 'disabledVideoWidget'
+    await toggleCamera(sessionController: _client!.sessionController);
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-          appBar: TransparentAppBar(
-            title: "chat",
-          ),
-          body: SafeArea(
-            child: Stack(
-              children: [
-                AgoraVideoViewer(
-                  client: _client,
-                  layoutType: Layout.floating,
-                ),
-                AgoraVideoButtons(
-                  client: _client,
-                  enabledButtons: const [
-                    BuiltInButtons.callEnd,
-                    BuiltInButtons.toggleMic,
+    return FutureBuilder(
+        future: _initAgora(),
+        builder: (context, snapShot) => AgoraFunctions.isInitLoading(snapShot)
+            ? const AgoraLoadingBody()
+            : WillPopScope(
+                onWillPop: () async {
+                  _client!.release();
+                  return true;
+                },
+                child: Scaffold(
+                    body: Stack(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  children: [
+                    AgoraVideoViewer(
+                        client: _client!,
+                        showNumberOfUsers: true,
+                        layoutType: Layout.grid,
+                        disabledVideoWidget: DisabledVideoWidget(_client!)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        EndCallButton(_client!),
+                        MuteVoiceButton(client: _client),
+                      ],
+                    ),
                   ],
-                )
-              ],
-            ),
-          )),
-    );
+                )),
+              ));
   }
 }

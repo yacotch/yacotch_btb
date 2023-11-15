@@ -53,7 +53,8 @@ class ClallingHeaderWidget extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return const VoiceCallScreen();
+                      return VoiceCallScreen(
+                          chatModel.traineeId, _getChannelName);
                     }));
                   },
                   icon: const Icon(
@@ -72,7 +73,8 @@ class ClallingHeaderWidget extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return const VideoCallScreen();
+                      return VideoCallScreen(
+                          chatModel.trainerId, _getChannelName);
                     }));
                   },
                   icon: const Icon(
@@ -87,4 +89,6 @@ class ClallingHeaderWidget extends StatelessWidget {
       ),
     );
   }
+
+  String get _getChannelName => "${chatModel.traineeId}${chatModel.trainerId}";
 }

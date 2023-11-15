@@ -41,6 +41,8 @@ class APIUrls {
       "/services/app/BookingRequest/Reject";
   static const API_GET_SUBSCRIPTIONS = "/services/app/Subscription/GetAll";
   static const API_GET_NOTIFICATIONS = "/services/app/Notification/GetAll";
+  static const API_CREATE_NOTIFICATIONS =
+      "/services/app/Notification/SendNewMessageNotification";
   static const API_CREATE_REPORT = "/services/app/Report/Create";
 
   //rest

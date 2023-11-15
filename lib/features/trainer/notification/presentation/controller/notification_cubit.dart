@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/ui/toast.dart';
@@ -13,26 +12,38 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   final _subscriptionRepo = NotificationRepo();
 
-
   List<NotificationModel> notifications = [];
-
 
   Future getNotifications(BuildContext context) async {
     emit(GetNotificationsLoading());
     final res = await _subscriptionRepo.getNotifications();
     res.fold(
-          (err) {
+      (err) {
         print(err);
         Toast.show(err);
         emit(GetNotificationsError());
       },
-          (res) {
-            notifications = res;
-        emit(GetNotificationsLoaded(
-
-        ));
+      (res) {
+        notifications = res;
+        emit(GetNotificationsLoaded());
       },
     );
   }
 
+  Future createNotifications(int userId, int messageType, String data) async {
+    emit(CreateNotificationsLoading());
+
+    final res =
+        await _subscriptionRepo.createNotification(userId, messageType, data);
+    res.fold(
+      (err) {
+        print(err);
+        Toast.show(err);
+        emit(CreateNotificationsError());
+      },
+      (res) {
+        emit(CreateNotificationsLoaded());
+      },
+    );
+  }
 }
