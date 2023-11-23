@@ -29,7 +29,7 @@ Future<void> _goToVideoCallScreen(NotificationResponse? payload) async =>
 Future<void> _goToVoiceCallScreen(NotificationResponse? payload) async =>
     await NavigationHelper.goto(
         screen: VoiceCallScreen(
-            _getRemoteUserId(payload), _getChannelName(payload)),
+            _getRemoteUserId(payload), _getChannelName(payload),remoteName: gettra),
         context: navigatorKey.currentState!.context);
 
 void _hideNotification(NotificationResponse? payload) {

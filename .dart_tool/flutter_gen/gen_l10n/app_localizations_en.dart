@@ -935,4 +935,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get order => 'Order';
+
+  @override
+  String the_member_left_the_call(Object name) {
+    return '$name has left the call. If you need anything, feel free to reach out. See you!';
+  }
 }

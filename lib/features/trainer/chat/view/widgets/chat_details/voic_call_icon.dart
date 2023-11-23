@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/voice_call_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/notification/presentation/controller/notification_cubit.dart';
+
 class VoiceCallIcon extends StatelessWidget {
   final int id;
-  final String channelName;
-  const VoiceCallIcon(this.id, this.channelName, {super.key});
+  final String channelName, remoteName;
+  const VoiceCallIcon(this.id, this.channelName,
+      {required this.remoteName, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +25,14 @@ class VoiceCallIcon extends StatelessWidget {
 
   void _goToVoiceCallScreen(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => VoiceCallScreen(id, channelName)));
+        builder: (context) => VoiceCallScreen(
+              id,
+              channelName,
+              remoteName: remoteName,
+            )));
   }
 
-  void _sendNotification(BuildContext context) {
-    BlocProvider.of<NotificationCubit>(context)
-        .createNotifications(id, 2, channelName);
-  }
+  void _sendNotification(BuildContext context) =>
+      BlocProvider.of<NotificationCubit>(context)
+          .createNotifications(id, 2, channelName);
 }

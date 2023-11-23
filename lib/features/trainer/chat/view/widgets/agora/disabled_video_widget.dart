@@ -7,7 +7,8 @@ import 'package:trainee_restaurantapp/features/trainer/profile_details/presentat
 
 class DisabledVideoWidget extends StatelessWidget {
   final AgoraClient client;
-  const DisabledVideoWidget(this.client, {super.key});
+  final String remoteName;
+  const DisabledVideoWidget(this.client, {required this.remoteName, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class DisabledVideoWidget extends StatelessWidget {
           child: Text(
             AgoraFunctions.isLocalDisabledVideo(client)
                 ? _getMyName(context)
-                : "remote",
+                : remoteName,
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

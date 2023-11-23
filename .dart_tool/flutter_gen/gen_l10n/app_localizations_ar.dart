@@ -935,4 +935,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get order => 'طلب';
+
+  @override
+  String the_member_left_the_call(Object name) {
+    return '$name لقد غادر المكالمة ';
+  }
 }

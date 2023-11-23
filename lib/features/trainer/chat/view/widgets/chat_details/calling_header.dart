@@ -5,7 +5,6 @@ import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/data/model/chat_model.dart';
-import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/agoraConfig.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/video_call_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/voice_call_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/widgets/order_details.dart';
@@ -56,17 +55,7 @@ class ClallingHeaderWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     IconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return VoiceCallScreen(
-                                  chatModel.traineeId, _getChannelName);
-                            },
-                          ),
-                        );
-                        _sendNotification(context, 2);
-                      },
+                      onPressed: () => _goToVoiceCallScreen(context),
                       icon: const Icon(
                         Icons.phone,
                         color: AppColors.accentColorLight,
@@ -80,14 +69,7 @@ class ClallingHeaderWidget extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return VideoCallScreen(
-                              chatModel.trainerId, _getChannelName);
-                        }));
-                        _sendNotification(context, 1);
-                      },
+                      onPressed: () => _goToVideoCallScreen(context),
                       icon: const Icon(
                         Icons.video_call,
                         color: AppColors.accentColorLight,
@@ -101,6 +83,26 @@ class ClallingHeaderWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _goToVoiceCallScreen(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return VoiceCallScreen(chatModel.traineeId, _getChannelName,
+              remoteName: chatModel.traineeName!);
+        },
+      ),
+    );
+    _sendNotification(context, 2);
+  }
+
+  void _goToVideoCallScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return VideoCallScreen(chatModel.trainerId, _getChannelName,
+          remoteName: chatModel.traineeName!);
+    }));
+    _sendNotification(context, 1);
   }
 
   void _sendNotification(BuildContext context, int type) =>
