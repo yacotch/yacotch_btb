@@ -1,10 +1,20 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
-import 'package:trainee_restaurantapp/core/notifications/notification_service.dart';
+import 'package:trainee_restaurantapp/core/notifications/calls/payload_extractor.dart';
+import 'package:trainee_restaurantapp/core/notifications/calls/show.dart';
 
 void showNotification(
     bool hasActions, RemoteMessage event, String payload) async {
+  if (hasActions) {
+    //agora call (voice - video)
+    showCallNotification(payload);
+  } else {
+    await _showNormalNotification(hasActions, payload, event);
+  }
+}
+
+Future<void> _showNormalNotification(
+    bool hasActions, String payload, RemoteMessage event) async {
   var iOSPlatformChannelSpecifics = const DarwinNotificationDetails(
       presentAlert: true, presentBadge: true, presentSound: true);
   AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -19,7 +29,7 @@ void showNotification(
     importance: Importance.high,
     priority: Priority.high,
     // audioAttributesUsage: AudioAttributesUsage.,
-    // sound: const RawResourceAndroidNotificationSound("call_ring"),
+    sound: const RawResourceAndroidNotificationSound("call_ring"),
     actions: hasActions ? _buildAgoraActions : [],
   );
   notificationDetails(bool hasActions) => NotificationDetails(
@@ -27,37 +37,20 @@ void showNotification(
         iOS: iOSPlatformChannelSpecifics,
       );
   print(payload);
-  String title =
-      hasActions ? _getTrainerName(payload) : "${event.notification!.title}";
-  String body =
-      hasActions ? await _getMsg(payload) : "${event.notification!.body}";
+  String title = hasActions
+      ? PayLoadDataExtractor.getSenderName(payload)
+      : "${event.notification!.title}";
+  String body = hasActions
+      ? await PayLoadDataExtractor.getMsg(payload)
+      : "${event.notification!.body}";
 
-  await flutterLocalNotificationsPlugin.show(
+  await FlutterLocalNotificationsPlugin().show(
     200,
     title,
     body,
     notificationDetails(hasActions),
     payload: payload,
   );
-}
-
-Future<String> _getMsg(String payload) async {
-  return await LanguageHelper.isArCached()
-      ? payload
-          .split(',')
-          .firstWhere((element) => element.contains('ArMessage'))
-          .replaceAll("ArMessage:", "")
-      : payload
-          .split(',')
-          .firstWhere((element) => element.contains('EnMessage'))
-          .replaceAll("EnMessage:", "");
-}
-
-String _getTrainerName(String payload) {
-  return payload
-      .split(',')
-      .firstWhere((element) => element.contains('UserName'))
-      .replaceAll("UserName:", "");
 }
 
 List<AndroidNotificationAction> get _buildAgoraActions {

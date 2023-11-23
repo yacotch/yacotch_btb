@@ -6,7 +6,7 @@ import 'package:trainee_restaurantapp/core/notifications/calls/payload_extractor
 
 void showCallNotification(String payload) {
   FlutterCallkitIncoming.showCallkitIncoming(callKitParams(
-      name: PayLoadDataExtractor.getTrainerName(payload),
+      name: PayLoadDataExtractor.getSenderName(payload),
       type: PayLoadDataExtractor.getMsgType(payload)));
   FlutterCallkitIncoming.onEvent.listen((event) async {
     if (event!.event == Event.ACTION_CALL_DECLINE) {

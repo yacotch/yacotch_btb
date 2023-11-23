@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
+import 'package:trainee_restaurantapp/core/notifications/calls/payload_extractor.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/video_call_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/voice_call_screen.dart';
 import 'package:trainee_restaurantapp/main.dart';
@@ -23,13 +24,15 @@ Future<void> handleNotificationsTap(NotificationResponse? payload) async {
 Future<void> _goToVideoCallScreen(NotificationResponse? payload) async =>
     await NavigationHelper.goto(
         screen: VideoCallScreen(
-            _getRemoteUserId(payload), _getChannelName(payload)),
+            _getRemoteUserId(payload), _getChannelName(payload),
+            remoteName: PayLoadDataExtractor.getSenderName(payload.toString())),
         context: navigatorKey.currentState!.context);
 
 Future<void> _goToVoiceCallScreen(NotificationResponse? payload) async =>
     await NavigationHelper.goto(
         screen: VoiceCallScreen(
-            _getRemoteUserId(payload), _getChannelName(payload),remoteName: gettra),
+            _getRemoteUserId(payload), _getChannelName(payload),
+            remoteName: PayLoadDataExtractor.getSenderName(payload.toString())),
         context: navigatorKey.currentState!.context);
 
 void _hideNotification(NotificationResponse? payload) {
