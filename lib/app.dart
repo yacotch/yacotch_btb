@@ -81,6 +81,7 @@ class _AppState extends State<App> {
             BlocProvider(create: (context) => MyPlatesCubit()),
             BlocProvider(create: (context) => MyProductsCubit()),
             BlocProvider(create: (context) => MyOrdersShopCubit()),
+
           ],
           child: Consumer<LocalizationProvider>(
             builder: (_, provider, __) {

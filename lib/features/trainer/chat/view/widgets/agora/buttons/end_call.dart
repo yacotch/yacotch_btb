@@ -14,12 +14,13 @@ class EndCallButton extends StatelessWidget {
     return RawMaterialButton(
       constraints: BoxConstraints(maxWidth: .25.sw),
       onPressed: () async {
+        
         Navigator.pop(context);
         await client.release();
       },
       shape: const CircleBorder(),
       elevation: 2.0,
-      fillColor: Colors.redAccent,
+      fillColor: const Color.fromARGB(255, 29, 27, 27),
       padding: const EdgeInsets.all(5.0),
       child: const Icon(Icons.call_end, color: Colors.white, size: 20),
     );

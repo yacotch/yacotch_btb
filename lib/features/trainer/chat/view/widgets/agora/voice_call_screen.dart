@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:agora_uikit/agora_uikit.dart';
 import 'package:agora_uikit/controllers/rtc_buttons.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,11 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
         channelName: widget.channelName,
       ),
     );
+    _client!.sessionController.createEvents(
+        AgoraRtmChannelEventHandler(onMemberLeft: (_) {
+      //show the user that the remote user left the group
+      _handleMemberLeft();
+    }), AgoraRtcEventHandlers());
     await _client?.initialize();
     await _client?.engine.disableVideo();
     //must call toggle camera to show the 'disabledVideoWidget'

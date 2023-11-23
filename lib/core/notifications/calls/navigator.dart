@@ -5,12 +5,14 @@ import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/v
 import 'package:trainee_restaurantapp/main.dart';
 
 abstract class CallsNavigator {
-  static Future<void> goToVideoCallScreen(String? payload) async =>
-      NavigationHelper.goto(
-          screen: VideoCallScreen(PayLoadDataExtractor.getSenderId("$payload"),
-              PayLoadDataExtractor.getChannelName("$payload"),
-              remoteName: PayLoadDataExtractor.getSenderName("$payload")),
-          context: navigatorKey.currentContext!);
+  static Future<void> goToVideoCallScreen(String? payload) async {
+    return NavigationHelper.goto(
+        screen: VideoCallScreen(PayLoadDataExtractor.getSenderId("$payload"),
+            PayLoadDataExtractor.getChannelName("$payload"),
+            remoteName: PayLoadDataExtractor.getSenderName("$payload")),
+        context: navigatorKey.currentContext!);
+  }
+
   static Future<void> goToVoiceCallScreen(String? payload) async =>
       NavigationHelper.goto(
           screen: VoiceCallScreen(PayLoadDataExtractor.getSenderId("$payload"),
