@@ -1,12 +1,18 @@
+import 'dart:developer';
 import 'dart:io';
 
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trainee_restaurantapp/core/notifications/calls/show.dart';
 import 'package:trainee_restaurantapp/core/notifications/notification_service.dart';
+import 'package:trainee_restaurantapp/core/notifications/onmessage_listener.dart';
+import 'package:trainee_restaurantapp/core/ui/toast.dart';
 import 'package:trainee_restaurantapp/firebase_options.dart';
 import 'app.dart';
 import 'core/appStorage/app_storage.dart';
@@ -35,7 +41,10 @@ _initAppConfigs() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: SystemUiOverlay.values);
-    setupNotifications();
+  setupNotifications();
+  FirebaseMessaging.onBackgroundMessage(handleBackGround);
+  FlutterCallkitIncoming.onEvent
+      .listen((event) async => handleCallKitResponse(event));
 
   /// Init Language.
   await LocalizationProvider().fetchLocale();

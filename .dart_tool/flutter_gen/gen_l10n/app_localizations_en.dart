@@ -940,4 +940,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String the_member_left_the_call(Object name) {
     return '$name has left the call. If you need anything, feel free to reach out. See you!';
   }
+
+  @override
+  String the_member_decline_the_call(Object name) {
+    return '$name declined the call ';
+  }
 }

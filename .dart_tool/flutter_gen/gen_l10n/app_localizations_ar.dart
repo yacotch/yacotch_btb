@@ -940,4 +940,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String the_member_left_the_call(Object name) {
     return '$name لقد غادر المكالمة ';
   }
+
+  @override
+  String the_member_decline_the_call(Object name) {
+    return '$name رفض المكالمة';
+  }
 }

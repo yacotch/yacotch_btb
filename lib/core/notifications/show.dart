@@ -18,7 +18,7 @@ Future<void> _showNormalNotification(
   var iOSPlatformChannelSpecifics = const DarwinNotificationDetails(
       presentAlert: true, presentBadge: true, presentSound: true);
   AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails(
+      const AndroidNotificationDetails(
     "com.yacotch.partner",
     "yacotch",
     styleInformation: const BigTextStyleInformation(''),
@@ -28,9 +28,6 @@ Future<void> _showNormalNotification(
     icon: '@mipmap/ic_launcher',
     importance: Importance.high,
     priority: Priority.high,
-    // audioAttributesUsage: AudioAttributesUsage.,
-    sound: const RawResourceAndroidNotificationSound("call_ring"),
-    actions: hasActions ? _buildAgoraActions : [],
   );
   notificationDetails(bool hasActions) => NotificationDetails(
         android: androidPlatformChannelSpecifics,
@@ -51,17 +48,4 @@ Future<void> _showNormalNotification(
     notificationDetails(hasActions),
     payload: payload,
   );
-}
-
-List<AndroidNotificationAction> get _buildAgoraActions {
-  return <AndroidNotificationAction>[
-    const AndroidNotificationAction(
-        //   icon: ByteArrayAndroidBitmap((await iconToBytes(Icons.done, 25))),
-        'true',
-        showsUserInterface: true,
-        inputs: [
-          AndroidNotificationActionInput(choices: ["Accept", "Cancel"])
-        ],
-        ''),
-  ];
 }

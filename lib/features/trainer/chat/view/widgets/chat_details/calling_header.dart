@@ -99,7 +99,7 @@ class ClallingHeaderWidget extends StatelessWidget {
 
   void _goToVideoCallScreen(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return VideoCallScreen(chatModel.trainerId, _getChannelName,
+      return VideoCallScreen(chatModel.traineeId, _getChannelName,
           remoteName: chatModel.traineeName!);
     }));
     _sendNotification(context, 1);

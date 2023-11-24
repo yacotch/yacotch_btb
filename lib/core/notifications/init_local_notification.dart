@@ -1,6 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:trainee_restaurantapp/core/notifications/handle_tap.dart';
 import 'package:trainee_restaurantapp/core/notifications/notification_service.dart';
+import 'package:trainee_restaurantapp/core/ui/toast.dart';
 
 void initLocalNotification() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
@@ -17,10 +18,9 @@ void initLocalNotification() async {
     android: initializationSettingsAndroid,
     iOS: initializationSettingsIOS,
   );
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-    //    onDidReceiveNotificationResponse: (payload) {
-    //  handleNotificationsTap(payload);
-    //}, onDidReceiveBackgroundNotificationResponse: handleBackGround
-  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onDidReceiveNotificationResponse: (payload) {
+    print("onDidReceiveNotificationResponse ${payload}");
+    handleNotificationsTap(payload);
+  }, onDidReceiveBackgroundNotificationResponse: handleBackGround);
 }

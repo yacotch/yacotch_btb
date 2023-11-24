@@ -12,4 +12,5 @@ void handleOnMessageListener(RemoteMessage event) {
 void _showAgoraNotification(RemoteMessage event) =>
     showNotification(true, event, "${event.data}");
 
-bool _hasChannelName(RemoteMessage event) => event.data['HiddenData'] != '';
+bool _hasChannelName(RemoteMessage event) =>
+    event.data['HiddenData'] != null && event.data['HiddenData'] != '';

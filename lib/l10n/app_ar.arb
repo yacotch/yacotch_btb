@@ -373,6 +373,8 @@
 
 "changes_in_bmi":"التغيرات في كتلة الجسم",
 "order":"طلب",
-"the_member_left_the_call":"{name} لقد غادر المكالمة "
+"the_member_left_the_call":"{name} لقد غادر المكالمة ",
+"the_member_decline_the_call":"{name} رفض المكالمة"
+
 
 }

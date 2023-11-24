@@ -5,6 +5,7 @@ import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:trainee_restaurantapp/core/notifications/init_local_notification.dart";
 import "package:trainee_restaurantapp/core/notifications/onmessage_listener.dart";
 import "package:trainee_restaurantapp/core/notifications/permissions.dart";
+import "package:trainee_restaurantapp/core/ui/toast.dart";
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -13,8 +14,9 @@ void setupNotifications() {
   initLocalNotification();
   requestPermissions();
   FirebaseMessaging.onMessage.listen((RemoteMessage event) async {
-    log("message");
-    ;
+    handleOnMessageListener(event);
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage event) async {
     handleOnMessageListener(event);
   });
 }

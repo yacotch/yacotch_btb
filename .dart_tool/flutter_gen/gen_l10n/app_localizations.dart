@@ -1958,6 +1958,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} has left the call. If you need anything, feel free to reach out. See you!'**
   String the_member_left_the_call(Object name);
+
+  /// No description provided for @the_member_decline_the_call.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} declined the call '**
+  String the_member_decline_the_call(Object name);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
