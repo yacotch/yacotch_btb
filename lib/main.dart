@@ -9,11 +9,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trainee_restaurantapp/core/datasources/shared_preference.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/notifications/calls/show.dart';
 import 'package:trainee_restaurantapp/core/notifications/notification_service.dart';
 import 'package:trainee_restaurantapp/core/notifications/onmessage_listener.dart';
 import 'package:trainee_restaurantapp/core/ui/toast.dart';
 import 'package:trainee_restaurantapp/firebase_options.dart';
+import 'package:trainee_restaurantapp/state_observer.dart';
 import 'app.dart';
 import 'core/appStorage/app_storage.dart';
 import 'core/common/app_config.dart';
@@ -32,7 +35,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _initAppConfigs();
   await AppStorage.init();
-
+  WidgetsBinding.instance.addObserver(MyAppStateObserver());
   runApp(App(navigatorKey: navigatorKey));
 }
 
@@ -43,8 +46,10 @@ _initAppConfigs() async {
       overlays: SystemUiOverlay.values);
   setupNotifications();
   FirebaseMessaging.onBackgroundMessage(handleBackGround);
-  FlutterCallkitIncoming.onEvent
-      .listen((event) async => handleCallKitResponse(event));
+  FlutterCallkitIncoming.onEvent.listen((event) async {
+    Toast.show("in event");
+    handleCallKitResponse(event);
+  });
 
   /// Init Language.
   await LocalizationProvider().fetchLocale();

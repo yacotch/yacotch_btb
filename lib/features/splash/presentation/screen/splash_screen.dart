@@ -30,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3)).then(
       (value) {
         if (AppStorage.isLogged) {
-          log("is the user was loged in ${AppStorage.isLogged}");
           if (AppStorage.getUserInfo!.result!.restaurantId != null) {
             Navigator.pushAndRemoveUntil(
               context,

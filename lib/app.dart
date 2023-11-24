@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:trainee_restaurantapp/core/datasources/shared_preference.dart';
+import 'package:trainee_restaurantapp/core/ui/toast.dart';
 // ignore: unused_import
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/completeing_information/shop.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/controller/my_orders_restaurant_cubit.dart';
@@ -23,7 +25,6 @@ import 'features/splash/presentation/screen/splash_screen.dart';
 import 'features/trainer/my_orders/presentation/controller/booking_request_cubit.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class App extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -81,7 +82,6 @@ class _AppState extends State<App> {
             BlocProvider(create: (context) => MyPlatesCubit()),
             BlocProvider(create: (context) => MyProductsCubit()),
             BlocProvider(create: (context) => MyOrdersShopCubit()),
-
           ],
           child: Consumer<LocalizationProvider>(
             builder: (_, provider, __) {
@@ -110,7 +110,16 @@ class _AppState extends State<App> {
                     themeMode: AppConfig().themeMode,
 
                     /// Init screen
-                    home:const SplashScreen(),
+                    home: FutureBuilder<Widget>(
+                        future: getScreen(),
+                        builder: (_, snapshott) {
+                          if (snapshott.connectionState ==
+                              ConnectionState.waiting) {
+                            return SizedBox();
+                          } else {
+                            return snapshott.data!;
+                          }
+                        }),
                   );
                 },
               );
@@ -125,5 +134,28 @@ class _AppState extends State<App> {
   void dispose() {
     ApplicationProvider().dispose(context);
     super.dispose();
+  }
+}
+
+Future<String?> getAgoraScreen() async =>
+    (await SpUtil.instance).getString("navigate_to");
+bool isAppOpenedForAgora(String? screenName) => screenName != null;
+Future<Widget> getScreen() async {
+  String? agoraScreen = await getAgoraScreen();
+  if (isAppOpenedForAgora(agoraScreen)) {
+    Toast.show("agira screen name is $agoraScreen");
+    (await SpUtil.instance).remove("navigate_to");
+    return agoraScreen == "video"
+        ? Scaffold(
+            body: Center(
+              child: Text(
+                "video",
+                style: TextStyle(color: Colors.amber),
+              ),
+            ),
+          )
+        : Scaffold();
+  } else {
+    return SplashScreen();
   }
 }
