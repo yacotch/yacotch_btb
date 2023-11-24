@@ -10,7 +10,7 @@ void showCallNotification(String payload) {
   if (_isCancelNotification(payload)) {
     _endCall(payload);
   } else {
-    FlutterCallkitIncoming.showCallkitIncoming( _getParam(payload));
+    FlutterCallkitIncoming.showCallkitIncoming(_getParam(payload));
   }
 }
 
@@ -39,16 +39,20 @@ void handleCallKitResponseForBackground(CallEvent? event) async {
     //send call notification and navigate to the screen
     await _sendCallBackNotification(payload);
     await cacheScreenName(payload);
+    await cachePayload(payload);
   } else if (_isAccept(event)) {
     // navigate to the voice/video screen
     await cacheScreenName(payload);
+    await cachePayload(payload);
   }
 }
 
 Future<void> cacheScreenName(String payload) async => (await SpUtil.instance)
     .putString("navigate_to", _isVideo(payload) ? "video" : "voice");
+Future<void> cachePayload(String payload) async =>
+    (await SpUtil.instance).putString("payload", payload);
 
-CallKitParams _getParam(String payload)  => callKitParams(payload);
+CallKitParams _getParam(String payload) => callKitParams(payload);
 
 void _endCall(String payload) {
   FlutterCallkitIncoming.endCall(
