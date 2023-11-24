@@ -4,12 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:trainee_restaurantapp/core/datasources/shared_preference.dart';
+import 'package:trainee_restaurantapp/core/notifications/calls/payload_extractor.dart';
 import 'package:trainee_restaurantapp/core/ui/toast.dart';
 // ignore: unused_import
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/completeing_information/shop.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/controller/my_orders_restaurant_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/my_orders_shop/controller/my_orders_shop_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/video_call_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/voice_call_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/courses_controller/courses_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
@@ -137,25 +140,30 @@ class _AppState extends State<App> {
   }
 }
 
+/// from shared pref get the cached screen name (voice-video-null)
 Future<String?> getAgoraScreen() async =>
     (await SpUtil.instance).getString("navigate_to");
+///if we found a screen name then we will need the payload to navigate
+Future<String> getAgoraPayload() async =>
+    (await SpUtil.instance).getString("navigate_to")!;
+///do we have cached agora screen name ? (voice-video)
 bool isAppOpenedForAgora(String? screenName) => screenName != null;
+///check if the app is coming from background to make voice-video call
+///or the user just open the app as normal
 Future<Widget> getScreen() async {
   String? agoraScreen = await getAgoraScreen();
+  String payload = await getAgoraPayload();
   if (isAppOpenedForAgora(agoraScreen)) {
-    Toast.show("agira screen name is $agoraScreen");
+    //clear the key we will not need it any more
     (await SpUtil.instance).remove("navigate_to");
     return agoraScreen == "video"
-        ? Scaffold(
-            body: Center(
-              child: Text(
-                "video",
-                style: TextStyle(color: Colors.amber),
-              ),
-            ),
-          )
-        : Scaffold();
+        ? VideoCallScreen(PayLoadDataExtractor.getSenderId(payload),
+            PayLoadDataExtractor.getChannelName(payload),
+            remoteName: PayLoadDataExtractor.getSenderName(payload))
+        : VoiceCallScreen(PayLoadDataExtractor.getSenderId(payload),
+            PayLoadDataExtractor.getChannelName(payload),
+            remoteName: PayLoadDataExtractor.getSenderName(payload));
   } else {
-    return SplashScreen();
+    return const SplashScreen();
   }
 }

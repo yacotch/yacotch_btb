@@ -46,8 +46,9 @@ _initAppConfigs() async {
       overlays: SystemUiOverlay.values);
   setupNotifications();
   FirebaseMessaging.onBackgroundMessage(handleBackGround);
+  //use this 'FlutterCallkitIncoming' stream in background state to navigate to voice/video screen
+  //since the app has context
   FlutterCallkitIncoming.onEvent.listen((event) async {
-    Toast.show("in event");
     handleCallKitResponse(event);
   });
 
