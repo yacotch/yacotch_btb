@@ -113,16 +113,9 @@ class _AppState extends State<App> {
                     themeMode: AppConfig().themeMode,
 
                     /// Init screen
-                    home: FutureBuilder<Widget>(
-                        future: getScreen(),
-                        builder: (_, snapshott) {
-                          if (snapshott.connectionState ==
-                              ConnectionState.waiting) {
-                            return SizedBox();
-                          } else {
-                            return snapshott.data!;
-                          }
-                        }),
+                    home: 
+                    SplashScreen(),
+                   
                   );
                 },
               );
@@ -137,41 +130,5 @@ class _AppState extends State<App> {
   void dispose() {
     ApplicationProvider().dispose(context);
     super.dispose();
-  }
-}
-
-/// from shared pref get the cached screen name (voice-video-null)
-Future<String?> getAgoraScreen() async =>
-    (await SpUtil.instance).getString("navigate_to");
-
-///if we found a screen name then we will need the payload to navigate
-Future<String?> getAgoraPayload() async =>
-    (await SpUtil.instance).getString("payload");
-
-///do we have cached agora screen name ? (voice-video)
-bool isAppOpenedForAgora(String? screenName) => screenName != null;
-
-///check if the app is coming from background to make voice-video call
-///or the user just open the app as normal
-Future<Widget> getScreen() async {
-  Toast.show((await isAppOpenedForAgora(await getAgoraScreen())).toString());
-  String? agoraScreen = await getAgoraScreen();
-  String? payload = await getAgoraPayload();
-  Toast.show(agoraScreen ?? "no sc");
-  Toast.show(payload ?? "no pay");
-  if (isAppOpenedForAgora(agoraScreen)) {
-    //clear the key we will not need it any more
-    (await SpUtil.instance)
-      ..remove("navigate_to")
-      ..remove("payload");
-    return agoraScreen == "video"
-        ? VideoCallScreen(PayLoadDataExtractor.getSenderId(payload),
-            PayLoadDataExtractor.getChannelName(payload),
-            remoteName: PayLoadDataExtractor.getSenderName(payload!))
-        : VoiceCallScreen(PayLoadDataExtractor.getSenderId(payload),
-            PayLoadDataExtractor.getChannelName(payload),
-            remoteName: PayLoadDataExtractor.getSenderName(payload!));
-  } else {
-    return const SplashScreen();
   }
 }

@@ -8,6 +8,7 @@ import 'package:trainee_restaurantapp/core/models/trainer_model.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/widgets/agora/functions.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/widgets/header.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/widgets/new_trainees.dart';
@@ -237,6 +238,8 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
 
   @override
   void initState() {
+    super.initState();
+    AgoraFunctions.handleNavigatingToAgora();
     TrainerProfileCubit.of(context).getTrainerProfile(context);
     HomeTrainerCubit.of(context).getMostWantedCourses(context);
     HomeTrainerCubit.of(context).getNewTrainees(context);

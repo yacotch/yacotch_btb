@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 //import 'package:firebase_core/firebase_core.dart';
@@ -9,12 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:trainee_restaurantapp/core/datasources/shared_preference.dart';
-import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/notifications/calls/show.dart';
 import 'package:trainee_restaurantapp/core/notifications/notification_service.dart';
-import 'package:trainee_restaurantapp/core/notifications/onmessage_listener.dart';
-import 'package:trainee_restaurantapp/core/ui/toast.dart';
 import 'package:trainee_restaurantapp/firebase_options.dart';
 import 'package:trainee_restaurantapp/state_observer.dart';
 import 'app.dart';
@@ -49,7 +44,11 @@ _initAppConfigs() async {
   //use this 'FlutterCallkitIncoming' stream in background state to navigate to voice/video screen
   //since the app has context
   FlutterCallkitIncoming.onEvent.listen((event) async {
-    handleCallKitResponse(event);
+    try {
+      handleCallKitResponse(event);
+    } catch (_) {
+      handleCallKitResponseForBackground(event);
+    }
   });
 
   /// Init Language.

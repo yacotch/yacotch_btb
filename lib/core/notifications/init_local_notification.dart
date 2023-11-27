@@ -23,4 +23,5 @@ void initLocalNotification() async {
     print("onDidReceiveNotificationResponse ${payload}");
     handleNotificationsTap(payload);
   }, onDidReceiveBackgroundNotificationResponse: handleBackGround);
+  
 }

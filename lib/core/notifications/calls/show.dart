@@ -61,11 +61,11 @@ void _endCall(String payload) {
 
 bool _isCancelNotification(String payload) =>
     PayLoadDataExtractor.getMsgType(payload) == -1;
-bool _isCancel(CallEvent event) => event.event == Event.ACTION_CALL_DECLINE;
+bool _isCancel(CallEvent event) => event.event == Event.actionCallDecline;
 
-bool _isCallBack(CallEvent event) => event.event == Event.ACTION_CALL_CALLBACK;
+bool _isCallBack(CallEvent event) => event.event == Event.actionCallCallback;
 
-bool _isAccept(CallEvent event) => event.event == Event.ACTION_CALL_ACCEPT;
+bool _isAccept(CallEvent event) => event.event == Event.actionCallAccept;
 
 Future<void> _handleAccept(String payload) async {
   if (_isVideo(payload)) {
