@@ -44,11 +44,8 @@ _initAppConfigs() async {
   //use this 'FlutterCallkitIncoming' stream in background state to navigate to voice/video screen
   //since the app has context
   FlutterCallkitIncoming.onEvent.listen((event) async {
-    try {
       handleCallKitResponse(event);
-    } catch (_) {
-      handleCallKitResponseForBackground(event);
-    }
+    
   });
 
   /// Init Language.

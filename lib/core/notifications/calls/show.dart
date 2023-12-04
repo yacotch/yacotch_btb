@@ -47,10 +47,11 @@ void handleCallKitResponseForBackground(CallEvent? event) async {
   }
 }
 
-Future<void> cacheScreenName(String payload) async => (await SpUtil.instance)
-    .putString("navigate_to", _isVideo(payload) ? "video" : "voice");
+Future<void> cacheScreenName(String payload) async =>
+    await (await SpUtil.instance)
+        .putString("navigate_to", _isVideo(payload) ? "video" : "voice");
 Future<void> cachePayload(String payload) async =>
-    (await SpUtil.instance).putString("payload", payload);
+    await (await SpUtil.instance).putString("payload", payload);
 
 CallKitParams _getParam(String payload) => callKitParams(payload);
 

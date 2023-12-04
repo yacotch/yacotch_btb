@@ -59,6 +59,7 @@ class TransparentAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme:const IconThemeData(color: Colors.white),
       backgroundColor: color ?? AppColors.transparent,
       shadowColor: AppColors.transparent,
       elevation: 0,

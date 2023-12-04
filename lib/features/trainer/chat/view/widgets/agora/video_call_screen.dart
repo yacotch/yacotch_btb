@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:agora_uikit/agora_uikit.dart';
-import 'package:agora_uikit/controllers/rtc_buttons.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
@@ -41,8 +40,6 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     super.initState();
     _initAgora();
     notificationsListner = FirebaseMessaging.onMessage.listen((event) async {
-      Toast.show(
-          "event id 315 :  ${event.data['SenderId']} \n widget sender id 220 : ${widget.senderId}");
       if (_wannaCancel(event)) {
         Toast.show(LanguageHelper.getTranslation(context)
             .the_member_decline_the_call(widget.remoteName));

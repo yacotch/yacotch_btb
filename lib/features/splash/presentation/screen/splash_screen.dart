@@ -10,7 +10,6 @@ import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/datasources/shared_preference.dart';
 import '../../../../core/navigation/nav.dart';
-import '../../../../core/notifications/notification_service.dart';
 import 'intro_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -56,7 +55,6 @@ class _SplashScreenState extends State<SplashScreen> {
             );
           }
         } else {
-          log("the user is not loged in");
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -73,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         backgroundColor: AppColors.primaryColorLight,
         body: SplashScreenContent());
   }

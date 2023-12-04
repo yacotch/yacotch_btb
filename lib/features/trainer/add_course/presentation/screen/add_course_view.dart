@@ -6,6 +6,7 @@ import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/add_course/presentation/controller/add_course_cubit.dart';
@@ -35,6 +36,7 @@ class _AddCourseViewState extends State<AddCourseView> {
             current is UploadSignUpFileState,
         builder: (context, state) {
           return Scaffold(
+            appBar: const TransparentAppBar(title: ''),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),

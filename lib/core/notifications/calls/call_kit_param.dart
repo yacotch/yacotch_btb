@@ -6,9 +6,11 @@ CallKitParams callKitParams(String payload) => CallKitParams(
       nameCaller:
           '${PayLoadDataExtractor.getSenderName(payload)} is calling you.',
       appName: 'Callkit',
-      avatar: 'https://i.pravatar.cc/100',
+      avatar: _isVoice(payload)
+          ? "https://www.kindpng.com/picc/m/403-4036753_voice-call-icon-formation4you-hd-png-download.png"
+          : "https://assets.website-files.com/61120cb2509e011efcf0b1e4/6125f135480738fbcb0747b9_zoom-p-500.png",
       handle:
-          'It\'s a ${PayLoadDataExtractor.getMsgType(payload) == 2 ? "voice" : "video"} call for now. Pick up when you\'re ready!',
+          'It\'s a ${_isVoice(payload) ? "voice" : "video"} call for now. Pick up when you\'re ready!',
       type: int.parse("${PayLoadDataExtractor.getMsgType(payload)}"),
       textAccept: 'Accept',
       textDecline: 'Decline',
@@ -43,3 +45,5 @@ CallKitParams callKitParams(String payload) => CallKitParams(
         ringtonePath: 'system_ringtone_default',
       ),
     );
+
+bool _isVoice(String payload) => PayLoadDataExtractor.getMsgType(payload) == 2;

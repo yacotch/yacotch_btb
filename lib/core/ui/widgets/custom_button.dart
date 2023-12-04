@@ -31,12 +31,12 @@ class CustomElevatedButton extends StatelessWidget {
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
         side: BorderSide.none,
-        
         borderRadius:
             BorderRadius.circular(borderRadius ?? AppConstants.borderRadius2),
       ))),
       child: CustomText(
         text: text,
+        color: Colors.black,
         fontSize: textSize ?? AppConstants.textSize16,
         fontWeight: FontWeight.bold,
         maxLines: textMaxLines,
