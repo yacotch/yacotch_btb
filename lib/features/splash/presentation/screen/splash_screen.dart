@@ -8,7 +8,6 @@ import '../../../../core/common/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = "/SplashScreen";
-
   const SplashScreen({Key? key}) : super(key: key);
 
   @override

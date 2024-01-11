@@ -945,4 +945,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String the_member_decline_the_call(Object name) {
     return '$name declined the call ';
   }
+
+  @override
+  String get delete_acc => 'Delete Account';
+
+  @override
+  String get delete_acc_dialog_content => 'Are you sure you want to delete your account?';
 }

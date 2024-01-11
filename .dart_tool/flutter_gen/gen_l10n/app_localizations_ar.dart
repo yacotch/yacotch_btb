@@ -945,4 +945,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String the_member_decline_the_call(Object name) {
     return '$name رفض المكالمة';
   }
+
+  @override
+  String get delete_acc => 'حذف الحساب';
+
+  @override
+  String get delete_acc_dialog_content => 'هل انت متأكد انك تريد حذف حسابك؟';
 }

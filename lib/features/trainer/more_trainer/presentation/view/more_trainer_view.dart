@@ -6,6 +6,8 @@ import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/localization/localization_provider.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/change_password_screen.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/account_setting/change_password.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/account_setting/section.dart';
 import 'package:trainee_restaurantapp/features/core_features/more/feed_back/button.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
@@ -86,7 +88,7 @@ class MoreTrainerScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            text: Translation.of(context).language,
+            text: LanguageHelper.getTranslation(context).language,
             fontSize: AppConstants.textSize16,
           ),
           Gaps.vGap16,
@@ -108,7 +110,7 @@ class MoreTrainerScreen extends StatelessWidget {
                           : null,
                       child: Center(
                           child: CustomText(
-                        text: Translation.of(context).arabic,
+                        text: LanguageHelper.getTranslation(context).arabic,
                         fontSize: AppConstants.textSize14,
                       )),
                     ),
@@ -131,7 +133,7 @@ class MoreTrainerScreen extends StatelessWidget {
                           : null,
                       child: Center(
                         child: CustomText(
-                          text: Translation.of(context).english,
+                          text: LanguageHelper.getTranslation(context).english,
                           fontSize: AppConstants.textSize14,
                         ),
                       ),
@@ -154,7 +156,7 @@ class MoreTrainerScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16.h),
               child: CustomText(
-                text: Translation.of(context).privacy_policy,
+                text: LanguageHelper.getTranslation(context).privacy_policy,
                 fontSize: AppConstants.textSize16,
               ),
             ),
@@ -167,7 +169,8 @@ class MoreTrainerScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       CustomText(
-                        text: Translation.of(context).enable_notifications,
+                        text: LanguageHelper.getTranslation(context)
+                            .enable_notifications,
                         fontSize: AppConstants.textSize16,
                       ),
                       const Spacer(),
@@ -199,7 +202,7 @@ class MoreTrainerScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
               child: CustomText(
-                text: Translation.of(context).about_app,
+                text: LanguageHelper.getTranslation(context).about_app,
                 fontSize: AppConstants.textSize16,
               ),
             ),
@@ -214,7 +217,7 @@ class MoreTrainerScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
               child: CustomText(
-                text: Translation.of(context).logOut,
+                text: LanguageHelper.getTranslation(context).logOut,
                 fontSize: AppConstants.textSize16,
               ),
             ),
@@ -229,7 +232,7 @@ class MoreTrainerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TransparentAppBar(
-        title: Translation.of(context).more,
+        title: LanguageHelper.getTranslation(context).more,
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
@@ -240,7 +243,7 @@ class MoreTrainerScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TitleWidget(
-                title: Translation.of(context).goto,
+                title: LanguageHelper.getTranslation(context).goto,
               ),
               Gaps.vGap16,
               Column(
@@ -249,14 +252,14 @@ class MoreTrainerScreen extends StatelessWidget {
                 // runSpacing: 16.h,
                 children: [
                   _buildChipWidget(
-                      title: Translation.of(context).courses,
+                      title: LanguageHelper.getTranslation(context).courses,
                       imgPath: AppConstants.SWIMMING_IMG,
                       onPressed: () {
                         NavigationHelper.goto(
                             context: context, screen: const MyCoursesView());
                       }),
                   _buildChipWidget(
-                      title: Translation.of(context).trainee,
+                      title: LanguageHelper.getTranslation(context).trainee,
                       imgPath: AppConstants.COACH1_IMAGE,
                       onPressed: () {
                         NavigationHelper.goto(
@@ -281,39 +284,18 @@ class MoreTrainerScreen extends StatelessWidget {
                             context: context);
                       }),
                   // _buildChipWidget(
-                  //     title: Translation.of(context).supplements,
+                  //     title: LanguageHelper.getTranslation(context).supplements,
                   //     imgPath: AppConstants.KCAL2_IMG,
                   //     onPressed: () {}),
                   // _buildChipWidget(
-                  //     title: Translation.of(context).my_orders,
+                  //     title: LanguageHelper.getTranslation(context).my_orders,
                   //     imgPath: AppConstants.VEGGIE_IMG,
                   //     onPressed: () {}),
                 ],
               ),
-              Gaps.vGap30,
+             AccountSettingWidget(typeUser),
               TitleWidget(
-                title: Translation.of(context).account_settings,
-              ),
-              Gaps.vGap10,
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChangePasswordScreen(
-                            screenNumber: typeUser,
-                          )));
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(6.h),
-                  child: CustomText(
-                    text: Translation.of(context).change_password,
-                    fontSize: AppConstants.textSize14,
-                  ),
-                ),
-              ),
-              Gaps.vGap24,
-              TitleWidget(
-                title: Translation.of(context).app_settings,
+                title: LanguageHelper.getTranslation(context).app_settings,
               ),
               Gaps.vGap16,
               _buildAppSettingsWidget(context: context),

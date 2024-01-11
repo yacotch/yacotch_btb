@@ -374,7 +374,9 @@
 "changes_in_bmi":"التغيرات في كتلة الجسم",
 "order":"طلب",
 "the_member_left_the_call":"{name} لقد غادر المكالمة ",
-"the_member_decline_the_call":"{name} رفض المكالمة"
+"the_member_decline_the_call":"{name} رفض المكالمة",
 
+"delete_acc":"حذف الحساب",
+"delete_acc_dialog_content":"هل انت متأكد انك تريد حذف حسابك؟"
 
 }

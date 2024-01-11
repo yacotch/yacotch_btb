@@ -1964,6 +1964,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} declined the call '**
   String the_member_decline_the_call(Object name);
+
+  /// No description provided for @delete_acc.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get delete_acc;
+
+  /// No description provided for @delete_acc_dialog_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your account?'**
+  String get delete_acc_dialog_content;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

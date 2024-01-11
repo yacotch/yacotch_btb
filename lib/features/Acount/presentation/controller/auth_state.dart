@@ -85,3 +85,7 @@ class AssignSubscriptionToUserLoading extends AuthState {}
 class AssignSubscriptionToUserError extends AuthState {}
 
 class GetImageState extends AuthState {}
+
+class MoreLoading extends AuthState{}
+class MoreAccountDeletedSucc extends AuthState{}
+class MoreAccountDeletionFailed extends AuthState{}

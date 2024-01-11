@@ -34,8 +34,6 @@ unFocusList({required List<FocusNode> focus}) {
   });
 }
 
-
-
 changeTheme(BuildContext context) async {
   var brightness = Theme.of(context).brightness;
   await AppConfig().persistAppTheme(
@@ -67,9 +65,6 @@ Future<LocationData?> getMyLocation() async {
     _permissionGranted = await location.requestPermission();
   }
   _locationData = await location.getLocation();
-  print(_locationData.longitude.toString() +
-      ' ' +
-      _locationData.latitude.toString());
   return _locationData;
 }
 
@@ -82,11 +77,7 @@ String getTranslation(
               AppConstants.LANG_EN &&
           enText != null
       ? enText
-      : arText != null
-          ? arText
-          : alternativeText ?? '';
+      : arText ?? alternativeText ?? '';
 }
 
-logout() async {
-  RestartWidget.restartApp(NavigationService().appContext!);
-}
+logout() async => RestartWidget.restartApp(NavigationService().appContext!);

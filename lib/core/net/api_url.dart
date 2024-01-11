@@ -22,6 +22,8 @@ class APIUrls {
   static const API_FORGETPASSWORD = "/services/app/Account/ForgotPassword";
   static const API_VERIFY_ACCOUNT = "/services/app/Account/VerifyAccount";
   static const API_VERIFY_RESEND_CODE = "/services/app/Account/ResendCode";
+  static const API_DELETE_ACCOUNT = "/services/app/Trainee/DeleteAccount";
+
   static const API_VERIFY_FORGETPASSWORD =
       "/services/app/Account/ConfirmForgotPassword";
   static const API_GET_COURSES = "/services/app/Course/GetAll";
