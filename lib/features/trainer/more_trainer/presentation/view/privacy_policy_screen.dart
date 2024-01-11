@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../../generated/l10n.dart';
-import '../widgets/privacy_policy_screen_content.dart';
+import '../../../../core_features/more/privacy_policy/privacy_policy_screen_content.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
   const PrivacyPolicyScreen({Key? key}) : super(key: key);

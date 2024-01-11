@@ -21,7 +21,7 @@ class ChatTraieesListView extends StatelessWidget {
           return const Loader();
         } else {
           return HomeTrainerCubit.of(context).newTrainees!.isEmpty
-              ? Text(LanguageHelper.getTranslation(context).no_trainers)
+              ? Text(LanguageHelper.getTranslation(context).no_trainees)
               : SizedBox(
                   height: 120.h,
                   child: ListView.builder(

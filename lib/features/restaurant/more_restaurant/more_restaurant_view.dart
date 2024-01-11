@@ -239,14 +239,6 @@ class MoreRestaurantScreen extends StatelessWidget {
                                   typeUser: typeUser
                                 )));
                       }),
-                  // _buildChipWidget(
-                  //     title: Translation.of(context).supplements,
-                  //     imgPath: AppConstants.KCAL2_IMG,
-                  //     onPressed: () {}),
-                  // _buildChipWidget(
-                  //     title: Translation.of(context).my_orders,
-                  //     imgPath: AppConstants.VEGGIE_IMG,
-                  //     onPressed: () {}),
                 ],
               ),
               Gaps.vGap30,

@@ -18,3 +18,13 @@ class ChangePassLoaded extends MoreTrainerState {}
 class ChangePassError extends MoreTrainerState {}
 
 class MoreChangeEnableNotificationsState extends MoreTrainerState {}
+
+//privacy policy
+class PrivacyPolicyLoading extends MoreTrainerState {}
+
+class PrivacyPolicyLoaded extends MoreTrainerState {
+  final String data;
+  PrivacyPolicyLoaded(this.data);
+}
+
+class PrivacyPolicyError extends MoreTrainerState {}

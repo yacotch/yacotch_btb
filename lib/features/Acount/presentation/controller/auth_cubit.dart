@@ -248,8 +248,7 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           isLoading = false;
-          NavigationHelper.goto(
-              screen: NavigatorScreen(homeType: typeUser), context: context);
+          NavigationHelper.pop(context);
           emit(ChangePasswordLoaded());
         },
       );
@@ -645,6 +644,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     print(result.data);
   }
+
   void deleteAccount(int id) async {
     emit(MoreLoading());
     await authRepo.deleteAccount(id).then((value) => value.fold(

@@ -49,4 +49,18 @@ class MoreTrainerCubit extends Cubit<MoreTrainerState> {
     await AppStorage.cacheNotificationsEnabled(isEnableNotification);
     emit(MoreChangeEnableNotificationsState());
   }
+
+  Future getPrivacyPolicy() async {
+    emit(PrivacyPolicyLoading());
+    final res = await moreTrainerRepo.getPrivacyPolicy();
+    res.fold(
+      (err) {
+        Toast.show(err);
+        emit(PrivacyPolicyError());
+      },
+      (res) async {
+        emit(PrivacyPolicyLoaded(res));
+      },
+    );
+  }
 }

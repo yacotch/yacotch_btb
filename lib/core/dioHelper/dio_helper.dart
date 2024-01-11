@@ -44,6 +44,7 @@ class DioHelper {
     Map<String, dynamic>? headers,
     FormData? formData,
   }) {
+    log("${AppStorage.isLogged ? "Bearer ${AppStorage.getUserInfo!.result!.accessToken}" : null}");
     dioSingleton.options.headers = headers;
     return dioSingleton.post(path,
         data: formData ?? body,

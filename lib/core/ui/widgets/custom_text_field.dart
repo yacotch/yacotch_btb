@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 
 import '../../../generated/l10n.dart';
 import '../../common/app_colors.dart';
@@ -115,15 +116,15 @@ class PhoneNumberTextField extends StatelessWidget {
       selectorTextStyle: const TextStyle(color: AppColors.white_text),
       validator: (text) {
         if (!Validators.isNotEmptyString(text ?? '')) {
-          return Translation.of(context).enter_phone_number;
+          return LanguageHelper.getTranslation(context).enter_phone_number;
         }
         if (!Validators.isValidPhoneNumber(text ?? '')) {
-          return Translation.of(context).enter_valid_phone;
+          return LanguageHelper.getTranslation(context).enter_valid_phone;
         }
         return null;
       },
       inputDecoration: InputDecoration(
-        labelText: hint ?? Translation.of(context).phone,
+        labelText: hint ?? LanguageHelper.getTranslation(context).phone,
         border: border,
         disabledBorder: border,
         enabledBorder: border,
@@ -160,7 +161,7 @@ class NormalTextField extends StatelessWidget {
     return CustomTextField(
       validator: (value) {
         if (value == null || value == '')
-          return Translation.of(context).insert_value;
+          return LanguageHelper.getTranslation(context).insert_value;
         return null;
       },
       textInputType: TextInputType.text,
@@ -222,21 +223,21 @@ class PasswordTextField extends StatelessWidget {
       validator: isConfirmPassword!
           ? (text) {
               if (!Validators.isNotEmptyString(text ?? ''))
-                return Translation.of(context).enter_confirm_password;
+                return LanguageHelper.getTranslation(context).enter_confirm_password;
               if (!Validators.isValidConfirmPassword(
                   text ?? '',
                   otherPasswordController == null
                       ? ''
                       : otherPasswordController!.text))
-                return Translation.of(context).passwords_not_match;
+                return LanguageHelper.getTranslation(context).passwords_not_match;
               return null;
             }
           : (text) {
               if (!Validators.isNotEmptyString(text ?? ''))
-                return Translation.of(context).enter_password;
+                return LanguageHelper.getTranslation(context).enter_password;
               if (!Validators.isValidPassword(
                 text ?? '',
-              )) return Translation.of(context).enter_valid_password;
+              )) return LanguageHelper.getTranslation(context).enter_valid_password;
               return null;
             },
       textInputType: TextInputType.visiblePassword,
@@ -244,8 +245,8 @@ class PasswordTextField extends StatelessWidget {
       labelText: text != null
           ? text
           : !isConfirmPassword!
-              ? Translation.of(context).password
-              : Translation.of(context).confirmPassword,
+              ? LanguageHelper.getTranslation(context).password
+              : LanguageHelper.getTranslation(context).confirmPassword,
       hidePassword: hidePassword,
       isPassword: true,
       onFieldSubmitted: onFiledSubmitted,
@@ -285,7 +286,7 @@ class EmailTextField extends StatelessWidget {
       validator: (text) {
         if (validator == null) {
           if (!Validators.isNotEmptyString(text ?? '')) {
-            return Translation.of(context).errorEmptyField;
+            return LanguageHelper.getTranslation(context).errorEmptyField;
           }
         } else {
           return validator!(text);
