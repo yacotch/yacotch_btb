@@ -1,4 +1,4 @@
-package com.yacotch.partner
+package com.yacotch.b2b
 
 import io.flutter.embedding.android.FlutterActivity
 

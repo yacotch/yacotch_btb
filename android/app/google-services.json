@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:986744272624:android:9e8ea16e16215d165b3435",
+        "android_client_info": {
+          "package_name": "com.yacotch.b2b"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986744272624-thtc5smp6s6voufmmhr8q84pbs7gppll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2s3AZYiC2TLTz3tXM2xnd0dTIujLn0FA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986744272624-thtc5smp6s6voufmmhr8q84pbs7gppll.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "986744272624-5m2nar553e7gik00b92ic2hd04ch6hge.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yacotch.user"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:986744272624:android:f781a35a18cdeefc5b3435",
         "android_client_info": {
           "package_name": "com.yacotch.partner"
