@@ -344,9 +344,11 @@ class AuthRepo {
       return Left({"error": e.toString()});
     }
   }
-    Future<Either<String, bool>> deleteAccount(int id) async {
-    final response =
-        await DioHelper.delete(APIUrls.API_DELETE_ACCOUNT, query: {"id": id});
+
+  Future<Either<String, bool>> deleteAccount(int id) async {
+    final response = await DioHelper.delete(
+        APIUrls.API_DELETE_ACCOUNT(_getEndPoint),
+        query: {"id": id});
     try {
       if (response.data['success'] == true) {
         return const Right(true);
@@ -356,5 +358,13 @@ class AuthRepo {
     } catch (e) {
       return Left(e.toString());
     }
+  }
+
+  String get _getEndPoint {
+    var result = AppStorage.getUserInfo!.result!;
+    if (result.restaurantId != null) return "Restaurant";
+
+    if (result.shopId == null) return "Trainer";
+    return "Shop";
   }
 }

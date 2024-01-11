@@ -14,12 +14,12 @@ class AccountSettingWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Gaps.vGap30,
-      const  _Title(),
+        const _Title(),
         Gaps.vGap10,
         MoreScreenChangePasswordButton(typeUser),
-        Gaps.vGap24,
+        Gaps.vGap10,
         const MoreScreenDeleteAccountButton(),
-        Gaps.vGap24
+        Gaps.vGap10
       ],
     );
   }

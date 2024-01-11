@@ -8,6 +8,7 @@ import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
+import 'package:trainee_restaurantapp/features/on_boarding/view/main_onboarding_view.dart';
 
 class MoreScreenDeleteAccountButton extends StatelessWidget {
   const MoreScreenDeleteAccountButton({super.key});
@@ -19,7 +20,9 @@ class MoreScreenDeleteAccountButton extends StatelessWidget {
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (p, c) {
             if (c is MoreAccountDeletedSucc) {
-              logout();
+              AppStorage.signOut();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MainOnBoardingView()));
             }
           },
           builder: (context, state) => GestureDetector(
