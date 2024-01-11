@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/ui/widgets/custom_appbar.dart';
-import '../../../../../generated/l10n.dart';
-import '../widgets/about_app_screen_content.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/about_app/content.dart';
+import '../../../../core/ui/widgets/custom_appbar.dart';
+import '../../../../generated/l10n.dart';
 
 class AboutAppScreen extends StatefulWidget {
   const AboutAppScreen({Key? key}) : super(key: key);

@@ -28,3 +28,13 @@ class PrivacyPolicyLoaded extends MoreTrainerState {
 }
 
 class PrivacyPolicyError extends MoreTrainerState {}
+
+//about app
+class AboutAppLoading extends MoreTrainerState {}
+
+class AboutAppLoaded extends MoreTrainerState {
+  final String data;
+  AboutAppLoaded(this.data);
+}
+
+class AboutAppError extends MoreTrainerState {}

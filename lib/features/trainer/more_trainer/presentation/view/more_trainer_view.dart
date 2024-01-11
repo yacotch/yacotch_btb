@@ -10,7 +10,7 @@ import 'package:trainee_restaurantapp/features/core_features/more/account_settin
 import 'package:trainee_restaurantapp/features/core_features/more/account_setting/section.dart';
 import 'package:trainee_restaurantapp/features/core_features/more/feed_back/button.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
-import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/about_app/screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/privacy_policy_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/my_order_view.dart';

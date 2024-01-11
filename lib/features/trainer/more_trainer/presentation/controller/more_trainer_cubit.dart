@@ -63,4 +63,18 @@ class MoreTrainerCubit extends Cubit<MoreTrainerState> {
       },
     );
   }
+
+  Future getAboutApp() async {
+    emit(AboutAppLoading());
+    final res = await moreTrainerRepo.getAboutApp();
+    res.fold(
+      (err) {
+        Toast.show(err);
+        emit(AboutAppError());
+      },
+      (res) async {
+        emit(AboutAppLoaded(res));
+      },
+    );
+  }
 }

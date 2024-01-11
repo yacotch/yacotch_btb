@@ -6,7 +6,7 @@ import 'package:trainee_restaurantapp/features/core_features/more/feed_back/butt
 import 'package:trainee_restaurantapp/features/restaurant/more_restaurant/more_restaurant_view.dart';
 import 'package:trainee_restaurantapp/features/shop/my_orders_shop/view/my_order_shop_view.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
-import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/about_app/screen.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';

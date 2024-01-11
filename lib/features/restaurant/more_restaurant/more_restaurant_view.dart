@@ -20,7 +20,7 @@ import '../../../../../generated/l10n.dart';
 import '../../../core/localization/localization_provider.dart';
 import '../../Acount/data/repositories/auth_repo.dart';
 import '../../Acount/presentation/screens/change_password_screen.dart';
-import '../../trainer/more_trainer/presentation/view/about_app_screen.dart';
+import '../../core_features/more/about_app/screen.dart';
 import '../../trainer/more_trainer/presentation/view/privacy_policy_screen.dart';
 
 class MoreRestaurantScreen extends StatelessWidget {

@@ -25,6 +25,7 @@ class APIUrls {
   static API_DELETE_ACCOUNT(String type) => "/services/app/$type/DeleteAccount";
   static const API_PRIVACY_PLICY =
       '/services/app/Configuration/GetPrivacyPolicy';
+  static const API_ABOUT_APP = '/services/app/Configuration/GetAboutYacotch';
   static const API_VERIFY_FORGETPASSWORD =
       "/services/app/Account/ConfirmForgotPassword";
   static const API_GET_COURSES = "/services/app/Course/GetAll";
