@@ -3,7 +3,7 @@ import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/models/subscription_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
-import 'package:trainee_restaurantapp/features/navigator_home/view/navigator_home_view.dart';
+import 'package:trainee_restaurantapp/features/core_features/navigator_home/view/navigator_home_view.dart';
 import 'package:trainee_restaurantapp/features/payment/view/payment_view.dart';
 
 class SubscripeButton extends StatelessWidget {

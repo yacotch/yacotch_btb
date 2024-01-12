@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trainee_restaurantapp/features/navigator_home/functions.dart';
-import 'package:trainee_restaurantapp/features/navigator_home/widgets/bottom_navigation_bar.dart';
-import '../../../../core/ui/widgets/route_aware_widget.dart';
+import 'package:trainee_restaurantapp/features/core_features/navigator_home/functions.dart';
+import 'package:trainee_restaurantapp/features/core_features/navigator_home/widgets/bottom_navigation_bar.dart';
+import '../../../../../core/ui/widgets/route_aware_widget.dart';
 
 class NavigatorScreen extends StatefulWidget {
   static const String routeName = "NavigatorScreen/";
@@ -19,12 +19,11 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
   late PageController _pageController;
   int _selectedPage = 0;
   GlobalKey globalKey = GlobalKey(debugLabel: 'btm_app_bar');
-  bool _inScreen = true;
+  bool inScreen = true;
 
   @override
   void initState() {
     super.initState();
-
     _pageController = PageController();
     _pages = NavigatorHomeFunctions.getPages(widget.homeType);
   }
@@ -59,7 +58,7 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
             ),
           ),
           HomeBottomNavigationBar(
-            (index) => _onItemTapped,
+            (index) => _onItemTapped(index),
             _selectedPage,
             widget.homeType,
           )
@@ -80,7 +79,7 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
   @override
   void onLeaveScreen() {
     setState(() {
-      _inScreen = false;
+      inScreen = false;
     });
   }
 }

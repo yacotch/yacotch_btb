@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
-import 'package:trainee_restaurantapp/features/navigator_home/view/navigator_home_view.dart';
+import 'package:trainee_restaurantapp/features/core_features/navigator_home/view/navigator_home_view.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/data/models/restaurants_model.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/data/models/update_rest_profile_model.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/data/repositories/RestProfileRepo.dart';

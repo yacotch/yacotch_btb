@@ -22,40 +22,35 @@ class CustomButtomNavigationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        onTap(index);
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 0.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            if (icon != null)
-              ImageIcon(
-                AssetImage(
-                  icon!,
-                ),
-                color: selectedIndex == index
-                    ? AppColors.accentColorLight
-                    : AppColors.white,
-                size: AppConstants.textSize18.h,
+      onTap: () => onTap(index),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          if (icon != null)
+            ImageIcon(
+              AssetImage(
+                icon!,
               ),
-            if (iconData != null)
-              Icon(
-                iconData,
-                color: selectedIndex == index
-                    ? AppColors.accentColorLight
-                    : AppColors.white,
-                size: AppConstants.textSize18.h,
-              ),
-            CustomText(
-              text: text,
               color: selectedIndex == index
                   ? AppColors.accentColorLight
                   : AppColors.white,
-            )
-          ],
-        ),
+              size: AppConstants.textSize18.h,
+            ),
+          if (iconData != null)
+            Icon(
+              iconData,
+              color: selectedIndex == index
+                  ? AppColors.accentColorLight
+                  : AppColors.white,
+              size: AppConstants.textSize18.h,
+            ),
+          CustomText(
+            text: text,
+            color: selectedIndex == index
+                ? AppColors.accentColorLight
+                : AppColors.white,
+          )
+        ],
       ),
     );
   }

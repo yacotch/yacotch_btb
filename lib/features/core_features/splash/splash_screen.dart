@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:trainee_restaurantapp/features/navigator_home/view/navigator_home_view.dart';
+import 'package:trainee_restaurantapp/features/core_features/navigator_home/view/navigator_home_view.dart';
 import 'package:trainee_restaurantapp/features/core_features/main_onboarding_view.dart';
 import 'package:trainee_restaurantapp/features/core_features/splash/splash_screen_content.dart';
 import '../../../core/appStorage/app_storage.dart';

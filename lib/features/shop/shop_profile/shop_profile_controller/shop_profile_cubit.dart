@@ -13,7 +13,7 @@ import '../../../../core/location/location_cubit/location_cubit.dart';
 import '../../../../core/location/model/location_model.dart';
 import '../../../../core/ui/toast.dart';
 import '../../../../core/utils/Utils.dart';
-import '../../../navigator_home/view/navigator_home_view.dart';
+import '../../../core_features/navigator_home/view/navigator_home_view.dart';
 import '../../../../core/models/shop_model.dart';
 import '../data/repositories/ShopProfileRepo.dart';
 

@@ -24,7 +24,7 @@ import '../../../../core/ui/error_ui/error_viewer/snack_bar/errv_snack_bar_optio
 import '../../../../core/ui/toast.dart';
 import '../../../../core/utils/Utils.dart';
 import '../../../../generated/l10n.dart';
-import '../../../navigator_home/view/navigator_home_view.dart';
+import '../../../core_features/navigator_home/view/navigator_home_view.dart';
 import '../../../core_features/main_onboarding_view.dart';
 import '../../data/models/specialization_model.dart';
 import '../../data/repositories/auth_repo.dart';
