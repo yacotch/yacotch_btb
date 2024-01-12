@@ -689,54 +689,7 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                                     )),
                               ],
                             )
-                            // BlocProvider(
-                            //   create: (context) => CourseCubit(),
-                            //   child: BlocConsumer<CourseCubit, CourseState>(
-                            //     listener: (context, state) {
-                            //       if (state is ErrorCreateReviewData) {
-                            //         Navigator.pop(context);
-                            //         showErrorSnackBar(
-                            //           context: context, message: "You already reviewed this item",);
-                            //
-                            //       }
-                            //       state is SuccessCreateReviewData
-                            //           ? Navigator.pop(context)
-                            //           : null;
-                            //     },
-                            //     builder: (context, state) {
-                            //       return
-                            //         Row(
-                            //         mainAxisAlignment: MainAxisAlignment.end,
-                            //         children: [
-                            //           SizedBox(
-                            //               height: 30.h,
-                            //               width: 104.w,
-                            //               child: CustomTextButton(
-                            //                 text: Translation.of(context).skip,
-                            //                 onTap: () {
-                            //                   Nav.pop();
-                            //                 },
-                            //               )),
-                            //           SizedBox(
-                            //               height: 30.h,
-                            //               width: 104.w,
-                            //               child: CustomElevatedButton(
-                            //                 text: Translation.of(context).send,
-                            //                 onTap: () {
-                            //                   CourseCubit.get(context)
-                            //                       .createReview(
-                            //                       RefId: sn.coachEntity.id!,
-                            //                       comment: commentController
-                            //                           .text,
-                            //                       rate: sn.rate);
-                            //                 },
-                            //               )),
-                            //         ],
-                            //       );
-                            //     },
-                            //   ),
-                            // )
-                          ],
+                         ],
                         ),
                       ),
                     ),
