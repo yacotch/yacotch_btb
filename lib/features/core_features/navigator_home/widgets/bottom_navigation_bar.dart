@@ -48,17 +48,19 @@ class _ItemsBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var borderRadius2 =
+        BorderRadius.all(Radius.circular(AppConstants.textSize12));
     return Container(
-      padding: const EdgeInsets.all(2.0),
-      decoration: const BoxDecoration(color: AppColors.primaryColorLight),
+      decoration: BoxDecoration(
+          borderRadius: borderRadius2, color: AppColors.primaryColorLight),
       child: Container(
+          padding: const EdgeInsets.all(2.0),
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
                 AppColors.transparent.withOpacity(0.3),
                 AppColors.transparent.withOpacity(0)
               ]),
-              borderRadius:
-                  BorderRadius.all(Radius.circular(AppConstants.textSize12))),
+              borderRadius: borderRadius2),
           child: BottomNavigationItemsList(
               onTap: onTap, selected: selected, homeType: homeType)),
     );

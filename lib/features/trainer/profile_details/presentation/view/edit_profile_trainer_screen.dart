@@ -9,7 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
-import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/view/profile_view_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/view/functions.dart';
+import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/widgets/edit/profile_image.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/dimens.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -30,7 +31,7 @@ class EditProfileScreenContent extends StatefulWidget {
 class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
   @override
   void initState() {
-    initailzeControllers(context);
+    EditTrainerProfileFunctions.initailzeControllers(context);
     TrainerProfileCubit.of(context).getTrainerProfile(context);
     super.initState();
   }
@@ -44,16 +45,14 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
       body: BlocConsumer<TrainerProfileCubit, TrainerProfileState>(
         listener: (context, state) async {
           if (state is UpdateTranierProfileLoaded) {
-            await TrainerProfileCubit.of(context).getTrainerProfile(context);
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const ProfileTrainerScreenView(),
-            ));
+            await EditTrainerProfileFunctions.updateProfile(context);
           }
         },
         builder: (context, state) {
           if (state is GetTrainerProfileLoading) {
             return const Loader();
           } else {
+            var cubit = TrainerProfileCubit.of(context);
             return SizedBox(
               height: 1.sh,
               child: SingleChildScrollView(
@@ -61,23 +60,15 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
                     children: [
-                      _buildImageWidget(
-                          file: TrainerProfileCubit.of(context).fileImageUrl ??
-                              File(''),
-                          imageNetwork:
-                              TrainerProfileCubit.of(context).networkImageUrl ??
-                                  ''),
-                      SizedBox(
-                        height: 55.h,
-                      ),
+                      _ProfileImage(cubit: cubit),
+                      SizedBox(height: 55.h),
                       _buildTextFiledWidget(
                           type: TextInputType.name,
                           validator: (p0) {
                             return null;
                           },
                           title: Translation.of(context).full_name,
-                          textEditingController:
-                              TrainerProfileCubit.of(context).nameController),
+                          textEditingController: cubit.nameController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           type: TextInputType.number,
@@ -85,49 +76,33 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                               Validators.isNumber(input!, context),
                           title: Translation.of(context).phone,
                           isPhoneNumber: true,
-                          textEditingController:
-                              TrainerProfileCubit.of(context).phoneController),
-
+                          textEditingController: cubit.phoneController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           type: TextInputType.number,
                           validator: (input) =>
                               Validators.isNumber(input!, context),
                           title: Translation.of(context).hourRate,
-                          textEditingController: TrainerProfileCubit.of(context)
-                              .hourRateController),
-                      // Gaps.vGap24,
-                      // _buildTextFiledWidget(
-                      //     title: Translation.of(context).coach_specialization,
-                      //     textEditingController: TrainerProfileCubit.of(context)
-                      //         .coachSpecializationController),
+                          textEditingController: cubit.hourRateController),
                       Gaps.vGap24,
                       uploadSignUpFile(
                         text: Translation.of(context).cV,
-                        image:
-                            TrainerProfileCubit.of(context).networkCvUrl ?? "",
-                        file: TrainerProfileCubit.of(context).fileCvUrl ??
-                            File(''),
-                        fun: () => TrainerProfileCubit.of(context).getCv(),
+                        image: cubit.networkCvUrl ?? "",
+                        file: cubit.fileCvUrl ?? File(''),
+                        fun: () => cubit.getCv(),
                       ),
                       Gaps.vGap24,
                       uploadSignUpFile(
                         text: Translation.of(context).experienceCertification,
-                        image: TrainerProfileCubit.of(context)
-                                .networkExperienceUrl ??
-                            "",
-                        file:
-                            TrainerProfileCubit.of(context).fileExperienceUrl ??
-                                File(''),
-                        fun: () =>
-                            TrainerProfileCubit.of(context).getExperience(),
+                        image: cubit.networkExperienceUrl ?? "",
+                        file: cubit.fileExperienceUrl ?? File(''),
+                        fun: () => cubit.getExperience(),
                       ),
                       Row(
                         children: [
                           InkWell(
                             onTap: () async {
-                              TrainerProfileCubit.of(context)
-                                  .onLocationClick(context);
+                              cubit.onLocationClick(context);
                             },
                             child: CustomText(
                               text: LanguageHelper.getTranslation(context)
@@ -147,10 +122,7 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                             ? const Center(child: CircularProgressIndicator())
                             : CustomElevatedButton(
                                 text: Translation.of(context).save,
-                                onTap: () {
-                                  return TrainerProfileCubit.of(context)
-                                      .updateTrainerProfile();
-                                },
+                                onTap: () => cubit.updateTrainerProfile(),
                                 textSize: AppConstants.textSize20,
                                 borderRadius: AppConstants.borderRadius4,
                               ),
@@ -214,46 +186,6 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
     );
   }
 
-  Widget _buildImageWidget({required File file, required String imageNetwork}) {
-    return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
-      buildWhen: (previous, current) => current is GetImageState,
-      builder: (context, state) {
-        return Container(
-          height: 0.52.sh,
-          width: 1.sw,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppConstants.borderRadius8),
-            image: file.path.isNotEmpty
-                ? DecorationImage(image: FileImage(file), fit: BoxFit.cover)
-                : imageNetwork == ''
-                    ? const DecorationImage(
-                        image: AssetImage(AppConstants.AVATER_IMG),
-                        fit: BoxFit.cover)
-                    : DecorationImage(
-                        image: NetworkImage(imageNetwork ?? ''),
-                        fit: BoxFit.cover),
-          ),
-          child: Container(
-            color: AppColors.primaryColorLight.withOpacity(0.7),
-            child: Center(
-              child: GestureDetector(
-                onTap: () async {
-                  await TrainerProfileCubit.of(context).getImage();
-                  TrainerProfileCubit.of(context).emit(GetImageState());
-                },
-                child: ImageIcon(
-                  const AssetImage(AppConstants.CAMERA_ICON),
-                  color: AppColors.white,
-                  size: 104.w,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   Widget _buildTextFiledWidget(
       {required String title,
       bool isPhoneNumber = false,
@@ -279,25 +211,18 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
   }
 }
 
-void initailzeControllers(BuildContext context) {
-  TrainerProfileCubit.of(context).networkImageUrl =
-      TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? '';
-  TrainerProfileCubit.of(context).nameController.text =
-      TrainerProfileCubit.of(context).trainerModel!.name ?? '';
-  TrainerProfileCubit.of(context).phoneController.text =
-      TrainerProfileCubit.of(context).trainerModel!.phoneNumber ?? '';
-  TrainerProfileCubit.of(context).idNumberController.text =
-      TrainerProfileCubit.of(context).trainerModel!.specializationId.toString();
-  TrainerProfileCubit.of(context).hourRateController.text =
-      (TrainerProfileCubit.of(context).trainerModel!.hourPrice ?? 0).toString();
-  TrainerProfileCubit.of(context).coachSpecializationController.text =
-      TrainerProfileCubit.of(context).trainerModel!.specialization!.text ?? '';
-  TrainerProfileCubit.of(context).networkCvUrl =
-      TrainerProfileCubit.of(context).trainerModel!.cvUrl ?? '';
+class _ProfileImage extends StatelessWidget {
+  const _ProfileImage({
+    required this.cubit,
+  });
 
-  TrainerProfileCubit.of(context).latitude =
-      TrainerProfileCubit.of(context).trainerModel!.latitude ?? 0;
+  final TrainerProfileCubit cubit;
 
-  TrainerProfileCubit.of(context).longitude =
-      TrainerProfileCubit.of(context).trainerModel!.longitude ?? 0;
+  @override
+  Widget build(BuildContext context) {
+    return EditTrainerProfileImageWidget(
+      file: cubit.fileImageUrl ?? File(''),
+      imageNetwork: cubit.networkImageUrl ?? '',
+    );
+  }
 }
