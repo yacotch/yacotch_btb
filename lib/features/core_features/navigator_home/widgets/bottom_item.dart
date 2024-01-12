@@ -28,30 +28,28 @@ class CustomButtomNavigationItem extends StatelessWidget {
         children: [
           if (icon != null)
             ImageIcon(
-              AssetImage(
-                icon!,
-              ),
-              color: selectedIndex == index
-                  ? AppColors.accentColorLight
-                  : AppColors.white,
+              AssetImage(icon!),
+              color: _getCurrentColor(),
               size: AppConstants.textSize18.h,
             ),
           if (iconData != null)
             Icon(
               iconData,
-              color: selectedIndex == index
-                  ? AppColors.accentColorLight
-                  : AppColors.white,
+              color: _getCurrentColor(),
               size: AppConstants.textSize18.h,
             ),
           CustomText(
             text: text,
-            color: selectedIndex == index
-                ? AppColors.accentColorLight
-                : AppColors.white,
+            color: _getCurrentColor(),
           )
         ],
       ),
     );
+  }
+
+  Color _getCurrentColor() {
+    return selectedIndex == index
+        ? AppColors.accentColorLight
+        : AppColors.white;
   }
 }
