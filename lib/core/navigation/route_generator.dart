@@ -9,7 +9,7 @@ import '../../features/Acount/presentation/screens/forget_password_verification.
 import '../../features/Acount/presentation/screens/login_screen.dart';
 import '../../features/Acount/presentation/screens/reset_password_screen.dart';
 import '../../features/navigator_home/view/navigator_home_view.dart';
-import '../../features/on_boarding/view/main_onboarding_view.dart';
+import '../../features/core_features/main_onboarding_view.dart';
 import '../../features/restaurant/restaurant_profile/view/edit_restaurant_profile.dart';
 import '../../features/trainer/add_course/presentation/screen/add_course_view.dart';
 import '../../features/trainer/my_courses/presentation/view/my_course_details.dart';

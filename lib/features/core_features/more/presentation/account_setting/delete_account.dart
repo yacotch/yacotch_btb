@@ -9,7 +9,7 @@ import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
-import 'package:trainee_restaurantapp/features/on_boarding/view/main_onboarding_view.dart';
+import 'package:trainee_restaurantapp/features/core_features/main_onboarding_view.dart';
 
 class MoreScreenDeleteAccountButton extends StatelessWidget {
   const MoreScreenDeleteAccountButton({super.key});

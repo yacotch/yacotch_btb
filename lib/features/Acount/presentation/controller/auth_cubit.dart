@@ -25,7 +25,7 @@ import '../../../../core/ui/toast.dart';
 import '../../../../core/utils/Utils.dart';
 import '../../../../generated/l10n.dart';
 import '../../../navigator_home/view/navigator_home_view.dart';
-import '../../../on_boarding/view/main_onboarding_view.dart';
+import '../../../core_features/main_onboarding_view.dart';
 import '../../data/models/specialization_model.dart';
 import '../../data/repositories/auth_repo.dart';
 import '../screens/account_verification.dart';

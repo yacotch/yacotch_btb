@@ -19,7 +19,7 @@ import 'features/restaurant/home_restaurant/controller/home_restaurant_cubit.dar
 import 'features/restaurant/my_plates/controller/my_plates_cubit.dart';
 import 'features/shop/my_products/controller/my_products_cubit.dart';
 import 'features/shop/shop_profile/shop_profile_controller/shop_profile_cubit.dart';
-import 'features/splash/presentation/screen/splash_screen.dart';
+import 'features/core_features/splash/splash_screen.dart';
 import 'features/trainer/my_orders/presentation/controller/booking_request_cubit.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -7,8 +7,8 @@ import 'package:trainee_restaurantapp/features/core_features/more/presentation/w
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/view/my_course_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_orders/presentation/view/my_order_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/trainee/presentation/view/all_trainee_screen.dart';
-import '../../../../../core/constants/app/app_constants.dart';
-import '../../../subscription/presentation/view/subscription_screen.dart';
+import '../../../core/constants/app/app_constants.dart';
+import '../subscription/presentation/view/subscription_screen.dart';
 
 class MoreTrainerScreen extends StatelessWidget {
   const MoreTrainerScreen({Key? key, required this.typeUser}) : super(key: key);

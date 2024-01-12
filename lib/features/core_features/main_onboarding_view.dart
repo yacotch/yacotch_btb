@@ -4,7 +4,7 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/login_screen.dart';
 import 'package:trainee_restaurantapp/generated/l10n.dart';
 
-import '../../../core/constants/app/app_constants.dart';
+import '../../core/constants/app/app_constants.dart';
 
 class MainOnBoardingView extends StatelessWidget {
   const MainOnBoardingView({Key? key}) : super(key: key);

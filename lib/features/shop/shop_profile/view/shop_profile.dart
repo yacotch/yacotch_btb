@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/core_features/profile/social_media/links_model.dart';
@@ -242,24 +240,11 @@ class _ShopProfileState extends State<ShopProfile> {
     final List<String> restaurantProfileMochitDataList = [
       shopModel.phoneNumber ?? tr.no_data_found,
 
-      // "commercialRegisterNumber" ?? tr.no_data_found,
-      // shopModel.commercialRegisterDocument ?? tr.no_data_found,
-      // restaurantsModel.commercialRegisterDocument!.split("/").last,
-      shopModel.manager?.name ?? tr.no_data_found,
-      // shopModel.city?.text ?? '',
-      // shopModel.city?.text ?? '',
-      // shopModel.street ?? '',
-      // "بناء رقم ${shopModel.buildingNumber}"
     ];
     final List<String> restaurantProfileConstantList = [
       tr.phone,
-      //   tr.commericalNumber,
-      //   tr.commericalFile,
-      tr.shopManagerName,
-      //"البلد",
-      //"المدينه",
-      //"الشارع",
-      // "رقم البناء"
+     tr.shopManagerName,
+     
     ];
 
     return SizedBox(
@@ -298,97 +283,6 @@ class _ShopProfileState extends State<ShopProfile> {
             },
             itemCount: 2 //4
             ),
-      ),
-    );
-  }
-
-  Widget _restaurantProfileWorkingHours(ShopModel restaurantsModel) {
-    return SizedBox(
-      height: 320.h,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: CustomText(
-              text: "أيام وساعات العمل",
-              fontWeight: FontWeight.w600,
-              fontSize: AppConstants.textSize18,
-              color: AppColors.white,
-            ),
-          ),
-          Expanded(
-            child: restaurantsModel.openingDays!.isEmpty
-                ? const Center(
-                    child: Text('لا توجد ايام حاليا'),
-                  )
-                : Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: 50,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.access_time,
-                                      size: 14,
-                                      color: AppColors.accentColorLight,
-                                    ),
-                                    Gaps.hGap8,
-                                    CustomText(
-                                      text: ShopProfileCubit.of(context)
-                                          .convertDays(restaurantsModel
-                                              .openingDays![index].day!),
-                                      color: AppColors.accentColorLight,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AppConstants.textSize14,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                  child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  CustomText(
-                                    text:
-                                        "من ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].from ?? ''))}",
-                                    color: AppColors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppConstants.textSize14,
-                                  ),
-                                  CustomText(
-                                    text:
-                                        "الي ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].to ?? ''))}",
-                                    color: AppColors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppConstants.textSize14,
-                                  ),
-                                ],
-                              )),
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Container(
-                          height: 2,
-                          color: AppColors.grey,
-                        );
-                      },
-                      itemCount: restaurantsModel.openingDays!.length,
-                    ),
-                  ),
-          ),
-        ],
       ),
     );
   }

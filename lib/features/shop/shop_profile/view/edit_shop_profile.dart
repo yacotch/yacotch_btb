@@ -4,7 +4,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
@@ -18,7 +17,6 @@ import '../../../../core/ui/widgets/custom_button.dart';
 import '../../../../core/ui/widgets/custom_text.dart';
 import '../../../../core/ui/widgets/custom_text_field.dart';
 import '../../../../generated/l10n.dart';
-import '../../../trainer/profile_details/presentation/view/map_edit_user_profile.dart';
 import '../../../../core/models/shop_model.dart';
 import '../shop_profile_controller/shop_profile_cubit.dart';
 
@@ -52,16 +50,7 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
         ShopProfileCubit.of(context).shopModel!.enCover ?? '';
     ShopProfileCubit.of(context).phoneController.text =
         ShopProfileCubit.of(context).shopModel!.phoneNumber ?? '';
-    // ShopProfileCubit.of(context).commercialRegisterNumberController.text =
-    //     ShopProfileCubit.of(context)
-    //             .shopModel!
-    //             .commercialRegisterNumber ??
-    //         '';
-    // ShopProfileCubit.of(context).commercialRegisterDoc =
-    //     ShopProfileCubit.of(context)
-    //             .shopModel!
-    //             .commercialRegisterDocument ??
-    //         '';
+   
     ShopProfileCubit.of(context).cityController.text =
         ShopProfileCubit.of(context).shopModel!.city!.text ?? '';
     ShopProfileCubit.of(context).streetController.text =

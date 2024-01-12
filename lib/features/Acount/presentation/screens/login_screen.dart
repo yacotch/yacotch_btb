@@ -7,7 +7,7 @@ import 'package:trainee_restaurantapp/features/Acount/presentation/controller/au
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/restaurant.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/shop.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/sign_up/trainer.dart';
-import 'package:trainee_restaurantapp/features/on_boarding/view/main_onboarding_view.dart';
+import 'package:trainee_restaurantapp/features/core_features/main_onboarding_view.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/constants/app/app_constants.dart';
