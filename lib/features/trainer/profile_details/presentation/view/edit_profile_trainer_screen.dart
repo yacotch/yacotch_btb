@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/common/validators.dart';
+import 'package:trainee_restaurantapp/core/helpers/url_launcher.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
+import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/view/functions.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/widgets/edit/profile_image.dart';
+import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/widgets/profile_details/files/pdf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/dimens.dart';
@@ -282,21 +285,12 @@ class EditProfileFilesList extends StatelessWidget {
                     height: Dimens.dp80.h,
                     width: .8.sw,
                     child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       scrollDirection: Axis.horizontal,
                       itemCount: files.isNotEmpty ? files.length : 1,
                       itemBuilder: (context, index) => files.isEmpty
                           ? Image.asset(AppConstants.COVER_IMG)
-                          : InkWell(
-                              onTap: () => NavigationHelper.goto(
-                                  screen: Scaffold(
-                                      appBar: AppBar(
-                                        backgroundColor: Colors.transparent,
-                                        elevation: 0,
-                                      ),
-                                      body: _getPdf(files[index])),
-                                  context: context),
-                              child: _getPdf(files[index]),
-                            ),
+                          : _getPdf(files[index], index, context),
                     )),
               ),
             ],
@@ -307,13 +301,36 @@ class EditProfileFilesList extends StatelessWidget {
   }
 }
 
-Widget _getPdf(data) => data is String
-    ? WebViewWidget(
-        controller: WebViewController()..loadRequest(Uri.parse(data)))
+Widget _getPdf(data, int index, BuildContext context) => data is String
+    ? InkWell(
+        onTap: () => UrlLauncherHelper.open(data, context),
+        child: Center(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            InkWell(
+              onTap: () =>
+                  TrainerProfileCubit.of(context).deleteExperienceFile(data),
+              child: const Icon(
+                Icons.cancel,
+                color: AppColors.red,
+                size: 20,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClickablePdfNameWidget(index: index, path: data),
+            ),
+          ],
+        )),
+      )
     : SizedBox(
         width: 100,
         height: 50,
         child: WebViewWidget(
-            controller: WebViewController()
-              ..loadFile((data as File).absolute.path)),
+          controller: WebViewController()
+            ..loadFile(
+              (data as File).absolute.path,
+            ),
+        ),
       );

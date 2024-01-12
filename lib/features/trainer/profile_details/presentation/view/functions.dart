@@ -5,21 +5,19 @@ import 'package:trainee_restaurantapp/features/trainer/profile_details/presentat
 abstract class EditTrainerProfileFunctions {
   static void initailzeControllers(BuildContext context) {
     var cubit = TrainerProfileCubit.of(context);
-    cubit.networkImageUrl = cubit.trainerModel!.imageUrl ?? '';
-
-    cubit.nameController.text = cubit.trainerModel!.name ?? '';
-    cubit.phoneController.text = cubit.trainerModel!.phoneNumber ?? '';
-    cubit.idNumberController.text =
-        cubit.trainerModel!.specializationId.toString();
-    cubit.hourRateController.text =
-        (cubit.trainerModel!.hourPrice ?? 0).toString();
+    var trainer = cubit.trainerModel!;
+    cubit.networkImageUrl = trainer.imageUrl ?? '';
+    cubit.nameController.text = trainer.name ?? '';
+    cubit.phoneController.text = trainer.phoneNumber ?? '';
+    cubit.idNumberController.text = trainer.specializationId.toString();
+    cubit.hourRateController.text = (trainer.hourPrice ?? 0).toString();
     cubit.coachSpecializationController.text =
-        cubit.trainerModel!.specialization!.text ?? '';
-    cubit.networkCvUrl = cubit.trainerModel!.cvUrl ?? '';
+        trainer.specialization!.text ?? '';
+    cubit.networkCvUrl = trainer.cvUrl ?? '';
+    cubit.oldExperienceFilesUrls = trainer.experienceFiles;
+    cubit.latitude = trainer.latitude ?? 0;
 
-    cubit.latitude = cubit.trainerModel!.latitude ?? 0;
-
-    cubit.longitude = cubit.trainerModel!.longitude ?? 0;
+    cubit.longitude = trainer.longitude ?? 0;
   }
 
   static Future<void> updateProfile(BuildContext context) async {

@@ -49,6 +49,26 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
 
   TrainerModel? trainerModel;
 
+  void deleteExperienceFile(String path) {
+    if (oldExperienceFilesUrls != null &&
+        oldExperienceFilesUrls!.contains(path)) {
+      oldExperienceFilesUrls!.remove(path);
+      emit(EditProfileDeleteExperienceFile());
+      return;
+    } else if (pickedExperienceFilsList != null) {
+      if (pickedExperienceFilsList!.every((e) {
+        if (e.path == path) {
+          pickedExperienceFilsList!.remove(e);
+          return true;
+        }
+        return false;
+      })) {
+        emit(EditProfileDeleteExperienceFile());
+        return;
+      }
+    }
+  }
+
   Future uploadImage(File file) async {
     final res = await trainerProfileRepo.uploadImage(file);
     res.fold(
@@ -91,8 +111,10 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
       name: nameController.text == trainerModel!.name
           ? trainerModel!.name
           : nameController.text,
-      experinecUrl:
-          uploadedExperienceFilesUrls ?? trainerModel!.experienceFiles,
+      experinecUrl: [
+        ...uploadedExperienceFilesUrls ?? [],
+        ...oldExperienceFilesUrls ?? []
+      ],
       cvUrl: imgCvUrl ?? trainerModel!.cvUrl,
       imageUrl: imgImageUrl ?? trainerModel!.imageUrl,
       latitude: locationCubit.state.model!.lat,

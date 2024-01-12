@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
-import 'package:trainee_restaurantapp/core/helpers/url_launcher.dart';
-import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/widgets/profile_details/files/pdf.dart';
 import 'package:trainee_restaurantapp/generated/l10n.dart';
 
 class TrainerExperiencePDFSWidget extends StatelessWidget {
@@ -34,10 +33,14 @@ class TrainerExperiencePDFSWidget extends StatelessWidget {
               )
             : Expanded(
                 child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: files?.length,
-                    itemBuilder: (context, index) =>),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: files?.length,
+                  itemBuilder: (context, index) => ClickablePdfNameWidget(
+                    index: index,
+                    path: files![index],
+                  ),
+                ),
               ),
       ],
     );

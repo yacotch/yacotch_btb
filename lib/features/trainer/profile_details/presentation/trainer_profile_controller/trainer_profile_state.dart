@@ -36,3 +36,5 @@ class UploadImageLoaded extends TrainerProfileState {}
 class EditProfileNewExpFilePicked extends TrainerProfileState {}
 
 class EditProfileNewCVPicked extends TrainerProfileState {}
+
+class EditProfileDeleteExperienceFile extends TrainerProfileState {}
