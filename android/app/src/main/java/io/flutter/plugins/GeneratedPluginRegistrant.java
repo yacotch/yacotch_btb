@@ -41,6 +41,11 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin device_info, io.flutter.plugins.deviceinfo.DeviceInfoPlugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new dev.kaichi.easy_pdf_viewer.EasyPdfViewerPlugin());
+    } catch (Exception e) {
+      Log.e(TAG, "Error registering plugin easy_pdf_viewer, dev.kaichi.easy_pdf_viewer.EasyPdfViewerPlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new com.mr.flutter.plugin.filepicker.FilePickerPlugin());
     } catch (Exception e) {
       Log.e(TAG, "Error registering plugin file_picker, com.mr.flutter.plugin.filepicker.FilePickerPlugin", e);
@@ -149,6 +154,11 @@ public final class GeneratedPluginRegistrant {
       flutterEngine.getPlugins().add(new com.walle.modal_progress_hud_nsn.ModalProgressHudNsnPlugin());
     } catch (Exception e) {
       Log.e(TAG, "Error registering plugin modal_progress_hud_nsn, com.walle.modal_progress_hud_nsn.ModalProgressHudNsnPlugin", e);
+    }
+    try {
+      flutterEngine.getPlugins().add(new com.crazecoder.openfile.OpenFilePlugin());
+    } catch (Exception e) {
+      Log.e(TAG, "Error registering plugin open_filex, com.crazecoder.openfile.OpenFilePlugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.packageinfo.PackageInfoPlugin());

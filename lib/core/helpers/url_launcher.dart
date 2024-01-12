@@ -10,7 +10,7 @@ abstract class UrlLauncherHelper {
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
-      Toast.show(LanguageHelper.getTranslation(context).please_enter_otp);
+      Toast.show(LanguageHelper.getTranslation(context).oopsErrorMessage);
     }
   }
 }

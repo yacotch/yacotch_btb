@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,12 +9,10 @@ import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/helpers/url_launcher.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
-import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/view/functions.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/widgets/edit/profile_image.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/widgets/profile_details/files/pdf.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/dimens.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -302,35 +301,11 @@ class EditProfileFilesList extends StatelessWidget {
 }
 
 Widget _getPdf(data, int index, BuildContext context) => data is String
-    ? InkWell(
-        onTap: () => UrlLauncherHelper.open(data, context),
-        child: Center(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            InkWell(
-              onTap: () =>
-                  TrainerProfileCubit.of(context).deleteExperienceFile(data),
-              child: const Icon(
-                Icons.cancel,
-                color: AppColors.red,
-                size: 20,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ClickablePdfNameWidget(index: index, path: data),
-            ),
-          ],
-        )),
+    ? ClickablePdfNameWidget(
+        index: index,
+        path: data,
       )
-    : SizedBox(
-        width: 100,
-        height: 50,
-        child: WebViewWidget(
-          controller: WebViewController()
-            ..loadFile(
-              (data as File).absolute.path,
-            ),
-        ),
+    : ClickablePdfNameWidget(
+        index: index,
+        file: data,
       );

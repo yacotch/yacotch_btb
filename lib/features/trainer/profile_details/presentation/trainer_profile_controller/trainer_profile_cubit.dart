@@ -51,21 +51,16 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
 
   void deleteExperienceFile(String path) {
     if (oldExperienceFilesUrls != null &&
+        oldExperienceFilesUrls!.isNotEmpty &&
         oldExperienceFilesUrls!.contains(path)) {
       oldExperienceFilesUrls!.remove(path);
       emit(EditProfileDeleteExperienceFile());
       return;
-    } else if (pickedExperienceFilsList != null) {
-      if (pickedExperienceFilsList!.every((e) {
-        if (e.path == path) {
-          pickedExperienceFilsList!.remove(e);
-          return true;
-        }
-        return false;
-      })) {
-        emit(EditProfileDeleteExperienceFile());
-        return;
-      }
+    } else if (pickedExperienceFilsList != null &&
+        pickedExperienceFilsList!.isNotEmpty) {
+      pickedExperienceFilsList!.removeWhere((element) => element.path == path);
+      emit(EditProfileDeleteExperienceFile());
+      return;
     }
   }
 
@@ -133,6 +128,9 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
       },
       (res) async {
         log(res.toString());
+        oldExperienceFilesUrls = null;
+        uploadedExperienceFilesUrls = null;
+        pickedExperienceFilsList = null;
         emit(UpdateTranierProfileLoaded());
       },
     );
