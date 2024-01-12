@@ -10,7 +10,6 @@ import 'package:trainee_restaurantapp/core/ui/physics/custom_scroll_physics.dart
 import 'package:trainee_restaurantapp/core/ui/widgets/most_wanted_product/product_entity.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/most_wanted_product/product_item.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/title_widget.dart';
-import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/plate_setails_view.dart';
 
 class MostWantedProducts extends StatelessWidget {
   final List<ProductEntity> items;

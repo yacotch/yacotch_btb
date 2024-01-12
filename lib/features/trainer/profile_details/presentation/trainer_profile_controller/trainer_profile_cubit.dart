@@ -43,9 +43,9 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
   File? fileImageUrl;
   String? imgImageUrl;
 
-  String? networkExperienceUrl;
-  File? fileExperienceUrl;
-  String? imgExperienceUrl;
+  List<String>? oldExperienceFilesUrls;
+  List<File>? pickedExperienceFilsList;
+  List<String>? uploadedExperienceFilesUrls;
 
   TrainerModel? trainerModel;
 
@@ -61,8 +61,9 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
           imgImageUrl = res;
         } else if (file == fileCvUrl) {
           imgCvUrl = res;
-        } else if (file == fileExperienceUrl) {
-          imgExperienceUrl = res;
+        } else {
+          uploadedExperienceFilesUrls ??= [];
+          uploadedExperienceFilesUrls!.add(res);
         }
       },
     );
@@ -73,9 +74,10 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
     List<Future> futureList = [];
     fileCvUrl != null ? futureList.add(uploadImage(fileCvUrl!)) : null;
     fileImageUrl != null ? futureList.add(uploadImage(fileImageUrl!)) : null;
-    fileExperienceUrl != null
-        ? futureList.add(uploadImage(fileExperienceUrl!))
-        : null;
+    if (pickedExperienceFilsList != null) {
+      futureList.addAll(
+          pickedExperienceFilsList!.map((e) => uploadImage(e)).toList());
+    }
     await Future.wait(futureList);
     UpdateTrainerProfileModel updateTrainerProfileModel =
         UpdateTrainerProfileModel(
@@ -89,9 +91,8 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
       name: nameController.text == trainerModel!.name
           ? trainerModel!.name
           : nameController.text,
-      experinecUrl: imgExperienceUrl != null
-          ? [imgExperienceUrl!]
-          : trainerModel!.experienceFiles,
+      experinecUrl:
+          uploadedExperienceFilesUrls ?? trainerModel!.experienceFiles,
       cvUrl: imgCvUrl ?? trainerModel!.cvUrl,
       imageUrl: imgImageUrl ?? trainerModel!.imageUrl,
       latitude: locationCubit.state.model!.lat,
@@ -162,9 +163,13 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
   }
 
   getExperience() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: true, allowedExtensions: ['pdf'], type: FileType.custom);
     if (result != null) {
-      fileExperienceUrl = File(result.files.single.path!);
+      pickedExperienceFilsList ??= [];
+      pickedExperienceFilsList!
+          .addAll(result.files.map((e) => File(e.path!)).toList());
+      print(pickedExperienceFilsList);
       emit(EditProfileNewExpFilePicked());
     }
   }

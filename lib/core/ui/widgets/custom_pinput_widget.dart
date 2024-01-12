@@ -1,30 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../generated/l10n.dart';
-import '../../common/app_colors.dart';
-import '../../common/validators.dart';
-import '../../constants/app/app_constants.dart';
-
 class CustomPinPut extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode? focusNode;
-  Function(String)? onChanged;
+  final Function(String)? onChanged;
 
-  CustomPinPut({Key? key, required this.controller, this.focusNode,this.onChanged})
+  const CustomPinPut(
+      {Key? key, required this.controller, this.focusNode, this.onChanged})
       : super(key: key);
 
-  BoxDecoration _getUnselectedBoxDecoration() {
-    return BoxDecoration(
-        border: Border.all(color: AppColors.white),
-        borderRadius: BorderRadius.circular(AppConstants.borderRadius8));
-  }
+ 
 
-  BoxDecoration _getSelectedBoxDecoration() {
-    return BoxDecoration(
-        border: Border.all(color: AppColors.white),
-        borderRadius: BorderRadius.circular(AppConstants.borderRadius12));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +40,8 @@ class CustomPinPut extends StatelessWidget {
           activeFillColor: Colors.black,
           activeColor: Colors.brown,
         ),
-        animationDuration:
-        const Duration(milliseconds: 300),
-        textStyle:
-        const TextStyle(fontSize: 20, height: 1.6),
+        animationDuration: const Duration(milliseconds: 300),
+        textStyle: const TextStyle(fontSize: 20, height: 1.6),
         backgroundColor: Colors.transparent,
         boxShadows: const [
           BoxShadow(
@@ -66,14 +51,7 @@ class CustomPinPut extends StatelessWidget {
           )
         ],
         validator: (text) {
-          // if (!Validators.isNotEmptyString(text ?? ''))
-          //  // return Translation.of(context).enter_pin_code;
-          // if (!Validators.isValidPinCode(text ?? ''))
-          //  // return Translation.of(context).enter_pin_code;
         },
-        // selectedFieldDecoration: _getUnselectedBoxDecoration(),
-        // submittedFieldDecoration: _getSelectedBoxDecoration(),
-        // followingFieldDecoration: _getUnselectedBoxDecoration(),
         appContext: context,
         length: 6,
         onChanged: (String value) {

@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
-
-import '../../../generated/l10n.dart';
 import '../../common/app_colors.dart';
 import '../../common/validators.dart';
 import '../../constants/app/app_constants.dart';
@@ -160,8 +158,9 @@ class NormalTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomTextField(
       validator: (value) {
-        if (value == null || value == '')
+        if (value == null || value == '') {
           return LanguageHelper.getTranslation(context).insert_value;
+        }
         return null;
       },
       textInputType: TextInputType.text,
@@ -222,19 +221,22 @@ class PasswordTextField extends StatelessWidget {
     return CustomTextField(
       validator: isConfirmPassword!
           ? (text) {
-              if (!Validators.isNotEmptyString(text ?? ''))
+              if (!Validators.isNotEmptyString(text ?? '')) {
                 return LanguageHelper.getTranslation(context).enter_confirm_password;
+              }
               if (!Validators.isValidConfirmPassword(
                   text ?? '',
                   otherPasswordController == null
                       ? ''
-                      : otherPasswordController!.text))
+                      : otherPasswordController!.text)) {
                 return LanguageHelper.getTranslation(context).passwords_not_match;
+              }
               return null;
             }
           : (text) {
-              if (!Validators.isNotEmptyString(text ?? ''))
+              if (!Validators.isNotEmptyString(text ?? '')) {
                 return LanguageHelper.getTranslation(context).enter_password;
+              }
               if (!Validators.isValidPassword(
                 text ?? '',
               )) return LanguageHelper.getTranslation(context).enter_valid_password;

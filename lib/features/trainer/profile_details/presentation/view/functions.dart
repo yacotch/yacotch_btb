@@ -4,33 +4,25 @@ import 'package:trainee_restaurantapp/features/trainer/profile_details/presentat
 
 abstract class EditTrainerProfileFunctions {
   static void initailzeControllers(BuildContext context) {
-    TrainerProfileCubit.of(context).networkImageUrl =
-        TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? '';
-    TrainerProfileCubit.of(context).nameController.text =
-        TrainerProfileCubit.of(context).trainerModel!.name ?? '';
-    TrainerProfileCubit.of(context).phoneController.text =
-        TrainerProfileCubit.of(context).trainerModel!.phoneNumber ?? '';
-    TrainerProfileCubit.of(context).idNumberController.text =
-        TrainerProfileCubit.of(context)
-            .trainerModel!
-            .specializationId
-            .toString();
-    TrainerProfileCubit.of(context).hourRateController.text =
-        (TrainerProfileCubit.of(context).trainerModel!.hourPrice ?? 0)
-            .toString();
-    TrainerProfileCubit.of(context).coachSpecializationController.text =
-        TrainerProfileCubit.of(context).trainerModel!.specialization!.text ??
-            '';
-    TrainerProfileCubit.of(context).networkCvUrl =
-        TrainerProfileCubit.of(context).trainerModel!.cvUrl ?? '';
+    var cubit = TrainerProfileCubit.of(context);
+    cubit.networkImageUrl = cubit.trainerModel!.imageUrl ?? '';
 
-    TrainerProfileCubit.of(context).latitude =
-        TrainerProfileCubit.of(context).trainerModel!.latitude ?? 0;
+    cubit.nameController.text = cubit.trainerModel!.name ?? '';
+    cubit.phoneController.text = cubit.trainerModel!.phoneNumber ?? '';
+    cubit.idNumberController.text =
+        cubit.trainerModel!.specializationId.toString();
+    cubit.hourRateController.text =
+        (cubit.trainerModel!.hourPrice ?? 0).toString();
+    cubit.coachSpecializationController.text =
+        cubit.trainerModel!.specialization!.text ?? '';
+    cubit.networkCvUrl = cubit.trainerModel!.cvUrl ?? '';
 
-    TrainerProfileCubit.of(context).longitude =
-        TrainerProfileCubit.of(context).trainerModel!.longitude ?? 0;
+    cubit.latitude = cubit.trainerModel!.latitude ?? 0;
+
+    cubit.longitude = cubit.trainerModel!.longitude ?? 0;
   }
-  static  Future<void> updateProfile(BuildContext context) async {
+
+  static Future<void> updateProfile(BuildContext context) async {
     await TrainerProfileCubit.of(context).getTrainerProfile(context);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => const ProfileTrainerScreenView(),

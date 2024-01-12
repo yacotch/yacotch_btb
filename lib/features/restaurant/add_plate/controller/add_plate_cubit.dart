@@ -5,9 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
-
 import '../../../../core/ui/toast.dart';
-import '../../../core_features/navigator_home/view/navigator_home_view.dart';
 import '../../../../core/models/categories_model.dart';
 import '../data/repositories/add_plate_repo.dart';
 import '../view/success_plate_add.dart';

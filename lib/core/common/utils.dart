@@ -2,7 +2,6 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../constants/app/app_constants.dart';
 import '../constants/enums/app_theme_enum.dart';
 import '../localization/localization_provider.dart';

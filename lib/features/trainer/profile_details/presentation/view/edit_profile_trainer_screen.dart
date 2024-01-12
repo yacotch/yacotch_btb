@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -8,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/common/validators.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/view/functions.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/widgets/edit/profile_image.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/dimens.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -20,7 +20,6 @@ import '../../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../../core/ui/widgets/custom_button.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/custom_text_field.dart';
-import '../../../../../generated/l10n.dart';
 
 class EditProfileScreenContent extends StatefulWidget {
   @override
@@ -40,7 +39,7 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TransparentAppBar(
-        title: Translation.of(context).edit_profile,
+        title: LanguageHelper.getTranslation(context).edit_profile,
       ),
       body: BlocConsumer<TrainerProfileCubit, TrainerProfileState>(
         listener: (context, state) async {
@@ -53,6 +52,7 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
             return const Loader();
           } else {
             var cubit = TrainerProfileCubit.of(context);
+            var tr = LanguageHelper.getTranslation(context);
             return SizedBox(
               height: 1.sh,
               child: SingleChildScrollView(
@@ -67,14 +67,14 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                           validator: (p0) {
                             return null;
                           },
-                          title: Translation.of(context).full_name,
+                          title: tr.full_name,
                           textEditingController: cubit.nameController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           type: TextInputType.number,
                           validator: (input) =>
                               Validators.isNumber(input!, context),
-                          title: Translation.of(context).phone,
+                          title: tr.phone,
                           isPhoneNumber: true,
                           textEditingController: cubit.phoneController),
                       Gaps.vGap24,
@@ -82,38 +82,25 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                           type: TextInputType.number,
                           validator: (input) =>
                               Validators.isNumber(input!, context),
-                          title: Translation.of(context).hourRate,
+                          title: tr.hourRate,
                           textEditingController: cubit.hourRateController),
                       Gaps.vGap24,
                       uploadSignUpFile(
-                        text: Translation.of(context).cV,
+                        text: tr.cV,
                         image: cubit.networkCvUrl ?? "",
                         file: cubit.fileCvUrl ?? File(''),
                         fun: () => cubit.getCv(),
                       ),
                       Gaps.vGap24,
-                      uploadSignUpFile(
-                        text: Translation.of(context).experienceCertification,
-                        image: cubit.networkExperienceUrl ?? "",
-                        file: cubit.fileExperienceUrl ?? File(''),
-                        fun: () => cubit.getExperience(),
-                      ),
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              cubit.onLocationClick(context);
-                            },
-                            child: CustomText(
-                              text: LanguageHelper.getTranslation(context)
-                                  .select_your_location,
-                              color: AppColors.accentColorLight,
-                              fontSize: AppConstants.textSize16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
+                      EditProfileFilesList(
+                        title: tr.experienceCertification,
+                        files: [
+                          ...cubit.pickedExperienceFilsList ?? [],
+                          ...cubit.oldExperienceFilesUrls ?? []
                         ],
+                        onTap: () => cubit.getExperience(),
                       ),
+                      _map(cubit: cubit),
                       Gaps.vGap24,
                       SizedBox(
                         height: 44.h,
@@ -121,7 +108,7 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                         child: (state is UploadImageLoading)
                             ? const Center(child: CircularProgressIndicator())
                             : CustomElevatedButton(
-                                text: Translation.of(context).save,
+                                text: tr.save,
                                 onTap: () => cubit.updateTrainerProfile(),
                                 textSize: AppConstants.textSize20,
                                 borderRadius: AppConstants.borderRadius4,
@@ -211,6 +198,34 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
   }
 }
 
+class _map extends StatelessWidget {
+  const _map({
+    super.key,
+    required this.cubit,
+  });
+
+  final TrainerProfileCubit cubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        InkWell(
+          onTap: () async {
+            cubit.onLocationClick(context);
+          },
+          child: CustomText(
+            text: LanguageHelper.getTranslation(context).select_your_location,
+            color: AppColors.accentColorLight,
+            fontSize: AppConstants.textSize16,
+            fontWeight: FontWeight.w600,
+          ),
+        )
+      ],
+    );
+  }
+}
+
 class _ProfileImage extends StatelessWidget {
   const _ProfileImage({
     required this.cubit,
@@ -226,3 +241,79 @@ class _ProfileImage extends StatelessWidget {
     );
   }
 }
+
+class EditProfileFilesList extends StatelessWidget {
+  const EditProfileFilesList(
+      {required this.files,
+      required this.onTap,
+      required this.title,
+      super.key});
+  final String title;
+  final VoidCallback onTap;
+  final List files;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          height: 120.h,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gaps.hGap20,
+              CustomText(
+                  text: title,
+                  fontSize: AppConstants.textSize18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.accentColorLight),
+              Gaps.hGap12,
+              DottedBorder(
+                color: AppColors.white,
+                dashPattern: const [5, 3],
+                radius: const Radius.circular(10),
+                borderType: BorderType.Rect,
+                strokeWidth: 1,
+                child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular((Dimens.dp12))),
+                    height: Dimens.dp80.h,
+                    width: .8.sw,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: files.isNotEmpty ? files.length : 1,
+                      itemBuilder: (context, index) => files.isEmpty
+                          ? Image.asset(AppConstants.COVER_IMG)
+                          : InkWell(
+                              onTap: () => NavigationHelper.goto(
+                                  screen: Scaffold(
+                                      appBar: AppBar(
+                                        backgroundColor: Colors.transparent,
+                                        elevation: 0,
+                                      ),
+                                      body: _getPdf(files[index])),
+                                  context: context),
+                              child: _getPdf(files[index]),
+                            ),
+                    )),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _getPdf(data) => data is String
+    ? WebViewWidget(
+        controller: WebViewController()..loadRequest(Uri.parse(data)))
+    : SizedBox(
+        width: 100,
+        height: 50,
+        child: WebViewWidget(
+            controller: WebViewController()
+              ..loadFile((data as File).absolute.path)),
+      );
