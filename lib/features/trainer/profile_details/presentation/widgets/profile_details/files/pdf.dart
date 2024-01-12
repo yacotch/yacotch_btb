@@ -12,10 +12,15 @@ import 'package:trainee_restaurantapp/features/trainer/profile_details/presentat
 
 class ClickablePdfNameWidget extends StatelessWidget {
   const ClickablePdfNameWidget(
-      {required this.index, this.file, this.path, super.key});
+      {required this.index,
+      this.file,
+      this.path,
+      this.showDelete = true,
+      super.key});
   final String? path;
   final File? file;
   final int index;
+  final bool showDelete;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -26,19 +31,19 @@ class ClickablePdfNameWidget extends StatelessWidget {
               ),
               context: context)
           : UrlLauncherHelper.open(path!, context),
-      child: Center(
-          child: Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          InkWell(
-            onTap: () => TrainerProfileCubit.of(context)
-                .deleteExperienceFile(_getSpecificData()),
-            child: const Icon(
-              Icons.cancel,
-              color: AppColors.red,
-              size: 20,
+          if (showDelete)
+            InkWell(
+              onTap: () => TrainerProfileCubit.of(context)
+                  .deleteExperienceFile(_getSpecificData()),
+              child: const Icon(
+                Icons.cancel,
+                color: AppColors.red,
+                size: 20,
+              ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomText(
@@ -51,7 +56,7 @@ class ClickablePdfNameWidget extends StatelessWidget {
             ),
           ),
         ],
-      )),
+      ),
     );
   }
 

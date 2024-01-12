@@ -37,7 +37,7 @@ class TrainerExperiencePDFSWidget extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: files?.length,
                   itemBuilder: (context, index) => ClickablePdfNameWidget(
-                    
+                    showDelete: false,
                     index: index,
                     path: files![index],
                   ),
