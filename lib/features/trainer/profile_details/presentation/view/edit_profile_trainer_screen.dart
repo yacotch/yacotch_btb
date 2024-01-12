@@ -300,12 +300,8 @@ class EditProfileFilesList extends StatelessWidget {
   }
 }
 
-Widget _getPdf(data, int index, BuildContext context) => data is String
-    ? ClickablePdfNameWidget(
-        index: index,
-        path: data,
-      )
-    : ClickablePdfNameWidget(
-        index: index,
-        file: data,
-      );
+Widget _getPdf(data, int index, BuildContext context) => ClickablePdfNameWidget(
+      index: index,
+      file: data is File ? data : null,
+      path: data is String ? data : null,
+    );
