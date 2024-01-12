@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:trainee_restaurantapp/features/core_features/more/about_app/content.dart';
-import '../../../../core/ui/widgets/custom_appbar.dart';
-import '../../../../generated/l10n.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/presentation/app_setting/about_app/content.dart';
+
 
 class AboutAppScreen extends StatefulWidget {
   const AboutAppScreen({Key? key}) : super(key: key);
@@ -15,10 +16,10 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TransparentAppBar(
-        title: Translation.of(context).about_app,
+        title: LanguageHelper.getTranslation(context).about_app,
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: AboutAppScreenContent(),
+      body:const AboutAppScreenContent(),
     );
   }
 }

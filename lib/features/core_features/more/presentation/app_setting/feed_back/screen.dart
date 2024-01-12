@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trainee_restaurantapp/features/core_features/more/feed_back/content.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/presentation/app_setting/feed_back/content.dart';
 import '../../../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../../../generated/l10n.dart';
 

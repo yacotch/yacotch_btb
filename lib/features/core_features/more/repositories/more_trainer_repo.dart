@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
-import '../../../../../core/dioHelper/dio_helper.dart';
+import '../../../../core/dioHelper/dio_helper.dart';
 
 class MoreTrainerRepo {
   Future<Either<String, bool>> addFeedback(String subject, String desc) async {

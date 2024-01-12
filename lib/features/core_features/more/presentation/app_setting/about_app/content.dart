@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
-import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
-import '../../../../../core/constants/app/app_constants.dart';
-import '../../../../../core/ui/widgets/blur_widget.dart';
-import '../../../../../core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/blur_widget.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/controller/more_cubit.dart';
 
 class AboutAppScreenContent extends StatefulWidget {
   const AboutAppScreenContent({super.key});
@@ -18,7 +18,7 @@ class _AboutAppScreenContentState extends State<AboutAppScreenContent> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => MoreTrainerCubit()..getAboutApp(),
+        create: (context) => MoreCubit()..getAboutApp(),
         lazy: false,
         child: Padding(
           padding: EdgeInsets.all(12.w),
@@ -32,7 +32,7 @@ class _AboutAppScreenContentState extends State<AboutAppScreenContent> {
                   fit: BoxFit.contain,
                 ),
                 Gaps.vGap40,
-                _Content()
+                const _Content()
               ],
             ),
           ),
@@ -45,8 +45,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MoreTrainerCubit, MoreTrainerState>(
-        builder: (context, state) {
+    return BlocBuilder<MoreCubit, MoreState>(builder: (context, state) {
       return BlurWidget(
         width: 1.sw,
         child: Padding(

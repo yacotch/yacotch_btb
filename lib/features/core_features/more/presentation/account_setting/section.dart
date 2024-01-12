@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/title_widget.dart';
-import 'package:trainee_restaurantapp/features/core_features/more/account_setting/change_password.dart';
-import 'package:trainee_restaurantapp/features/core_features/more/account_setting/delete_account.dart';
-
+import 'package:trainee_restaurantapp/features/core_features/more/presentation/account_setting/change_password.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/presentation/account_setting/delete_account.dart';
 class AccountSettingWidget extends StatelessWidget {
   const AccountSettingWidget(this.typeUser, {super.key});
   final int typeUser;

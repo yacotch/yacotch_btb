@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
-import 'package:trainee_restaurantapp/features/core_features/more/feed_back/screen.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/presentation/app_setting/feed_back/screen.dart';
 import 'package:trainee_restaurantapp/generated/l10n.dart';
 
 class FeedBackButton extends StatelessWidget {

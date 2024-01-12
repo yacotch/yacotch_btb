@@ -647,6 +647,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void deleteAccount(int id) async {
     emit(MoreLoading());
+    print(id);
     await authRepo.deleteAccount(id).then((value) => value.fold(
         (l) => emit(MoreAccountDeletionFailed()),
         (r) => emit(MoreAccountDeletedSucc())));

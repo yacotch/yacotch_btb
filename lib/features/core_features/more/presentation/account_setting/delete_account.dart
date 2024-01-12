@@ -6,6 +6,7 @@ import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/common/utils.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
 import 'package:trainee_restaurantapp/features/on_boarding/view/main_onboarding_view.dart';
@@ -21,13 +22,14 @@ class MoreScreenDeleteAccountButton extends StatelessWidget {
           listener: (p, c) {
             if (c is MoreAccountDeletedSucc) {
               AppStorage.signOut();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const MainOnBoardingView()));
+              NavigationHelper.gotoAndRemove(
+                  context: context, screen: const MainOnBoardingView());
             }
           },
           builder: (context, state) => GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => showDeleteAccountDialog(context,
+            
                 () => AuthCubit.of(context).deleteAccount(_getUserId(context))),
             child: Padding(
               padding: EdgeInsets.all(6.h),
@@ -70,4 +72,9 @@ void showDeleteAccountDialog(BuildContext context, Function deleteFunction) {
   );
 }
 
-int _getUserId(BuildContext context) => AppStorage.getUserId;
+int _getUserId(BuildContext context) {
+  var result = AppStorage.getUserInfo!.result!;
+  if (result.restaurantId != null) return result.restaurantId!;
+  if (result.shopId != null) return result.shopId!;
+  return result.userId!;
+}

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/controller/more_trainer_cubit.dart';
-import '../../../../../core/common/app_colors.dart';
-import '../../../../../core/common/style/gaps.dart';
-import '../../../../../core/constants/app/app_constants.dart';
-import '../../../../../core/ui/widgets/custom_button.dart';
-import '../../../../../core/ui/widgets/custom_text.dart';
-import '../../../../../core/ui/widgets/custom_text_field.dart';
-import '../../../../../generated/l10n.dart';
+import 'package:trainee_restaurantapp/core/common/app_colors.dart';
+import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
+import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/localization/language_helper.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/core/ui/widgets/custom_text_field.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/controller/more_cubit.dart';
 
 class FeedbackScreenContent extends StatelessWidget {
   const FeedbackScreenContent({super.key});
@@ -16,11 +16,11 @@ class FeedbackScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MoreTrainerCubit(),
-      child: BlocBuilder<MoreTrainerCubit, MoreTrainerState>(
+      create: (context) => MoreCubit(),
+      child: BlocBuilder<MoreCubit, MoreState>(
         builder: (context, state) {
           return Form(
-            key: BlocProvider.of<MoreTrainerCubit>(context).formKey,
+            key: BlocProvider.of<MoreCubit>(context).formKey,
             child: Padding(
               padding: EdgeInsets.only(top: 12.w, left: 12.w, right: 12.w),
               child: SingleChildScrollView(
@@ -43,25 +43,26 @@ class FeedbackScreenContent extends StatelessWidget {
                                 height: 50.h,
                               ),
                               _buildTextFieldFullBorderWithTitle(
-                                title: Translation.of(context).subject,
-                                focusNode: MoreTrainerCubit.of(context)
-                                    .subjectFocusNode,
-                                controller: MoreTrainerCubit.of(context)
-                                    .subjectController,
+                                title: LanguageHelper.getTranslation(context)
+                                    .subject,
+                                focusNode:
+                                    MoreCubit.of(context).subjectFocusNode,
+                                controller:
+                                    MoreCubit.of(context).subjectController,
                                 textInputAction: TextInputAction.next,
                                 onSubmitted: () {
                                   FocusScope.of(context).requestFocus(
-                                      MoreTrainerCubit.of(context)
-                                          .descFocusNode);
+                                      MoreCubit.of(context).descFocusNode);
                                 },
                               ),
                               Gaps.vGap24,
                               _buildTextFieldFullBorderWithTitle(
-                                  title: Translation.of(context).details,
-                                  focusNode: MoreTrainerCubit.of(context)
-                                      .descFocusNode,
-                                  controller: MoreTrainerCubit.of(context)
-                                      .descController,
+                                  title: LanguageHelper.getTranslation(context)
+                                      .details,
+                                  focusNode:
+                                      MoreCubit.of(context).descFocusNode,
+                                  controller:
+                                      MoreCubit.of(context).descController,
                                   textInputAction: TextInputAction.next,
                                   onSubmitted: () {},
                                   maxLines: 5),
@@ -78,10 +79,10 @@ class FeedbackScreenContent extends StatelessWidget {
                               width: 0.7.sw,
                               height: 44.h,
                               child: CustomElevatedButton(
-                                  text: Translation.of(context).send,
+                                  text: LanguageHelper.getTranslation(context)
+                                      .send,
                                   onTap: () {
-                                    MoreTrainerCubit.of(context)
-                                        .addFeedback(context);
+                                    MoreCubit.of(context).addFeedback(context);
                                   }),
                             )
                           ],

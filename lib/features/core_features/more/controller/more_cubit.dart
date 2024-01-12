@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
+import 'package:trainee_restaurantapp/features/core_features/more/repositories/more_trainer_repo.dart';
 import '../../../../../core/ui/toast.dart';
-import '../../data/repositories/more_trainer_repo.dart';
-part 'more_trainer_state.dart';
+part 'more_state.dart';
 
-class MoreTrainerCubit extends Cubit<MoreTrainerState> {
-  MoreTrainerCubit() : super(MoreTrainerInitial());
+class MoreCubit extends Cubit<MoreState> {
+  MoreCubit() : super(MoreTrainerInitial());
 
-  static MoreTrainerCubit of(context) => BlocProvider.of(context);
+  static MoreCubit of(context) => BlocProvider.of(context);
 
   final moreTrainerRepo = MoreTrainerRepo();
 
