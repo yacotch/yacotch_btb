@@ -7,6 +7,7 @@ import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/v
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/subscription/presentation/view/subscription_screen.dart';
 import '../../../../../core/constants/app/app_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoreRestaurantScreen extends StatelessWidget {
   const MoreRestaurantScreen({Key? key, required this.typeUser})
@@ -16,38 +17,42 @@ class MoreRestaurantScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MoreScreen(typeUser: typeUser, child: _Content(typeUser: typeUser));
+    return MoreScreen(typeUser: typeUser, data: _getData(context, typeUser));
   }
 }
 
-class _Content extends StatelessWidget {
-  const _Content({required this.typeUser});
+_getData(BuildContext context, int typeUser) {
+  var tr = LanguageHelper.getTranslation(context);
 
-  final int typeUser;
+  return List.generate(
+      4,
+      (index) => MoreChipEntity(
+          title: _getTitle(tr, index),
+          imgPath: _getImagePath(index),
+          onPressed: () => NavigationHelper.goto(
+              context: context, screen: _getScreen(index, typeUser))));
+}
 
-  @override
-  Widget build(BuildContext context) {
-    var tr = LanguageHelper.getTranslation(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        MoreCustomChipWidget(
-            title: tr.my_plates,
-            imgPath: AppConstants.SWIMMING_IMG,
-            onPressed: () => NavigationHelper.goto(
-                context: context, screen: const AllPlatesScreen())),
-        MoreCustomChipWidget(
-            title: tr.my_orders,
-            imgPath: AppConstants.MOTCHY2_IMG,
-            onPressed: () => NavigationHelper.goto(
-                context: context, screen: const MyOrderRestaurantView())),
-        MoreCustomChipWidget(
-            title: tr.bouquet,
-            imgPath: AppConstants.VEGGIE2_IMG,
-            onPressed: () => NavigationHelper.goto(
-                context: context,
-                screen: SubscriptionScreen(typeUser: typeUser))),
-      ],
-    );
-  }
+Widget _getScreen(int index, int typeUser) {
+  return [
+    const AllPlatesScreen(),
+    const MyOrderRestaurantView(),
+    SubscriptionScreen(typeUser: typeUser),
+  ][index];
+}
+
+String _getImagePath(int index) {
+  return [
+    AppConstants.SWIMMING_IMG,
+    AppConstants.MOTCHY2_IMG,
+    AppConstants.VEGGIE2_IMG
+  ][index];
+}
+
+String _getTitle(AppLocalizations tr, int index) {
+  return [
+    tr.my_plates,
+    tr.my_orders,
+    tr.bouquet,
+  ][index];
 }

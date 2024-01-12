@@ -4,19 +4,24 @@ import 'package:trainee_restaurantapp/core/common/style/gaps.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 
-class MoreCustomChipWidget extends StatelessWidget {
-  const MoreCustomChipWidget(
-      {required this.title,
-      required this.imgPath,
-      required this.onPressed,
-      super.key});
+class MoreChipEntity {
   final String title;
   final String imgPath;
   final Function onPressed;
+  MoreChipEntity({
+    required this.title,
+    required this.imgPath,
+    required this.onPressed,
+  });
+}
+
+class MoreCustomChipWidget extends StatelessWidget {
+  const MoreCustomChipWidget({required this.entity, super.key});
+  final MoreChipEntity entity;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onPressed(),
+      onTap: () => entity.onPressed(),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: SizedBox(
@@ -28,7 +33,7 @@ class MoreCustomChipWidget extends StatelessWidget {
                 borderRadius:
                     BorderRadius.circular(AppConstants.borderRadius32),
                 child: Image.asset(
-                  imgPath,
+                  entity.imgPath,
                   height: 45.h,
                   width: 45.w,
                   fit: BoxFit.cover,
@@ -42,7 +47,7 @@ class MoreCustomChipWidget extends StatelessWidget {
                   fit: BoxFit.contain,
                   child: CustomText(
                     textAlign: TextAlign.center,
-                    text: title,
+                    text: entity.title,
                     fontWeight: FontWeight.w600,
                     fontSize: AppConstants.textSize16,
                   ),

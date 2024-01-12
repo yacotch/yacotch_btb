@@ -11,8 +11,6 @@ import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/dioHelper/dio_helper.dart';
 import 'package:trainee_restaurantapp/core/navigation/helper.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
-import 'package:trainee_restaurantapp/features/Acount/data/models/create_restaurant_model.dart';
-import 'package:trainee_restaurantapp/features/Acount/data/models/create_shop_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/register_restaurant_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/login_screen.dart';
 import '../../../../core/common/app_colors.dart';
@@ -647,7 +645,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   void deleteAccount(int id) async {
     emit(MoreLoading());
-    print(id);
     await authRepo.deleteAccount(id).then((value) => value.fold(
         (l) => emit(MoreAccountDeletionFailed()),
         (r) => emit(MoreAccountDeletedSucc())));
