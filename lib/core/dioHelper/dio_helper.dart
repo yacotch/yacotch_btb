@@ -100,6 +100,7 @@ class DioHelper {
     final pref = await SpUtil.getInstance();
     final token = pref.getString(AppConstants.KEY_TOKEN);
     dioSingleton.options.headers = headers;
+    print(path + "$query");
     return dioSingleton.delete(path,
         queryParameters: query,
         options: Options(headers: {"Authorization": "Bearer $token"}));

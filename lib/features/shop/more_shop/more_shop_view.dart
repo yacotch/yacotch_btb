@@ -27,7 +27,7 @@ _getData(BuildContext context, int typeUser) {
   var tr = LanguageHelper.getTranslation(context);
 
   return List.generate(
-      4,
+      3,
       (index) => MoreChipEntity(
           title: _getTitle(tr, index),
           imgPath: _getImagePath(index),
