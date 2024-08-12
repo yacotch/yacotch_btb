@@ -7,7 +7,6 @@
 
 #import <Foundation/Foundation.h>
 #import "AgoraObjects.h"
-#import "AgoraRtcAudioSpectrumDelegate.h"
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 typedef UIView View;
@@ -16,8 +15,10 @@ typedef UIView View;
 typedef NSView View;
 #endif
 
+@protocol AgoraRtcAudioSpectrumDelegateocol;
 @protocol AgoraRtcMediaPlayerAudioFrameDelegate;
 @protocol AgoraRtcMediaPlayerVideoFrameDelegate;
+@protocol AgoraAudioSpectrumDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol AgoraRtcMediaPlayerProtocol <NSObject>
@@ -202,13 +203,30 @@ NS_ASSUME_NONNULL_BEGIN
 - (int)setPlaybackSpeed:(int)speed NS_SWIFT_NAME(setPlaybackSpeed(_:));
 
 /**
- * Slect playback audio track of the media file
- * @param index the index of the audio track in meia file
+ * Select playback audio track of the media file
+ * @param index the index of the audio track in media file
  * @return
  * - 0: Success.
  * - < 0: Failure.
  */
 - (int)selectAudioTrack:(int)index NS_SWIFT_NAME(selectAudioTrack(_:));
+
+/**
+  * Selects multi audio track of the media file for playback or publish to channel.
+  * @param playoutTrackIndex The index of the audio track in media file for local playback.
+  * @param publishTrackIndex The index of the audio track in the media file published to the remote.
+  *
+  * @note
+  * You can obtain the streamIndex of the audio track by calling getStreamInfo..
+  * If you want to use selectMultiAudioTrack, you need to open the media file with openWithMediaSource and set enableMultiAudioTrack to true.
+  *
+  * @return
+  * - 0: Success.
+  * - < 0: Failure. See {@link media::base::MEDIA_PLAYER_REASON MEDIA_PLAYER_REASON}.
+  * - -2: Invalid argument. Argument must be greater than or equal to zero.
+  * - -8: Invalid State.You must open the media file with openWithMediaSource and set enableMultiAudioTrack to true
+  */
+- (int)selectMultiAudioTrack:(NSInteger)playoutTrackIndex publishTrackIndex:(NSInteger)publishTrackIndex NS_SWIFT_NAME(selectMultiAudioTrack(_:publishTrackIndex:));
 
 /**
  * take screenshot while playing  video
@@ -270,7 +288,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 0: mute;
  * 100: original volume;
  * 400: Up to 4 times the original volume (with built-in overflow protection).
- * @return int < 0 on behalf of an error, the value corresponds to one of MEDIA_PLAYER_ERROR
+ * @return int < 0 on behalf of an error, the value corresponds to one of MEDIA_PLAYER_REASON
  */
 - (int)adjustPlayoutVolume:(int)volume NS_SWIFT_NAME(adjustPlayoutVolume(_:));
 
@@ -299,7 +317,7 @@ NS_ASSUME_NONNULL_BEGIN
  *        the option value
  * @return 
  * - 0: Success.
- * - < 0: Failure. See AgoraMediaPlayerError.
+ * - < 0: Failure. See AgoraMediaPlayerReason.
  */
 - (int)setPlayerOption:(NSString *)key value:(NSInteger)value NS_SWIFT_NAME(setPlayerOption(_:value:));
 
@@ -311,7 +329,7 @@ NS_ASSUME_NONNULL_BEGIN
  *        the option value
  * @return 
  * - 0: Success.
- * - < 0: Failure. See AgoraMediaPlayerError.
+ * - < 0: Failure. See AgoraMediaPlayerReason.
  */
 - (int)setPlayerOptionString:(NSString *)key value:(NSString *)value NS_SWIFT_NAME(setPlayerOptionString(_:value:));
 
@@ -324,7 +342,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @brief Set video display mode
  *
  * @param mode Video display mode
- * @return int < 0 on behalf of an error, the value corresponds to one of MEDIA_PLAYER_ERROR
+ * @return int < 0 on behalf of an error, the value corresponds to one of MEDIA_PLAYER_REASON
  */
 - (int)setRenderMode:(AgoraMediaPlayerRenderMode)mode NS_SWIFT_NAME(setRenderMode(_:));
 
@@ -440,95 +458,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (int)unregisterMediaPlayerAudioSpectrumDelegate:(id<AgoraAudioSpectrumDelegate> _Nullable)delegate NS_SWIFT_NAME(unregisterMediaPlayerAudioSpectrumDelegate(_:));
 @end
 
-
-@protocol AgoraRtcMediaPlayerCacheManagerProtocol <NSObject>
-
-/**
- * Get shared cacheManager instance.
- * @return cacheManager instance.
- */
-+ (instancetype)sharedInstance NS_SWIFT_NAME(sharedInstance());
-/**
- * Remove all media resource cache files.
- * @return
- * - 0: Success.
- * - < 0: Failure.
- */
-- (int)removeAllCaches NS_SWIFT_NAME(removeAllCaches());
-/**
- * Remove the latest media resource cache file.
- * @return
- * - 0: Success.
- * - < 0: Failure.
- */
-- (int)removeOldCache NS_SWIFT_NAME(removeOldCache());
-/**
- * Remove the cache file by uri, setting by MediaSource.
- * @param uri URI，identify the uniqueness of the property, Set from `MeidaSource`
- * @return
- * - 0: Success.
- * - < 0: Failure.
- */
-- (int)removeCacheByUri:(NSString *)uri NS_SWIFT_NAME(removeCache(byUri:));
-/**
- * Set cache file path that files will be saved to.
- * @param cacheDir cacheDir path.
- * @return
- * - 0: Success.
- * - < 0: Failure.
- */
-- (int)setCacheDir:(NSString *)cacheDir NS_SWIFT_NAME(setCacheDir(_:));
-/**
- * Set the maximum number of cached files.
- * @param count maximum number of cached files.
- * @return
- * - 0: Success.
- * - < 0: Failure.
- */
-- (int)setMaxCacheFileCount:(NSInteger)count NS_SWIFT_NAME(setMaxCacheFileCount(_:));
-/**
- * Set the total size of the largest cache file.
- * @param cacheSize total size of the largest cache file.
- * @return
- * - 0: Success.
- * - < 0: Failure.
- */
-- (int)setMaxCacheFileSize:(NSInteger)cacheSize NS_SWIFT_NAME(setMaxCacheFileSize(_:));
-/**
- * Set whether the player will clean up the cache in the order of resource usage.
- * @param enable enable the player to automatically clear the cache.
- * @return
- * - 0: Success.
- * - < 0: Failure.
- */
-- (int)enableAutoRemoveCache:(BOOL)enable NS_SWIFT_NAME(enableAutoRemoveCache(_:));
-/**
- * Get the cache directory you have set.
- * @return cacheDir
- */
-- (NSString *)cacheDir NS_SWIFT_NAME(cacheDir());
-/**
- * Get the maximum number of cached files.
- * @return
- * > 0: file count.
- * - < 0: Failure.
- */
-- (NSInteger)maxCacheFileCount NS_SWIFT_NAME(maxCacheFileCount());
-/**
- * Get the total size of the largest cache file
- * @return
- * > 0: file size.
- * - < 0: Failure.
- */
-- (NSInteger)maxCacheFileSize NS_SWIFT_NAME(maxCacheFileSize());
-/**
- * Get the number of all cache files.
- * @return
- * > 0: file count.
- * - < 0: Failure.
- */
-- (NSInteger)cacheFileCount NS_SWIFT_NAME(cacheFileCount());
-
-@end
 
 NS_ASSUME_NONNULL_END

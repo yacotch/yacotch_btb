@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 import 'dart:io';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -270,7 +271,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future verifyAccount(BuildContext context, String phone, int userType) async {
-    if (formKey.currentState!.validate() && codeController.text.length == 6) {
+    // if (formKey.currentState!.validate() && codeController.text.length == 6) {
       unFocus(context);
       emit(VerifyAccountLoading());
       isLoading = true;
@@ -305,7 +306,7 @@ class AuthCubit extends Cubit<AuthState> {
           }
         },
       );
-    }
+    // }
   }
 
   Future registerShop(BuildContext context, int userType) async {
@@ -340,11 +341,12 @@ class AuthCubit extends Cubit<AuthState> {
             submitPhoneNumber(
                 newPhone: "$countryCode${phoneRestaurantController.text}");
             log("res");
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AccountVerificationScreenContent(
-                      phone: phoneRestaurantController.text,
-                      userType: userType,
-                    )));
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (context) => AccountVerificationScreenContent(
+            //           phone: phoneRestaurantController.text,
+            //           userType: userType,
+            //         )));
+            // NavigationHelper.gotoAndRemove(screen: LoginScreen(userType), context: context);
             isLoading = false;
             emit(RegisterShopLoaded());
           },
@@ -359,6 +361,7 @@ class AuthCubit extends Cubit<AuthState> {
             callback: () {});
       }
     }
+    Future.delayed(Duration(milliseconds: 500), ()=> verifyAccount(context,phoneController.text, userType));
   }
 
   RegisterRestaurantModel? signUpRestaurantModel;
@@ -393,11 +396,14 @@ class AuthCubit extends Cubit<AuthState> {
           (res) async {
             submitPhoneNumber(
                 newPhone: "$countryCode${phoneRestaurantController.text}");
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AccountVerificationScreenContent(
-                      phone: phoneRestaurantController.text,
-                      userType: userType,
-                    )));
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (context) => AccountVerificationScreenContent(
+            //           phone: phoneRestaurantController.text,
+            //           userType: userType,
+            //         )));
+
+            // NavigationHelper.gotoAndRemove(screen: LoginScreen(userType), context: context);
+
             isLoading = false;
             emit(RegisterRestaurantLoaded());
           },
@@ -412,6 +418,7 @@ class AuthCubit extends Cubit<AuthState> {
             callback: () {});
       }
     }
+    Future.delayed(Duration(milliseconds: 500), ()=> verifyAccount(context,phoneController.text, userType));
   }
 
   Future registerTrainer(BuildContext context, int userType) async {
@@ -436,12 +443,13 @@ class AuthCubit extends Cubit<AuthState> {
           },
           (res) async {
             submitPhoneNumber(newPhone: "$countryCode${phoneController.text}");
-            NavigationHelper.goto(
-                screen: AccountVerificationScreenContent(
-                  phone: phoneController.text,
-                  userType: userType,
-                ),
-                context: context);
+            // NavigationHelper.goto(
+            //     screen: AccountVerificationScreenContent(
+            //       phone: phoneController.text,
+            //       userType: userType,
+            //     ),
+            //     context: context);
+            // NavigationHelper.gotoAndRemove(screen: LoginScreen(userType), context: context);
             isLoading = false;
             emit(RegisterTrainerLoaded());
           },
@@ -456,6 +464,7 @@ class AuthCubit extends Cubit<AuthState> {
             callback: () {});
       }
     }
+    Future.delayed(Duration(milliseconds: 500), ()=> verifyAccount(context,phoneController.text, userType));
   }
 
   Future confirmForgotPassword(
@@ -495,13 +504,16 @@ class AuthCubit extends Cubit<AuthState> {
           emit(ForgetPasswordError());
         },
         (res) async {
-          NavigationHelper.goto(
-              screen: ForgetPasswordVerificationScreenContent(
-                  email: "",
-                  passsword: "",
-                  phone: phoneController.text,
-                  userType: userType),
-              context: context);
+          // NavigationHelper.goto(
+          //     screen: ForgetPasswordVerificationScreenContent(
+          //         email: "",
+          //         passsword: "",
+          //         phone: phoneController.text,
+          //         userType: userType),
+          //     context: context);
+          NavigationHelper.gotoAndRemove(
+              screen: LoginScreen(userType), context: context);
+          Toast.show(Translation.of(context).check_email);
 
           isLoading = false;
           emit(ForgetPasswordLoaded());

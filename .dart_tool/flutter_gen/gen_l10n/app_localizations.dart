@@ -1976,6 +1976,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete your account?'**
   String get delete_acc_dialog_content;
+
+  /// No description provided for @check_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your Email'**
+  String get check_email;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

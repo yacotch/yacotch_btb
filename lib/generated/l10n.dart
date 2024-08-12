@@ -50,6 +50,26 @@ class Translation {
     return Localizations.of<Translation>(context, Translation);
   }
 
+  /// `My Booking`
+  String get my_booking {
+    return Intl.message(
+      'My Booking',
+      name: 'my_booking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Are You`
   String get areYou {
     return Intl.message(
@@ -180,10 +200,10 @@ class Translation {
     );
   }
 
-  /// `The shop owner's name`
+  /// `Restaurant owner's phone`
   String get restaurantPhoneNumber {
     return Intl.message(
-      'The shop owner\'s name',
+      'Restaurant owner\'s phone',
       name: 'restaurantPhoneNumber',
       desc: '',
       args: [],
@@ -1330,6 +1350,36 @@ class Translation {
     );
   }
 
+  /// `Active`
+  String get active {
+    return Intl.message(
+      'Active',
+      name: 'active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not Active`
+  String get notActive {
+    return Intl.message(
+      'Not Active',
+      name: 'notActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The most popular courses`
+  String get mostWantedCourses {
+    return Intl.message(
+      'The most popular courses',
+      name: 'mostWantedCourses',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Book now`
   String get book_now {
     return Intl.message(
@@ -2125,6 +2175,1026 @@ class Translation {
     return Intl.message(
       'The most popular dishes',
       name: 'dishsMostOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chats`
+  String get chats {
+    return Intl.message(
+      'Chats',
+      name: 'chats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The new trainees`
+  String get new_trainees {
+    return Intl.message(
+      'The new trainees',
+      name: 'new_trainees',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Trainers`
+  String get no_trainers {
+    return Intl.message(
+      'No Trainers',
+      name: 'no_trainers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trainees`
+  String get trainees {
+    return Intl.message(
+      'Trainees',
+      name: 'trainees',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Courses`
+  String get no_courses {
+    return Intl.message(
+      'No Courses',
+      name: 'no_courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not Active`
+  String get not_active {
+    return Intl.message(
+      'Not Active',
+      name: 'not_active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `pending`
+  String get pending {
+    return Intl.message(
+      'pending',
+      name: 'pending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expired`
+  String get expired {
+    return Intl.message(
+      'Expired',
+      name: 'expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose Category`
+  String get choose_category {
+    return Intl.message(
+      'Choose Category',
+      name: 'choose_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Price`
+  String get enter_course_price {
+    return Intl.message(
+      'Enter Price',
+      name: 'enter_course_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `plesae choose course image`
+  String get choose_course_img {
+    return Intl.message(
+      'plesae choose course image',
+      name: 'choose_course_img',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course Price`
+  String get cource {
+    return Intl.message(
+      'Course Price',
+      name: 'cource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter only numbers`
+  String get enter_num_only {
+    return Intl.message(
+      'Enter only numbers',
+      name: 'enter_num_only',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Only english letters`
+  String get enter_eng_letters {
+    return Intl.message(
+      'Enter Only english letters',
+      name: 'enter_eng_letters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter only arabic letters`
+  String get enter_at_letters {
+    return Intl.message(
+      'Enter only arabic letters',
+      name: 'enter_at_letters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Details In English`
+  String get course_details_en {
+    return Intl.message(
+      'Enter Details In English',
+      name: 'course_details_en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Details In Arabic`
+  String get course_details_ar {
+    return Intl.message(
+      'Enter Details In Arabic',
+      name: 'course_details_ar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Discount percentage`
+  String get discount_perc {
+    return Intl.message(
+      'Enter Discount percentage',
+      name: 'discount_perc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Hours Number`
+  String get hours_num {
+    return Intl.message(
+      'Enter Hours Number',
+      name: 'hours_num',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attach course-related images`
+  String get enter_related_img {
+    return Intl.message(
+      'Attach course-related images',
+      name: 'enter_related_img',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Course Name In English`
+  String get en_course_name {
+    return Intl.message(
+      'Enter Course Name In English',
+      name: 'en_course_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Course Name In Arabic`
+  String get ar_course_name {
+    return Intl.message(
+      'Enter Course Name In Arabic',
+      name: 'ar_course_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Course`
+  String get add_course {
+    return Intl.message(
+      'Add Course',
+      name: 'add_course',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `wanna talk with your trainees?`
+  String get chat_with_your_trainers {
+    return Intl.message(
+      'wanna talk with your trainees?',
+      name: 'chat_with_your_trainers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Course Added Successfully`
+  String get course_added_success {
+    return Intl.message(
+      'The Course Added Successfully',
+      name: 'course_added_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go To My Courses`
+  String get goto_my_courses {
+    return Intl.message(
+      'Go To My Courses',
+      name: 'goto_my_courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid Email Format`
+  String get invalid_email {
+    return Intl.message(
+      'Invalid Email Format',
+      name: 'invalid_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restaurant`
+  String get restaurant {
+    return Intl.message(
+      'Restaurant',
+      name: 'restaurant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restaurant name in arabic`
+  String get rest_name_ar {
+    return Intl.message(
+      'Restaurant name in arabic',
+      name: 'rest_name_ar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restaurant name in english`
+  String get rest_name_en {
+    return Intl.message(
+      'Restaurant name in english',
+      name: 'rest_name_en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Logo in arabic`
+  String get logo_ar {
+    return Intl.message(
+      'The Logo in arabic',
+      name: 'logo_ar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Logo in english`
+  String get logo_en {
+    return Intl.message(
+      'The Logo in english',
+      name: 'logo_en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The image cover in english`
+  String get cover_en {
+    return Intl.message(
+      'The image cover in english',
+      name: 'cover_en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The image cover in arabic`
+  String get cover_ar {
+    return Intl.message(
+      'The image cover in arabic',
+      name: 'cover_ar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select your location on the map`
+  String get select_your_location {
+    return Intl.message(
+      'Select your location on the map',
+      name: 'select_your_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Social media links`
+  String get social_media_links {
+    return Intl.message(
+      'Social media links',
+      name: 'social_media_links',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop`
+  String get shop {
+    return Intl.message(
+      'Shop',
+      name: 'shop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop name in arabic`
+  String get shop_name_ar {
+    return Intl.message(
+      'Shop name in arabic',
+      name: 'shop_name_ar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop name in english`
+  String get shop_name_en {
+    return Intl.message(
+      'Shop name in english',
+      name: 'shop_name_en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please pick all the required images and files`
+  String get please_pick_all_img_files {
+    return Intl.message(
+      'please pick all the required images and files',
+      name: 'please_pick_all_img_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Write The OTP`
+  String get please_enter_otp {
+    return Intl.message(
+      'Please Write The OTP',
+      name: 'please_enter_otp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Courses`
+  String get my_courses {
+    return Intl.message(
+      'My Courses',
+      name: 'my_courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription Plans`
+  String get subscription_plans {
+    return Intl.message(
+      'Subscription Plans',
+      name: 'subscription_plans',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `approved`
+  String get approved {
+    return Intl.message(
+      'approved',
+      name: 'approved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cancelled`
+  String get cancelled {
+    return Intl.message(
+      'cancelled',
+      name: 'cancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscribers`
+  String get subscribers {
+    return Intl.message(
+      'Subscribers',
+      name: 'subscribers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Max subscribers`
+  String get max_subscribers {
+    return Intl.message(
+      'Max subscribers',
+      name: 'max_subscribers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remaining duration`
+  String get remaining_duration {
+    return Intl.message(
+      'Remaining duration',
+      name: 'remaining_duration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Messages`
+  String get messages {
+    return Intl.message(
+      'Messages',
+      name: 'messages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Trainees`
+  String get no_trainees {
+    return Intl.message(
+      'No Trainees',
+      name: 'no_trainees',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The link is invalid`
+  String get link_invalid {
+    return Intl.message(
+      'The link is invalid',
+      name: 'link_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manager email`
+  String get manager_email {
+    return Intl.message(
+      'Manager email',
+      name: 'manager_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manager password`
+  String get manager_password {
+    return Intl.message(
+      'Manager password',
+      name: 'manager_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manager Phone Number`
+  String get manager_phone {
+    return Intl.message(
+      'Manager Phone Number',
+      name: 'manager_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for any chat`
+  String get search_for_chat {
+    return Intl.message(
+      'Search for any chat',
+      name: 'search_for_chat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription plan`
+  String get subscription_plan {
+    return Intl.message(
+      'Subscription plan',
+      name: 'subscription_plan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a Dish`
+  String get add_a_dish {
+    return Intl.message(
+      'Add a Dish',
+      name: 'add_a_dish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dish Name in Arabic`
+  String get dish_name_in_arabic {
+    return Intl.message(
+      'Dish Name in Arabic',
+      name: 'dish_name_in_arabic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dish Name in English`
+  String get dish_name_in_english {
+    return Intl.message(
+      'Dish Name in English',
+      name: 'dish_name_in_english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attach an Illustrative Image of the Dish`
+  String get attach_an_illustrative_image_of_the_dish {
+    return Intl.message(
+      'Attach an Illustrative Image of the Dish',
+      name: 'attach_an_illustrative_image_of_the_dish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose the Category`
+  String get choose_the_category {
+    return Intl.message(
+      'Choose the Category',
+      name: 'choose_the_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dish Price`
+  String get dish_price {
+    return Intl.message(
+      'Dish Price',
+      name: 'dish_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dish Components in Arabic`
+  String get dish_components_in_arabic {
+    return Intl.message(
+      'Dish Components in Arabic',
+      name: 'dish_components_in_arabic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dish Components in English`
+  String get dish_components_in_english {
+    return Intl.message(
+      'Dish Components in English',
+      name: 'dish_components_in_english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `complete the data`
+  String get complete_data {
+    return Intl.message(
+      'complete the data',
+      name: 'complete_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details in arabic`
+  String get details_in_arabic {
+    return Intl.message(
+      'Details in arabic',
+      name: 'details_in_arabic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details in english`
+  String get details_in_english {
+    return Intl.message(
+      'Details in english',
+      name: 'details_in_english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `to`
+  String get to {
+    return Intl.message(
+      'to',
+      name: 'to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Product`
+  String get add_Product {
+    return Intl.message(
+      'Add Product',
+      name: 'add_Product',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Name in Arabic`
+  String get product_Name_Arabic {
+    return Intl.message(
+      'Product Name in Arabic',
+      name: 'product_Name_Arabic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Name in English`
+  String get product_Name_English {
+    return Intl.message(
+      'Product Name in English',
+      name: 'product_Name_English',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attach an Image Representing the Product`
+  String get attach_Image_Product {
+    return Intl.message(
+      'Attach an Image Representing the Product',
+      name: 'attach_Image_Product',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Price`
+  String get product_price {
+    return Intl.message(
+      'Product Price',
+      name: 'product_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Ingredients in Arabic`
+  String get product_ingred_ar {
+    return Intl.message(
+      'Product Ingredients in Arabic',
+      name: 'product_ingred_ar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Ingredients in English`
+  String get product_ingred_en {
+    return Intl.message(
+      'Product Ingredients in English',
+      name: 'product_ingred_en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The most wanted products`
+  String get most_wanted_products {
+    return Intl.message(
+      'The most wanted products',
+      name: 'most_wanted_products',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My products`
+  String get my_products {
+    return Intl.message(
+      'My products',
+      name: 'my_products',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My plates`
+  String get my_plates {
+    return Intl.message(
+      'My plates',
+      name: 'my_plates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `change`
+  String get change {
+    return Intl.message(
+      'change',
+      name: 'change',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Old Password`
+  String get old_pass {
+    return Intl.message(
+      'Old Password',
+      name: 'old_pass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Every year`
+  String get every_year {
+    return Intl.message(
+      'Every year',
+      name: 'every_year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free Subscription`
+  String get free_susbcription {
+    return Intl.message(
+      'Free Subscription',
+      name: 'free_susbcription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your dish has been added successfully`
+  String get dish_added_succ {
+    return Intl.message(
+      'Your dish has been added successfully',
+      name: 'dish_added_succ',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to my dishes`
+  String get go_to_my_dishes {
+    return Intl.message(
+      'Go to my dishes',
+      name: 'go_to_my_dishes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number of orders`
+  String get num_orders {
+    return Intl.message(
+      'Number of orders',
+      name: 'num_orders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your product has been added successfully`
+  String get product_added_succ {
+    return Intl.message(
+      'Your product has been added successfully',
+      name: 'product_added_succ',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to my products`
+  String get go_to_my_products {
+    return Intl.message(
+      'Go to my products',
+      name: 'go_to_my_products',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start training`
+  String get start_training {
+    return Intl.message(
+      'Start training',
+      name: 'start_training',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add new values`
+  String get add_values {
+    return Intl.message(
+      'Add new values',
+      name: 'add_values',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `day`
+  String get day {
+    return Intl.message(
+      'day',
+      name: 'day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fat percentage`
+  String get fat_perct {
+    return Intl.message(
+      'Fat percentage',
+      name: 'fat_perct',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trainee at`
+  String get trainee_at {
+    return Intl.message(
+      'Trainee at',
+      name: 'trainee_at',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CM`
+  String get cm {
+    return Intl.message(
+      'CM',
+      name: 'cm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `KG`
+  String get kg {
+    return Intl.message(
+      'KG',
+      name: 'kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changes in BMI`
+  String get changes_in_bmi {
+    return Intl.message(
+      'Changes in BMI',
+      name: 'changes_in_bmi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order`
+  String get order {
+    return Intl.message(
+      'Order',
+      name: 'order',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{name} has left the call. If you need anything, feel free to reach out. See you!`
+  String the_member_left_the_call(Object name) {
+    return Intl.message(
+      '$name has left the call. If you need anything, feel free to reach out. See you!',
+      name: 'the_member_left_the_call',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `{name} declined the call `
+  String the_member_decline_the_call(Object name) {
+    return Intl.message(
+      '$name declined the call ',
+      name: 'the_member_decline_the_call',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Delete Account`
+  String get delete_acc {
+    return Intl.message(
+      'Delete Account',
+      name: 'delete_acc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete your account?`
+  String get delete_acc_dialog_content {
+    return Intl.message(
+      'Are you sure you want to delete your account?',
+      name: 'delete_acc_dialog_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check your Email`
+  String get check_email {
+    return Intl.message(
+      'Check your Email',
+      name: 'check_email',
       desc: '',
       args: [],
     );

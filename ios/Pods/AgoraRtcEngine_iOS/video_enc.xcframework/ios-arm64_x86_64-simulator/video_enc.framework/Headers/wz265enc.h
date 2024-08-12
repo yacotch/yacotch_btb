@@ -123,6 +123,7 @@ typedef struct WZ265EncConfig {
   int bframes;      // num of bi-pred frames, -1: using default
   int bframesAdapt;
   int single_pps;       // limit pps to be only one
+  int rps_prediction;   // rps prediction from sps
   int temporalLayer;    // works with zerolatency, separate P frames into temporal layers, 0 ~ 2
   int bitrateInkbps;    // target bit rate in kbps, valid when rctype is cbr abd vbr
   int vbv_buffer_size;  // buf size of vbv

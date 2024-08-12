@@ -67,8 +67,7 @@ class _EmptyErrorScreenWidgetState extends State<EmptyErrorScreenWidget>
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
-                ),
-                primary: Theme.of(context).primaryColor,
+                ), backgroundColor: Theme.of(context).primaryColor,
               ),
               onPressed: widget.callback,
               child: Text(

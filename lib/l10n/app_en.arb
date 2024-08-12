@@ -323,6 +323,6 @@
 "the_member_decline_the_call":"{name} declined the call ",
 
 "delete_acc":"Delete Account",
-"delete_acc_dialog_content":"Are you sure you want to delete your account?"
-
+"delete_acc_dialog_content":"Are you sure you want to delete your account?",
+  "check_email": "Check your Email"
 }

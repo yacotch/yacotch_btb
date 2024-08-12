@@ -108,8 +108,7 @@ Widget buildErrorScreen({
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                  ),
-                  primary: Theme.of(context).primaryColor,
+                  ), backgroundColor: Theme.of(context).primaryColor,
                 ),
                 onPressed: callback,
                 child: Padding(

@@ -11,6 +11,7 @@
 #include <vector>
 #include "AgoraBase.h"
 #include "AgoraOptional.h"
+#include  <aosl/api/cpp/aosl_ares_class.h>
 
 namespace agora {
 namespace media {
@@ -40,6 +41,7 @@ struct LocalVideoTrackStats;
 struct RemoteVideoTrackStats;
 class IMediaPacketReceiver;
 class IVideoSinkBase;
+
 /**
  * The ILocalUser class defines the behavior and state of a local user.
  *
@@ -279,7 +281,7 @@ class ILocalUser {
    * as `role`, the connection fails with the \ref IRtcConnectionObserver::onConnectionFailure "onConnectionFailure" callback.
    * @param role The role of the user. See \ref rtc::CLIENT_ROLE_TYPE "CLIENT_ROLE_TYPE".
    */
-  virtual void setUserRole(rtc::CLIENT_ROLE_TYPE role) = 0;
+  virtual int setUserRole(rtc::CLIENT_ROLE_TYPE role, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Gets the role of the user.
@@ -288,8 +290,14 @@ class ILocalUser {
    */
   virtual CLIENT_ROLE_TYPE getUserRole() = 0;
 
-
-  virtual void setAudienceLatencyLevel(AUDIENCE_LATENCY_LEVEL_TYPE level) = 0;
+  /**
+   * Sets the latency level of an audience member.
+   *
+   * @note
+   * @param level The latency level of an audience member in interactive live streaming. See AUDIENCE_LATENCY_LEVEL_TYPE.
+   * @param role The user role determined by the config. If it's -1, it means there is no configured role.
+   */
+  virtual int setAudienceLatencyLevel(AUDIENCE_LATENCY_LEVEL_TYPE level, int role, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   virtual AUDIENCE_LATENCY_LEVEL_TYPE getAudienceLatencyLevel() = 0;
 
@@ -303,7 +311,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setAudioEncoderConfiguration(const rtc::AudioEncoderConfiguration& config) = 0;
+  virtual int setAudioEncoderConfiguration(const rtc::AudioEncoderConfiguration& config, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Sets the audio parameters and application scenarios.
@@ -314,7 +322,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setAudioScenario(AUDIO_SCENARIO_TYPE scenario) = 0;
+  virtual int setAudioScenario(AUDIO_SCENARIO_TYPE scenario, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    *  You can call this method to set the expected video scenario.
@@ -326,7 +334,22 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setVideoScenario(VIDEO_APPLICATION_SCENARIO_TYPE scenarioType) = 0;
+  virtual int setVideoScenario(VIDEO_APPLICATION_SCENARIO_TYPE scenarioType, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
+
+  /**
+   * Sets the Video qoe preference.
+   *
+   * You can call this method to set the expected QoE Preference.
+   * The SDK will optimize the video experience for each preference you set.
+   *
+   *
+   * @param qoePreference The qoe preference type. See #VIDEO_QOE_PREFERENCE_TYPE.
+   *
+   * @return
+   * - 0: Success.
+   * - < 0: Failure.
+   */
+  virtual int setVideoQoEPreference(VIDEO_QOE_PREFERENCE_TYPE qoePreference, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Gets the detailed statistics of the local audio.
@@ -349,7 +372,7 @@ class ILocalUser {
    * - < 0: Failure.
    *   - -5(ERR_REFUSED), if the role of the local user is not broadcaster.
    */
-  virtual int publishAudio(agora_refptr<ILocalAudioTrack> audioTrack) = 0;
+  virtual int publishAudio(agora_refptr<ILocalAudioTrack> audioTrack, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Stops publishing the local audio track to the channel.
@@ -359,7 +382,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int unpublishAudio(agora_refptr<ILocalAudioTrack> audioTrack) = 0;
+  virtual int unpublishAudio(agora_refptr<ILocalAudioTrack> audioTrack, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Publishes a local video track to the channel.
@@ -369,7 +392,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int publishVideo(agora_refptr<ILocalVideoTrack> videoTrack) = 0;
+  virtual int publishVideo(agora_refptr<ILocalVideoTrack> videoTrack, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Stops publishing the local video track to the channel.
@@ -379,7 +402,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int unpublishVideo(agora_refptr<ILocalVideoTrack> videoTrack) = 0;
+  virtual int unpublishVideo(agora_refptr<ILocalVideoTrack> videoTrack, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Subscribes to the audio of a specified remote user in channel.
@@ -390,7 +413,7 @@ class ILocalUser {
    * - < 0: Failure.
    *   - -2(ERR_INVALID_ARGUMENT), if no such user exists or `userId` is invalid.
    */
-  virtual int subscribeAudio(user_id_t userId) = 0;
+  virtual int subscribeAudio(user_id_t userId, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Subscribes to the audio of all remote users in the channel.
@@ -401,7 +424,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int subscribeAllAudio() = 0;
+  virtual int subscribeAllAudio(aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Stops subscribing to the audio of a specified remote user in the channel.
@@ -412,7 +435,7 @@ class ILocalUser {
    * - < 0: Failure.
    *   - -2(ERR_INVALID_ARGUMENT), if no such user exists or `userId` is invalid.
    */
-  virtual int unsubscribeAudio(user_id_t userId) = 0;
+  virtual int unsubscribeAudio(user_id_t userId, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Stops subscribing to the audio of all remote users in the channel.
@@ -424,7 +447,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int unsubscribeAllAudio() = 0;
+  virtual int unsubscribeAllAudio(aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Adjusts the playback signal volume.
@@ -436,7 +459,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int adjustPlaybackSignalVolume(int volume) = 0;
+  virtual int adjustPlaybackSignalVolume(int volume, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Gets the current playback signal volume.
@@ -467,7 +490,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int adjustUserPlaybackSignalVolume(user_id_t userId, int volume) = 0;
+  virtual int adjustUserPlaybackSignalVolume(user_id_t userId, int volume, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Gets the current playback signal volume of specified user.
@@ -491,7 +514,7 @@ class ILocalUser {
    - 0: Success.
    - < 0: Failure.
    */
-  virtual int enableSoundPositionIndication(bool enabled) = 0;
+  virtual int enableSoundPositionIndication(bool enabled, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /** Sets the sound position and gain of a remote user.
 
@@ -513,7 +536,7 @@ class ILocalUser {
    - 0: Success.
    - < 0: Failure.
    */
-  virtual int setRemoteVoicePosition(user_id_t userId, double pan, double gain) = 0;
+  virtual int setRemoteVoicePosition(user_id_t userId, double pan, double gain, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   
   /** enable spatial audio
    
@@ -524,7 +547,7 @@ class ILocalUser {
    - 0: Success.
    - < 0: Failure.
    */
-  virtual int enableSpatialAudio(bool enabled) = 0;
+  virtual int enableSpatialAudio(bool enabled, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /** Sets remote user parameters for spatial audio
    
@@ -535,7 +558,7 @@ class ILocalUser {
    - 0: Success.
    - < 0: Failure.
    */
-  virtual int setRemoteUserSpatialAudioParams(user_id_t userId, const agora::SpatialAudioParams& param) = 0;
+  virtual int setRemoteUserSpatialAudioParams(user_id_t userId, const agora::SpatialAudioParams& param, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Sets the audio frame parameters for the \ref agora::media::IAudioFrameObserver::onPlaybackAudioFrame
@@ -556,7 +579,7 @@ class ILocalUser {
   virtual int setPlaybackAudioFrameParameters(size_t numberOfChannels,
                                               uint32_t sampleRateHz,
                                               RAW_AUDIO_FRAME_OP_MODE_TYPE mode = RAW_AUDIO_FRAME_OP_MODE_READ_ONLY,
-                                              int samplesPerCall = 0) = 0;
+                                              int samplesPerCall = 0, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Sets the audio frame parameters for the \ref agora::media::IAudioFrameObserver::onRecordAudioFrame
    * "onRecordAudioFrame" callback.
@@ -576,7 +599,7 @@ class ILocalUser {
   virtual int setRecordingAudioFrameParameters(size_t numberOfChannels,
                                                uint32_t sampleRateHz,
                                                RAW_AUDIO_FRAME_OP_MODE_TYPE mode = RAW_AUDIO_FRAME_OP_MODE_READ_ONLY,
-                                               int samplesPerCall = 0) = 0;
+                                               int samplesPerCall = 0, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Sets the audio frame parameters for the \ref agora::media::IAudioFrameObserver::onMixedAudioFrame
    * "onMixedAudioFrame" callback.
@@ -593,7 +616,7 @@ class ILocalUser {
    */
   virtual int setMixedAudioFrameParameters(size_t numberOfChannels,
                                            uint32_t sampleRateHz,
-                                           int samplesPerCall = 0) = 0;
+                                           int samplesPerCall = 0, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Sets the audio frame parameters for the \ref agora::media::IAudioFrameObserver::onEarMonitoringAudioFrame
@@ -617,7 +640,7 @@ class ILocalUser {
                                                    size_t numberOfChannels,
                                                    uint32_t sampleRateHz,
                                                    RAW_AUDIO_FRAME_OP_MODE_TYPE mode = RAW_AUDIO_FRAME_OP_MODE_READ_ONLY,
-                                                   int samplesPerCall = 0) = 0;
+                                                   int samplesPerCall = 0, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Sets the audio frame parameters for the \ref agora::media::IAudioFrameObserver::onPlaybackAudioFrameBeforeMixing
@@ -634,7 +657,7 @@ class ILocalUser {
    * - < 0: Failure.
    */
   virtual int setPlaybackAudioFrameBeforeMixingParameters(size_t numberOfChannels,
-                                                          uint32_t sampleRateHz) = 0;
+                                                          uint32_t sampleRateHz, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Registers an audio frame observer.
@@ -652,7 +675,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int registerAudioFrameObserver(agora::media::IAudioFrameObserverBase * observer) = 0;
+  virtual int registerAudioFrameObserver(agora::media::IAudioFrameObserverBase* observer, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Releases the audio frame observer.
    *
@@ -661,7 +684,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int unregisterAudioFrameObserver(agora::media::IAudioFrameObserverBase * observer) = 0;
+  virtual int unregisterAudioFrameObserver(agora::media::IAudioFrameObserverBase* observer) = 0;
 
   /**
    * Enable the audio spectrum monitor.
@@ -673,7 +696,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int enableAudioSpectrumMonitor(int intervalInMS = 100) = 0;
+  virtual int enableAudioSpectrumMonitor(int intervalInMS = 100, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Disalbe the audio spectrum monitor.
    *
@@ -681,7 +704,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int disableAudioSpectrumMonitor() = 0;
+  virtual int disableAudioSpectrumMonitor(aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Registers an audio spectrum observer.
@@ -697,7 +720,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int registerAudioSpectrumObserver(agora::media::IAudioSpectrumObserver * observer, void (*safeDeleter)(agora::media::IAudioSpectrumObserver*)) = 0;
+  virtual int registerAudioSpectrumObserver(agora::media::IAudioSpectrumObserver * observer, void (*safeDeleter)(agora::media::IAudioSpectrumObserver*), aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Releases the audio spectrum observer.
    *
@@ -721,7 +744,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int registerLocalVideoEncodedFrameObserver(agora::media::IVideoEncodedFrameObserver* observer) = 0;
+  virtual int registerLocalVideoEncodedFrameObserver(agora::media::IVideoEncodedFrameObserver* observer, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Releases the \ref agora::media::IVideoEncodedFrameObserver "IVideoEncodedFrameObserver" object.
    * @param observer The pointer to the `IVideoEncodedFrameObserver` object.
@@ -737,7 +760,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int forceNextIntraFrame() = 0;
+  virtual int forceNextIntraFrame(aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Registers an \ref agora::media::IVideoEncodedFrameObserver "IVideoEncodedFrameObserver" object.
    *
@@ -750,7 +773,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int registerVideoEncodedFrameObserver(agora::media::IVideoEncodedFrameObserver* observer) = 0;
+  virtual int registerVideoEncodedFrameObserver(agora::media::IVideoEncodedFrameObserver* observer, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Releases the \ref agora::media::IVideoEncodedFrameObserver "IVideoEncodedFrameObserver" object.
    * @param observer The pointer to the `IVideoEncodedFrameObserver` object.
@@ -772,7 +795,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int registerVideoFrameObserver(IVideoFrameObserver2* observer) = 0;
+  virtual int registerVideoFrameObserver(IVideoFrameObserver2* observer, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Releases the \ref agora::rtc::IVideoFrameObserver2 "IVideoFrameObserver2" object.
    * @param observer The pointer to the `IVideoFrameObserver2` object.
@@ -783,11 +806,13 @@ class ILocalUser {
   virtual int unregisterVideoFrameObserver(IVideoFrameObserver2* observer) = 0;
 
   virtual int setVideoSubscriptionOptions(user_id_t userId,
-                                          const VideoSubscriptionOptions& options) = 0;
+                                          const VideoSubscriptionOptions& options, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   
-  virtual int setHighPriorityUserList(uid_t* vipList, int uidNum, int option) = 0;
+  virtual int setHighPriorityUserList(uid_t* vipList, int uidNum, int option, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   virtual int getHighPriorityUserList(std::vector<uid_t>& vipList, int& option) = 0;
+
+  virtual int setRemoteSubscribeFallbackOption(int option, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
     * Sets the blocklist of subscribe remote stream audio.
@@ -803,7 +828,7 @@ class ILocalUser {
     * - 0: Success.
     * - < 0: Failure.
     */
-   virtual int setSubscribeAudioBlocklist(user_id_t* userList, int userNumber) = 0;
+   virtual int setSubscribeAudioBlocklist(user_id_t* userList, int userNumber, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
    /**
     * Sets the allowlist of subscribe remote stream audio.
@@ -821,7 +846,7 @@ class ILocalUser {
     * - 0: Success.
     * - < 0: Failure.
     */
-   virtual int setSubscribeAudioAllowlist(user_id_t* userList, int userNumber) = 0;
+   virtual int setSubscribeAudioAllowlist(user_id_t* userList, int userNumber, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
    /**
     * Sets the blocklist of subscribe remote stream video.
@@ -837,7 +862,7 @@ class ILocalUser {
     * - 0: Success.
     * - < 0: Failure.
     */
-   virtual int setSubscribeVideoBlocklist(user_id_t* userList, int userNumber) = 0;
+   virtual int setSubscribeVideoBlocklist(user_id_t* userList, int userNumber, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
    /**
     * Sets the allowlist of subscribe remote stream video.
@@ -855,7 +880,7 @@ class ILocalUser {
     * - 0: Success.
     * - < 0: Failure.
     */
-   virtual int setSubscribeVideoAllowlist(user_id_t* userList, int userNumber) = 0;
+   virtual int setSubscribeVideoAllowlist(user_id_t* userList, int userNumber, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Subscribes to the video of a specified remote user in the channel.
@@ -870,7 +895,7 @@ class ILocalUser {
    *   - -2(ERR_INVALID_ARGUMENT), if `userId` is invalid.
    */
   virtual int subscribeVideo(user_id_t userId,
-                             const VideoSubscriptionOptions &subscriptionOptions) = 0;
+                             const VideoSubscriptionOptions &subscriptionOptions, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Subscribes to the video of all remote users in the channel.
@@ -882,7 +907,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int subscribeAllVideo(const VideoSubscriptionOptions &subscriptionOptions) = 0;
+  virtual int subscribeAllVideo(const VideoSubscriptionOptions &subscriptionOptions, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Stops subscribing to the video of a specified remote user in the channel.
@@ -893,7 +918,7 @@ class ILocalUser {
    * - < 0: Failure.
    *   - -2(ERR_INVALID_ARGUMENT), if `userId` is invalid.
    */
-  virtual int unsubscribeVideo(user_id_t userId) = 0;
+  virtual int unsubscribeVideo(user_id_t userId, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Stops subscribing to the video of all remote users in the channel.
@@ -905,7 +930,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int unsubscribeAllVideo() = 0;
+  virtual int unsubscribeAllVideo(aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Sets the time interval and the volume smoothing factor of the \ref agora::rtc::ILocalUserObserver::onAudioVolumeIndication "onAudioVolumeIndication" callback.
@@ -926,7 +951,7 @@ class ILocalUser {
    * - < 0: Failure.
    *   - -2(ERR_INVALID_ARGUMENT), if `intervalInMS` or `smooth` is out of range.
    */
-  virtual int setAudioVolumeIndicationParameters(int intervalInMS, int smooth, bool reportVad) = 0;
+  virtual int setAudioVolumeIndicationParameters(int intervalInMS, int smooth, bool reportVad, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Registers a local user observer object.
@@ -941,7 +966,7 @@ class ILocalUser {
    */
   virtual int registerLocalUserObserver(
       ILocalUserObserver* observer,
-      void(*safeDeleter)(ILocalUserObserver*) = NULL) = 0;
+      void(*safeDeleter)(ILocalUserObserver*) = NULL, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Releases the \ref agora::rtc::ILocalUserObserver "ILocalUserObserver" object.
@@ -974,7 +999,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int registerMediaControlPacketReceiver(IMediaControlPacketReceiver* ctrlPacketReceiver) = 0;
+  virtual int registerMediaControlPacketReceiver(IMediaControlPacketReceiver* ctrlPacketReceiver, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Releases the media control packet receiver.
@@ -995,7 +1020,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int sendIntraRequest(user_id_t userId) = 0;
+  virtual int sendIntraRequest(user_id_t userId, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Set local audio filterable by topn
@@ -1008,7 +1033,7 @@ class ILocalUser {
    * - < 0: Failure.
    */
 
-  virtual int setAudioFilterable(bool filterable) = 0;
+  virtual int setAudioFilterable(bool filterable, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
 /**
   * Enable / Disable specified audio filter
@@ -1019,7 +1044,7 @@ class ILocalUser {
   * - 0: success
   * - <0: failure
   */
- virtual int enableRemoteAudioTrackFilter(user_id_t userId, const char* id, bool enable) = 0;
+ virtual int enableRemoteAudioTrackFilter(user_id_t userId, const char* id, bool enable, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
  /**
   * set the properties of the specified audio filter
@@ -1031,7 +1056,7 @@ class ILocalUser {
   * - 0: success
   * - <0: failure
   */
- virtual int setRemoteAudioTrackFilterProperty(user_id_t userId, const char* id, const char* key, const char* jsonValue) = 0;
+ virtual int setRemoteAudioTrackFilterProperty(user_id_t userId, const char* id, const char* key, const char* jsonValue, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
  /**
   * get the properties of the specified audio filter
@@ -1053,7 +1078,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int publishDataChannel(agora_refptr<ILocalDataChannel> channel) = 0;
+  virtual int publishDataChannel(agora_refptr<ILocalDataChannel> channel, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Stops publishing the data channel to the channel.
    *
@@ -1062,7 +1087,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int unpublishDataChannel(agora_refptr<ILocalDataChannel> channel) = 0;
+  virtual int unpublishDataChannel(agora_refptr<ILocalDataChannel> channel, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Subscribes to a specified data channel of a specified remote user in channel.
    *
@@ -1072,7 +1097,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int subscribeDataChannel(user_id_t userId, int channelId) = 0;
+  virtual int subscribeDataChannel(user_id_t userId, int channelId, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Stops subscribing to the data channel of a specified remote user in the channel.
    *
@@ -1083,8 +1108,7 @@ class ILocalUser {
    * - < 0: Failure.
    *   - -2(ERR_INVALID_ARGUMENT), if no such user exists or `userId` is invalid.
    */
-
-  virtual int unsubscribeDataChannel(user_id_t userId, int channelId) = 0;
+  virtual int unsubscribeDataChannel(user_id_t userId, int channelId, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Registers an data channel observer.
    *
@@ -1095,7 +1119,7 @@ class ILocalUser {
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int registerDataChannelObserver(IDataChannelObserver * observer) = 0;
+  virtual int registerDataChannelObserver(IDataChannelObserver * observer, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Releases the data channel observer.
    *
@@ -1116,7 +1140,38 @@ class ILocalUser {
    * - 0: success
    * - <0: failure
   */
-  virtual int SetAudioNsMode(bool NsEnable, NS_MODE NsMode, NS_LEVEL NsLevel, NS_DELAY NsDelay) = 0;
+  virtual int SetAudioNsMode(bool NsEnable, NS_MODE NsMode, NS_LEVEL NsLevel, NS_DELAY NsDelay, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
+  /**
+   * enable the mix track that mix special track
+   *
+   * @param track The special mixed audio track.
+   * @param enalble Action of start mixing this user's audio.
+   * @param MixLocal Mix publish stream.
+   * @param MixRemote Mix remote stream.
+   * @return
+   * - 0: success
+   * - <0: failure
+  */
+  virtual int EnableLocalMixedAudioTrack(agora_refptr<ILocalAudioTrack>& track, bool enable, bool MixLocal, bool MixRemote, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
+  /**
+   * Trigger data channel update callback with all data channel infos.
+   *
+   * @return
+   * - 0: Success.
+   * - < 0: Failure.
+   */
+  virtual int takeDataChannelSnapshot(aosl_ref_t ares = AOSL_REF_INVALID) = 0;
+  /**
+   * send audio metadata
+   *
+   * @param metadata The pointer of metadata
+   * @param length Size of metadata
+   * @return
+   * - 0: success
+   * - <0: failure
+   * @technical preview 
+  */
+  virtual int sendAudioMetadata(const char* metadata, size_t length, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 };
 
 /**
@@ -1240,11 +1295,11 @@ class ILocalUserObserver {
    *
    * @param videoTrack The pointer to `ILocalVideoTrack`.
    * @param state The state of the local video track.
-   * @param errorCode The error information.
+   * @param reason The error information.
    */
   virtual void onLocalVideoTrackStateChanged(agora_refptr<rtc::ILocalVideoTrack> videoTrack,
                                              LOCAL_VIDEO_STREAM_STATE state,
-                                             LOCAL_VIDEO_STREAM_ERROR errorCode) = 0;
+                                             LOCAL_VIDEO_STREAM_REASON reason) = 0;
 
   /**
    * Reports the statistics of a local video track.
@@ -1265,7 +1320,7 @@ class ILocalUserObserver {
    * @param trackInfo The information of the remote video track.
    * @param videoTrack The pointer to `IRemoteVideoTrack`.
    */
-  virtual void onUserVideoTrackSubscribed(user_id_t userId, VideoTrackInfo trackInfo,
+  virtual void onUserVideoTrackSubscribed(user_id_t userId, const VideoTrackInfo& trackInfo,
                                           agora_refptr<rtc::IRemoteVideoTrack> videoTrack) = 0;
 
   /**
@@ -1452,6 +1507,20 @@ class ILocalUserObserver {
    * @param rotation Rotation [0 to 360).
    */
   virtual void onVideoSizeChanged(user_id_t userId, int width, int height, int rotation) = 0;
+
+  /**
+   * The audio metadata received.
+   *
+   * @param userId ID of the remote user.
+   * @param metadata The pointer of metadata
+   * @param length Size of metadata
+   * @technical preview 
+   */
+  virtual void onAudioMetadataReceived(user_id_t userId, const char* metadata, size_t length) {
+    (void)userId;
+    (void)metadata;
+    (void)length;
+  }
 
   /**
    * The media information of a specified user.

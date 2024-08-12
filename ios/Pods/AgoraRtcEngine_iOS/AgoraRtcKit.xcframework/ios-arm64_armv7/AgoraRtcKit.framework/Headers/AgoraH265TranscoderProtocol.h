@@ -6,7 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AgoraH265TranscoderDelegate.h"
+
+@protocol AgoraH265TranscoderDelegate;
 
 @protocol AgoraH265TranscoderProtocol <NSObject>
 

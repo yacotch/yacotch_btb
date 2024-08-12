@@ -145,7 +145,7 @@ class AppConstants {
   static const LANG_AR_OUTPUT = 'العربية';
   static const LANG_EN_OUTPUT = 'English';
 
-  static const DEFAULT_COUNTRY_CODE = 'SA';
+  static const DEFAULT_COUNTRY_CODE = 'EG';
 
   /// APP constants
   static const MENU_CHANGE_LANG = "assets/png/menu/change_lang.png";

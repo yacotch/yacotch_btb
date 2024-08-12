@@ -1,60 +1,50 @@
 //
-//  AgoraSpatialAudioKit.h
-//  AgoraRtcKit
-//
 //  Copyright (c) 2018 Agora. All rights reserved.
 //
-
-#ifndef AgoraSpatialAudioKit_h
-#define AgoraSpatialAudioKit_h
 
 #import <Foundation/Foundation.h>
 #import "AgoraEnumerates.h"
 #import "AgoraObjects.h"
+#import <simd/simd.h>
+
+@class AgoraRtcEngineKit;
+@class AgoraRtcConnection;
 
 __attribute__((visibility("default"))) @interface AgoraRemoteVoicePositionInfo : NSObject
-@property(strong, nonatomic) NSArray<NSNumber*> * _Nonnull position;
-@property(strong, nonatomic) NSArray<NSNumber*> * _Nullable forward;
+@property(assign, nonatomic) simd_float3 position;
+@property(assign, nonatomic) simd_float3 forward;
 @end
+
 
 __attribute__((visibility("default"))) @interface AgoraSpatialAudioZone : NSObject
 //the zone id
-@property(assign, nonatomic)  NSInteger zoneSetId;
+@property(assign, nonatomic) NSInteger zoneSetId;
 //zone center point
-@property(strong, nonatomic)  NSArray<NSNumber*> * _Nonnull position;
+@property(nonatomic) simd_float3 position;
 //forward direction 
-@property(strong, nonatomic)  NSArray<NSNumber*> * _Nonnull forward;
+@property(nonatomic) simd_float3 forward;
 //right direction
-@property(strong, nonatomic)  NSArray<NSNumber*> * _Nonnull right;
+@property(nonatomic) simd_float3 right;
 //up direction
-@property(strong, nonatomic)  NSArray<NSNumber*> * _Nonnull up;
+@property(nonatomic) simd_float3 up;
 //the forward side length of the zone
-@property(assign, nonatomic)  float forwardLength;
+@property(assign, nonatomic) float forwardLength;
 //tehe right side length of the zone
-@property(assign, nonatomic)  float rightLength;
+@property(assign, nonatomic) float rightLength;
 //the up side length of the zone
-@property(assign, nonatomic)  float upLength;
+@property(assign, nonatomic) float upLength;
 //the audio attenuation of zone
 @property(assign, nonatomic) float audioAttenuation;
-@end
-
-@class AgoraRtcEngineKit, AgoraBaseSpatialAudioKit, AgoraLocalSpatialAudioKit;
-
-__attribute__((visibility("default"))) @interface AgoraCloudSpatialAudioConfig : NSObject
-@property(assign, nonatomic) AgoraRtcEngineKit* _Nullable rtcEngine;
-/** The App ID issued to you by Agora. See [How to get the App ID](https://docs.agora.io/en/Agora%20Platform/token#get-an-app-id). Only users in apps with the same App ID can join the same channel and communicate with each other. Use an App ID to create only one AgoraRtcEngineKit instance.  To change your App ID, call [destroy]([AgoraRtcEngineKit destroy]) to `destroy` the current AgoraRtcEngineKit instance, and after `destroy` returns 0, call [sharedEngineWithConfig]([AgoraRtcEngineKit sharedEngineWithConfig:delegate:]) to create an AgoraRtcEngineKit instance with the new App ID.
- */
-@property(copy, nonatomic) NSString* _Nullable appId;
-/** The region for connection. This advanced feature applies to scenarios that have regional restrictions. <p>For the regions that Agora supports, see AgoraAreaCode. The area codes support bitwise operation. After specifying the region, the SDK connects to the Agora servers within that region.</p>
- */
-@property(assign, nonatomic) NSUInteger deployRegion;
 @end
 
 __attribute__((visibility("default"))) @interface AgoraLocalSpatialAudioConfig : NSObject
 @property(assign, nonatomic) AgoraRtcEngineKit* _Nullable rtcEngine;
 @end
 
-__attribute__((visibility("default"))) @interface AgoraBaseSpatialAudioKit : NSObject
+
+NS_ASSUME_NONNULL_BEGIN
+
+__attribute__((visibility("default"))) @interface AgoraSpatialAudioKitBase : NSObject
 
 - (int)setMaxAudioRecvCount:(NSUInteger)maxCount NS_SWIFT_NAME(setMaxAudioRecvCount(_:));
 
@@ -64,45 +54,48 @@ __attribute__((visibility("default"))) @interface AgoraBaseSpatialAudioKit : NSO
 
 - (int)updatePlayerPositionInfo:(NSInteger)playerId positionInfo:(AgoraRemoteVoicePositionInfo* _Nonnull)positionInfo NS_SWIFT_NAME(updatePlayerPositionInfo(_:positionInfo:));
 
-- (int)updateSelfPosition:(NSArray<NSNumber*>* _Nonnull)position axisForward:(NSArray<NSNumber*>* _Nonnull)axisForward axisRight:(NSArray<NSNumber*>* _Nonnull)axisRight axisUp:(NSArray<NSNumber*>* _Nonnull)axisUp NS_SWIFT_NAME(updateSelfPosition(_:axisForward:axisRight:axisUp:));
+- (int)updateSelfPosition:(simd_float3)position axisForward:(simd_float3)axisForward axisRight:(simd_float3)axisRight axisUp:(simd_float3)axisUp NS_SWIFT_NAME(updateSelfPosition(_:axisForward:axisRight:axisUp:));
 
-- (int)updateSelfPositionEx:(NSArray<NSNumber*>* _Nonnull)position
-                axisForward:(NSArray<NSNumber*>* _Nonnull)axisForward
-                axisRight:(NSArray<NSNumber*>* _Nonnull)axisRight
-                axisUp:(NSArray<NSNumber*>* _Nonnull)axisUp
-                connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(updateSelfPositionEx(_:axisForward:axisRight:axisUp:connection:));
+- (int)updateSelfTransform:(simd_float4x4)transform NS_SWIFT_NAME(updateSelfTransform(_:));
 
 - (int)muteLocalAudioStream:(BOOL)mute NS_SWIFT_NAME(muteLocalAudioStream(_:));
 
 - (int)muteAllRemoteAudioStreams:(BOOL)mute NS_SWIFT_NAME(muteAllRemoteAudioStreams(_:));
 
-- (int)setZones:(NSArray<AgoraSpatialAudioZone*> * _Nonnull)zones NS_SWIFT_NAME(setZones(_:));
+- (int)setZones:(NSArray<AgoraSpatialAudioZone*> * _Nullable)zones NS_SWIFT_NAME(setZones(_:));
 
 - (int)setPlayerAttenuation:(double)attenuation playerId:(NSUInteger)playerId forceSet:(BOOL)forceSet NS_SWIFT_NAME(setPlayerAttenuation(_:playerId:forceSet:));
 
 - (int)muteRemoteAudioStream:(NSUInteger)uid mute:(BOOL)mute NS_SWIFT_NAME(muteRemoteAudioStream(_:mute:));
 
-@end
-__attribute__((visibility("default"))) @interface AgoraLocalSpatialAudioKit : AgoraBaseSpatialAudioKit
+- (int)clearRemotePositions NS_SWIFT_NAME(clearRemotePositions());
 
-+ (instancetype _Nonnull)sharedLocalSpatialAudioWithConfig:(AgoraLocalSpatialAudioConfig* _Nonnull)config NS_SWIFT_NAME(sharedLocalSpatialAudio(with:));
+@end
+
+__attribute__((visibility("default"))) @interface AgoraLocalSpatialAudioKit : AgoraSpatialAudioKitBase
+
++ (instancetype _Nonnull)sharedLocalSpatialAudioWithConfig:(AgoraLocalSpatialAudioConfig*)config NS_SWIFT_NAME(sharedLocalSpatialAudio(with:));
 
 + (void)destroy NS_SWIFT_NAME(destroy());
 
-- (int)updateRemotePosition:(NSUInteger)uid positionInfo:(AgoraRemoteVoicePositionInfo* _Nonnull)posInfo NS_SWIFT_NAME(updateRemotePosition(_:positionInfo:));
+- (int)updateRemotePosition:(NSUInteger)uid positionInfo:(AgoraRemoteVoicePositionInfo*)posInfo NS_SWIFT_NAME(updateRemotePosition(_:positionInfo:));
 
-- (int)updateRemotePositionEx:(NSUInteger)uid positionInfo:(AgoraRemoteVoicePositionInfo* _Nonnull)posInfo connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(updateRemotePositionEx(_:positionInfo:connection:));
+- (int)updateRemotePositionEx:(NSUInteger)uid positionInfo:(AgoraRemoteVoicePositionInfo*)posInfo connection:(AgoraRtcConnection *)connection NS_SWIFT_NAME(updateRemotePositionEx(_:positionInfo:connection:));
 
 - (int)removeRemotePosition:(NSUInteger)uid NS_SWIFT_NAME(removeRemotePosition(_:));
 
-- (int)removeRemotePositionEx:(NSUInteger)uid connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(removeRemotePositionEx(_:connection:));
+- (int)removeRemotePositionEx:(NSUInteger)uid connection:(AgoraRtcConnection *)connection NS_SWIFT_NAME(removeRemotePositionEx(_:connection:));
 
-- (int)clearRemotePositions NS_SWIFT_NAME(clearRemotePositions());
+- (int)clearRemotePositionsEx:(AgoraRtcConnection *)connection NS_SWIFT_NAME(clearRemotePositionsEx(_:));
 
-- (int)clearRemotePositionsEx:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(clearRemotePositionsEx(_:));
+- (int)setRemoteAudioAttenuation:(double)attenuation uid:(NSUInteger)uid forceSet:(BOOL)forceSet NS_SWIFT_NAME(setRemoteAudioAttenuation(_:uid:forceSet:));
 
-- (int)setRemoteAudioAttenuation:(double)attenuation userId:(NSUInteger)uid forceSet:(BOOL)forceSet NS_SWIFT_NAME(setRemoteAudioAttenuation(_:userId:forceSet:));
+- (int)updateSelfPositionEx:(simd_float3)position
+                axisForward:(simd_float3)axisForward
+                axisRight:(simd_float3)axisRight
+                axisUp:(simd_float3)axisUp
+                connection:(AgoraRtcConnection *)connection NS_SWIFT_NAME(updateSelfPositionEx(_:axisForward:axisRight:axisUp:connection:));
 
 @end
 
-#endif /* AgoraSpatialAudioKit_h */
+NS_ASSUME_NONNULL_END

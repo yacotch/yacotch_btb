@@ -19,8 +19,7 @@ class MoreItem extends StatelessWidget {
       children: <Widget>[
         TextButton(
           style: TextButton.styleFrom(
-            shadowColor: Colors.transparent,
-            onSurface: Theme.of(context).colorScheme.secondary,
+            shadowColor: Colors.transparent, disabledForegroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.38),
           ),
           onPressed: onPressed ?? () {},
           child: ListTile(

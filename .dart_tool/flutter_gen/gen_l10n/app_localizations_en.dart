@@ -951,4 +951,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete_acc_dialog_content => 'Are you sure you want to delete your account?';
+
+  @override
+  String get check_email => 'Check your Email';
 }

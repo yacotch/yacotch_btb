@@ -7,73 +7,98 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AgoraRtcEngineKit.h"
+
+@protocol AgoraRtcMediaPlayerProtocol;
+@protocol AgoraRtcMediaPlayerDelegate;
+
+/**
+ * Modes for playing songs.
+ */
+typedef NS_ENUM(NSUInteger, AgoraMusicPlayMode) {
+    /**
+     * 0: The music player is in the origin mode, which means playing the original song.
+     */
+    AgoraMusicPlayModeOriginal = 0,
+
+    /**
+     * The music player is in the accompany mode, which means playing the accompaniment only.
+     */
+    AgoraMusicPlayModeAccompany = 1,
+    /**
+     * 2: The music player is in the lead sing mode, which means playing the lead vocals.
+     */
+    AgoraMusicPlayModeLeadsing = 2,
+};
+
 /**
  * The status of preload request
  */
-typedef NS_ENUM(NSUInteger, AgoraMusicContentCenterPreloadStatus) {
+typedef NS_ENUM(NSUInteger, AgoraMusicContentCenterPreloadState) {
     /**
      * 0: No error occurs and preload succeeds.
      */
-    AgoraMusicContentCenterPreloadStatusOK = 0,
+    AgoraMusicContentCenterPreloadStateOK = 0,
 
     /**
      * 1: A general error occurs.
      */
-    AgoraMusicContentCenterPreloadStatusError = 1,
+    AgoraMusicContentCenterPreloadStateError = 1,
 
     /**
      * 2: The media file is preloading.
      */
-    AgoraMusicContentCenterPreloadStatusPreloading = 2,
+    AgoraMusicContentCenterPreloadStatePreloading = 2,
     
     /**
      * 3: The media file is removed.
      */
-    AgoraMusicContentCenterPreloadStatusRemoveCache = 3,
+    AgoraMusicContentCenterPreloadStateRemoveCache = 3,
 };
 
 /**
  * the status of search or get top list request
  */
-typedef NS_ENUM(NSUInteger, AgoraMusicContentCenterStatusCode) {
+typedef NS_ENUM(NSUInteger, AgoraMusicContentCenterStateReason) {
     /**
      * 0: No error occurs and request succeeds.
      */
-    AgoraMusicContentCenterStatusCodeOK = 0,
+    AgoraMusicContentCenterStateReasonOK = 0,
     /**
      * 1: The gateway error. There are several possible reasons:
      *  - Token is expired. Check if your token is expired.
      *  - Token is invalid. Check the type of token you passed in.
      *  - Network error. Check your network.
      */
-    AgoraMusicContentCenterStatusCodeError = 1,
+    AgoraMusicContentCenterStateReasonError = 1,
     /**
      * 2: The gateway error. There are several possible reasons:
      *  - Token is expired. Check if your token is expired.
      *  - Token is invalid. Check the type of token you passed in.
      *  - Network error. Check your network.
      */
-    AgoraMusicContentCenterStatusCodeErrorGateway = 2,
+    AgoraMusicContentCenterStateReasonErrorGateway = 2,
     /**
      * 3: Permission and resource error. There are several possible reasons:
      *  - Your appid may not have the mcc permission. Please contact technical support 
      *  - The resource may not exist. Please contact technical support
      */
-    AgoraMusicContentCenterStatusCodeErrorPermissionAndResource = 3,
+    AgoraMusicContentCenterStateReasonErrorPermissionAndResource = 3,
     /**
      * 4: Internal data parse error. Please contact technical support
      */
-    AgoraMusicContentCenterStatusCodeErrorInternalDataParse = 4,
+    AgoraMusicContentCenterStateReasonErrorInternalDataParse = 4,
     /**
      * 5: Music loading error. Please contact technical support
      */
-    AgoraMusicContentCenterStatusCodeErrorMusicLoading = 5,
+    AgoraMusicContentCenterStateReasonErrorMusicLoading = 5,
     /**
      * 6: Music decryption error. Please contact technical support
      */
-    AgoraMusicContentCenterStatusCodeErrorMusicDecryption = 6,
-
+    AgoraMusicContentCenterStateReasonErrorMusicDecryption = 6,
+    /**
+     * 7: Http internal error. Please retry later.
+     */
+    AgoraMusicContentCenterStateReasonErrorHttpInternalError = 7,
 };
 
 typedef NS_ENUM(NSUInteger, AgoraMusicCacheStatusType) {
@@ -232,18 +257,18 @@ __attribute__((visibility("default"))) @interface AgoraMusicCollection : NSObjec
  * 
  * @param requestId The request id is same as that returned by getMusicCharts.
  * @param result The result of music chart collection
- * @param errorCode The status of the request. See MusicContentCenterStatusCode
+ * @param reason The status of the request. See MusicContentCenterStateReason
  */
-- (void)onMusicChartsResult:(NSString *)requestId result:(NSArray<AgoraMusicChartInfo*> *)result errorCode:(AgoraMusicContentCenterStatusCode)errorCode;
+- (void)onMusicChartsResult:(NSString *)requestId result:(NSArray<AgoraMusicChartInfo*> *)result reason:(AgoraMusicContentCenterStateReason)reason;
 
 /**
  * Music collection, occurs when getMusicCollectionByMusicChartId or searchMusic method is called.
  * 
  * @param requestId The request id is the same with that returned by getMusicCollectionByMusicChartId or searchMusic
  * @param result The result of music collection
- * @param errorCode The status of the request. See MusicContentCenterStatusCode
+ * @param reason The status of the request. See MusicContentCenterStateReason
  */
-- (void)onMusicCollectionResult:(NSString *)requestId result:(AgoraMusicCollection *)result errorCode:(AgoraMusicContentCenterStatusCode)errorCode;
+- (void)onMusicCollectionResult:(NSString *)requestId result:(AgoraMusicCollection *)result reason:(AgoraMusicContentCenterStateReason)reason;
 
 /**
  * Lyric url callback of getLyric, occurs when getLyric is called
@@ -251,9 +276,9 @@ __attribute__((visibility("default"))) @interface AgoraMusicCollection : NSObjec
  * @param requestId The request id is same as that returned by getLyric
  * @param songCode Song code
  * @param lyricUrl  The lyric url of this music
- * @param errorCode The status of the request. See MusicContentCenterStatusCode 
+ * @param reason The status of the request. See MusicContentCenterStateReason 
  */
-- (void)onLyricResult:(NSString*)requestId songCode:(NSInteger)songCode lyricUrl:(NSString* _Nullable)lyricUrl errorCode:(AgoraMusicContentCenterStatusCode)errorCode;
+- (void)onLyricResult:(NSString*)requestId songCode:(NSInteger)songCode lyricUrl:(NSString* _Nullable)lyricUrl reason:(AgoraMusicContentCenterStateReason)reason;
 
 /**
  * Simple info callback of getSongSimpleInfo, occurs when getSongSimpleInfo is called
@@ -261,9 +286,9 @@ __attribute__((visibility("default"))) @interface AgoraMusicCollection : NSObjec
  * @param requestId The request id is same as that returned by getSongSimpleInfo.
  * @param songCode Song code
  * @param simpleInfo The metadata of the music.
- * @param errorCode The status of the request. See MusicContentCenterStatusCode
+ * @param reason The status of the request. See MusicContentCenterStateReason
  */
-- (void)onSongSimpleInfoResult:(NSString*)requestId songCode:(NSInteger)songCode simpleInfo:(NSString* _Nullable)simpleInfo errorCode:(AgoraMusicContentCenterStatusCode)errorCode;
+- (void)onSongSimpleInfoResult:(NSString*)requestId songCode:(NSInteger)songCode simpleInfo:(NSString* _Nullable)simpleInfo reason:(AgoraMusicContentCenterStateReason)reason;
 
 /**
  * Preload process callback, occurs when preload is called
@@ -272,10 +297,10 @@ __attribute__((visibility("default"))) @interface AgoraMusicCollection : NSObjec
  * @param songCode Song code
  * @param percent Preload progress (0 ~ 100)
  * @param lyricUrl  The lyric url of this music
- * @param status Preload status; see PreloadStatusCode.
- * @param errorCode The status of the request. See MusicContentCenterStatusCode
+ * @param state Preload state; see PreloadState.
+ * @param reason The status of the request. See MusicContentCenterStateReason
  */
-- (void)onPreLoadEvent:(NSString*)requestId songCode:(NSInteger)songCode percent:(NSInteger)percent lyricUrl:(NSString * _Nullable)lyricUrl status:(AgoraMusicContentCenterPreloadStatus)status errorCode:(AgoraMusicContentCenterStatusCode)errorCode;
+- (void)onPreLoadEvent:(NSString*)requestId songCode:(NSInteger)songCode percent:(NSInteger)percent lyricUrl:(NSString * _Nullable)lyricUrl state:(AgoraMusicContentCenterPreloadState)state reason:(AgoraMusicContentCenterStateReason)reason;
 @end
 
 
@@ -298,6 +323,14 @@ __attribute__((visibility("default"))) @interface AgoraMusicContentCenterConfig 
  * The max number which the music content center caches cannot exceed 50.
  */
 @property (nonatomic, assign) NSUInteger maxCacheSize;
+/**
+ * @technical preview
+ */
+@property(nonatomic, copy) NSString* mccDomain;
+/**
+ * Event handler to get callback result.
+ */
+@property(nonatomic, weak) id<AgoraMusicContentCenterEventDelegate> eventDelegate;
 @end
 
 @protocol AgoraMusicPlayerProtocol <AgoraRtcMediaPlayerProtocol>
@@ -311,6 +344,19 @@ __attribute__((visibility("default"))) @interface AgoraMusicContentCenterConfig 
  * - < 0: Failure.
  */
 - (NSInteger)openMediaWithSongCode:(NSInteger)songCode startPos:(NSInteger)startPos NS_SWIFT_NAME(openMedia(songCode:startPos:));
+
+/**
+* Set the mode for playing songs.
+* You can call this method to switch from original to accompaniment or lead vocals.
+* If you do not call this method to set the mode, the SDK plays the accompaniment by default.
+*
+* @param model The playing mode.
+* @return
+* - 0: Success.
+* - < 0: Failure.
+*/
+- (NSInteger)setPlayMode:(AgoraMusicPlayMode)mode NS_SWIFT_NAME(setPlayMode(mode:));
+
 @end
 
 
@@ -355,6 +401,16 @@ __attribute__((visibility("default"))) @interface AgoraMusicContentCenter : NSOb
 - (id<AgoraMusicPlayerProtocol> _Nullable)createMusicPlayerWithDelegate:(id<AgoraRtcMediaPlayerDelegate> _Nullable)delegate NS_SWIFT_NAME(createMusicPlayer(delegate:));
 
 /**
+ * Destroy a music player source object and return result.
+ *
+ * @param musicPlayer The music player.
+ * @return
+ * - 0: Success.
+ * - < 0: Failure.
+ */
+- (NSInteger)destroyMusicPlayer:(id<AgoraMusicPlayerProtocol>)musicPlayer;
+
+/**
  * Get music chart collection of music.If the method call success, get result from the AgoraMusicContentCenterEventDelegate  - (void)onMusicChartsResult:(NSString *)requestId status:(AgoraMusicContentCenterStatusCode)status result:(NSArray<AgoraMusicChartInfo*> *)result; match the callback  "requestId" parameter to get the  request result.
  * 
  * @return The request identification
@@ -362,7 +418,7 @@ __attribute__((visibility("default"))) @interface AgoraMusicContentCenter : NSOb
 - (NSString *)getMusicCharts;
 
 /**
- * Get hot music list by hotType and page info.If the method call success, get result from the AgoraMusicContentCenterEventDelegate  - (void)onMusicCollectionResult:(NSString *)requestId status:(AgoraMusicContentCenterStatusCode)status result:(AgoraMusicCollection *)result;  match the callback  "requestId" parameter to get the  request result.
+ * Get hot music list by hotType and page info.If the method call success, get result from the AgoraMusicContentCenterEventDelegate  - (void)onMusicCollectionResult:(NSString *)requestId status:(AgoraMusicContentCenterStateReason)status result:(AgoraMusicCollection *)result;  match the callback  "requestId" parameter to get the  request result.
  * 
  * @param musicChartId The music chart id obtained from getMusicCharts.
  * @param page The page of the music chart, starting from 1
@@ -373,7 +429,7 @@ __attribute__((visibility("default"))) @interface AgoraMusicContentCenter : NSOb
 - (NSString *)getMusicCollectionWithMusicChartId:(NSInteger)musicChartId page:(NSInteger)page pageSize:(NSInteger)pageSize jsonOption:(NSString * _Nullable)jsonOption NS_SWIFT_NAME(getMusicCollection(musicChartId:page:pageSize:jsonOption:));
 
 /**
- * Search music by keyword and page info. get result from the AgoraMusicContentCenterEventDelegate  - (void)onMusicCollectionResult:(NSString *)requestId status:(AgoraMusicContentCenterStatusCode)status result:(AgoraMusicCollection *)result;  match the callback  "requestId" parameter to get the  request result.
+ * Search music by keyword and page info. get result from the AgoraMusicContentCenterEventDelegate  - (void)onMusicCollectionResult:(NSString *)requestId status:(AgoraMusicContentCenterStateReason)status result:(AgoraMusicCollection *)result;  match the callback  "requestId" parameter to get the  request result.
  * 
  * @param keyWord The key word to search.
  * @param page The page of the music search result, starting from 1
@@ -471,6 +527,24 @@ __attribute__((visibility("default"))) @interface AgoraMusicContentCenter : NSOb
  * @note If you call the method, you should call it brefore AgoraRtcEngineKit destroy 
  */
 + (void)destroy;
+
+
+#pragma mark - Unavailable Delegate Methods
+#if TARGET_OS_IPHONE
+- (void)onMusicChartsResult:(NSString *)requestId result:(NSArray<AgoraMusicChartInfo*> *)result errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(ios,deprecated=7_0,message="Use onMusicChartsResult:result:statusCode: instead.")));
+- (void)onMusicCollectionResult:(NSString *)requestId result:(AgoraMusicCollection *)result errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(ios,deprecated=7_0,message="Use onMusicCollectionResult:result:statusCode: instead.")));
+- (void)onLyricResult:(NSString*)requestId songCode:(NSInteger)songCode lyricUrl:(NSString* _Nullable)lyricUrl errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(ios,deprecated=7_0,message="Use onLyricResult:songCode:lyricUrl:statusCode: instead.")));
+- (void)onSongSimpleInfoResult:(NSString*)requestId songCode:(NSInteger)songCode simpleInfo:(NSString* _Nullable)simpleInfo errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(ios,deprecated=7_0,message="Use onSongSimpleInfoResult:songCode:simpleInfo:statusCode: instead.")));
+- (void)onPreLoadEvent:(NSString*)requestId songCode:(NSInteger)songCode percent:(NSInteger)percent lyricUrl:(NSString * _Nullable)lyricUrl state:(AgoraMusicContentCenterPreloadState)state errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(ios,deprecated=7_0,message="Use onPreLoadEvent:songCode:percent:lyricUrl:status:statusCode: instead.")));
+#endif
+
+#if (!(TARGET_OS_IPHONE) && (TARGET_OS_MAC))
+- (void)onMusicChartsResult:(NSString *)requestId result:(NSArray<AgoraMusicChartInfo*> *)result errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(macos,deprecated=10_9,message="Use onMusicChartsResult:result:statusCode: instead.")));
+- (void)onMusicCollectionResult:(NSString *)requestId result:(AgoraMusicCollection *)result errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(macos,deprecated=10_9,message="Use onMusicCollectionResult:result:statusCode: instead.")));
+- (void)onLyricResult:(NSString*)requestId songCode:(NSInteger)songCode lyricUrl:(NSString* _Nullable)lyricUrl errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(macos,deprecated=10_9,message="Use onLyricResult:songCode:lyricUrl:statusCode: instead.")));
+- (void)onSongSimpleInfoResult:(NSString*)requestId songCode:(NSInteger)songCode simpleInfo:(NSString* _Nullable)simpleInfo errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(macos,deprecated=10_9,message="Use onSongSimpleInfoResult:songCode:simpleInfo:statusCode: instead.")));
+- (void)onPreLoadEvent:(NSString*)requestId songCode:(NSInteger)songCode percent:(NSInteger)percent lyricUrl:(NSString * _Nullable)lyricUrl state:(AgoraMusicContentCenterPreloadState)state errorCode:(AgoraMusicContentCenterStateReason)errorCode __attribute__((availability(macos,deprecated=10_9,message="Use onPreLoadEvent:songCode:percent:lyricUrl:status:statusCode: instead.")));
+#endif
 
 @end
 

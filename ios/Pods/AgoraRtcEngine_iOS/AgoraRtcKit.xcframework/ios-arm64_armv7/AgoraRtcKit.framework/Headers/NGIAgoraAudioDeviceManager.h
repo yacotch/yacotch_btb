@@ -10,6 +10,7 @@
 
 #include "AgoraBase.h"
 #include "AgoraRefPtr.h"
+#include <aosl/api/cpp/aosl_ares_class.h>
 namespace agora {
 namespace media {
 namespace base {
@@ -37,6 +38,11 @@ struct AudioDeviceInfo {
    */
   char deviceName[kAdmMaxDeviceNameSize];
   /**
+   * The type name of the device. such as Built-in, USB, HDMI, etc. The maximum size is 128 bytes. The default value is 0.
+   * @note This member applies to macOS only.
+   */
+  char deviceTypeName[kAdmMaxDeviceNameSize];
+  /**
    * The ID of the device. The maximum size is 128 bytes. The default value is 0.
    */
   char deviceId[kAdmMaxGuidSize];
@@ -56,6 +62,7 @@ struct AudioDeviceInfo {
   AudioDeviceInfo() : isCurrentSelected(false),
                       isPlayoutDevice(true) {
     memset(deviceName, 0, sizeof(deviceName));
+    memset(deviceTypeName, 0, sizeof(deviceTypeName));
     memset(deviceId, 0, sizeof(deviceId));
   }
 };
@@ -146,7 +153,7 @@ class IRecordingDeviceSource : public RefCountInterface {
    * - 0: Success.
    * - < 0: Failure.
    */
-    virtual int startRecording() = 0;
+    virtual int startRecording(aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Stop the recording device.
@@ -154,7 +161,7 @@ class IRecordingDeviceSource : public RefCountInterface {
    * - 0: Success.
    * - < 0: Failure.
    */
-    virtual int stopRecording() = 0;
+    virtual int stopRecording(aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Registers an audio frame observer.
@@ -164,7 +171,7 @@ class IRecordingDeviceSource : public RefCountInterface {
    * - 0: Success.
    * - < 0: Failure.
    */
-    virtual int registerAudioFrameObserver(media::IAudioPcmFrameSink* observer) = 0;
+    virtual int registerAudioFrameObserver(media::IAudioPcmFrameSink* observer, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /**
    * Releases the registered IAudioFrameObserver object.
@@ -182,7 +189,7 @@ class IRecordingDeviceSource : public RefCountInterface {
    * - 0: Success.
    * - < 0: Failure.
    */
-    virtual int setLoopbackDeviceParameter(const LoopbackRecordingOption &option) = 0;
+    virtual int setLoopbackDeviceParameter(const LoopbackRecordingOption &option, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
     virtual ~IRecordingDeviceSource() {}
 };
@@ -212,7 +219,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setMicrophoneVolume(unsigned int volume) = 0;
+  virtual int setMicrophoneVolume(unsigned int volume, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Gets the volume of the microphone.
    * @param volume The volume of the microphone.
@@ -228,7 +235,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setSpeakerVolume(unsigned int volume) = 0;
+  virtual int setSpeakerVolume(unsigned int volume, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Gets the volume of the speaker.
    * @param volume The volume of the speaker.
@@ -246,7 +253,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setMicrophoneMute(bool mute) = 0;
+  virtual int setMicrophoneMute(bool mute, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Gets the mute state of the microphone.
    * @param mute The mute state of the microphone.
@@ -264,7 +271,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setSpeakerMute(bool mute) = 0;
+  virtual int setSpeakerMute(bool mute, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Gets the mute state of the speaker.
    * @param mute A reference to the mute state of the speaker.
@@ -308,7 +315,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setDefaultAudioRouting(AudioRoute route) = 0;
+  virtual int setDefaultAudioRouting(AudioRoute route, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Changes the current audio routing.
    *
@@ -320,7 +327,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int changeAudioRouting(AudioRoute route) = 0;
+  virtual int changeAudioRouting(AudioRoute route, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Changes the speaker status on/off.
    *
@@ -332,7 +339,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setAudioRoutingSpeakerOn(bool enable) = 0;
+  virtual int setAudioRoutingSpeakerOn(bool enable, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Gets the current audio routing.
    *
@@ -404,7 +411,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setPlayoutDevice(int index) = 0;
+  virtual int setPlayoutDevice(int index, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Sets the recording device.
    *
@@ -416,7 +423,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setRecordingDevice(int index) = 0;
+  virtual int setRecordingDevice(int index, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /** The status of following system default playback device.
 
    @note The status of following system default playback device.
@@ -428,7 +435,7 @@ public:
    - 0: Success.
    - < 0: Failure.
    */
-  virtual int followSystemPlaybackDevice(bool enable) = 0;
+  virtual int followSystemPlaybackDevice(bool enable, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
   /** The status of following system default recording device.
 
@@ -441,7 +448,7 @@ public:
    - 0: Success.
    - < 0: Failure.
    */
-  virtual int followSystemRecordingDevice(bool enable) = 0;
+  virtual int followSystemRecordingDevice(bool enable, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 #endif  // _WIN32 || (TARGET_OS_MAC && !TARGET_OS_IPHONE)
 
 #if defined(_WIN32)
@@ -456,7 +463,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setApplicationVolume(unsigned int volume) = 0;
+  virtual int setApplicationVolume(unsigned int volume, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Gets the volume of the app.
    *
@@ -482,7 +489,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setApplicationMuteState(bool mute) = 0;
+  virtual int setApplicationMuteState(bool mute, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Gets the mute state of the app.
    *
@@ -517,7 +524,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int setLoopbackDevice(int index) = 0;
+  virtual int setLoopbackDevice(int index, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /** The status of following system default loopback device.
 
    @note The status of following system default loopback device.
@@ -529,7 +536,7 @@ public:
    - 0: Success.
    - < 0: Failure.
    */
-  virtual int followSystemLoopbackDevice(bool enable) = 0;
+  virtual int followSystemLoopbackDevice(bool enable, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 #endif  // _WIN32
 
   /**
@@ -543,7 +550,7 @@ public:
    * - 0: Success.
    * - < 0: Failure.
    */
-  virtual int registerObserver(IAudioDeviceManagerObserver* observer, void(*safeDeleter)(IAudioDeviceManagerObserver*) = NULL) = 0;
+  virtual int registerObserver(IAudioDeviceManagerObserver* observer, void(*safeDeleter)(IAudioDeviceManagerObserver*) = NULL, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
   /**
    * Releases the IAudioDeviceManagerObserver object.
    * @param observer The pointer to the IAudioDeviceManagerObserver class registered using #registerObserver.
@@ -553,7 +560,7 @@ public:
    */
   virtual int unregisterObserver(IAudioDeviceManagerObserver* observer) = 0;
 
-  virtual int setupAudioAttributeContext(void* audioAttr) = 0;
+  virtual int setupAudioAttributeContext(void* audioAttr, aosl_ref_t ares = AOSL_REF_INVALID) = 0;
 
 protected:
   ~INGAudioDeviceManager() {}

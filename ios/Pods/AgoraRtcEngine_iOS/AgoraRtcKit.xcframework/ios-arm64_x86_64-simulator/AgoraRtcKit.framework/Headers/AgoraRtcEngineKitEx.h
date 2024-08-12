@@ -9,11 +9,6 @@
 #import "AgoraRtcEngineKit.h"
 #import "AgoraObjects.h"
 
-#if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-#elif TARGET_OS_MAC
-#import <AppKit/AppKit.h>
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 @interface AgoraRtcEngineKit(Ex)
@@ -354,44 +349,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (int)setRemoteVideoSubscriptionOptionsEx:(NSUInteger)uid
                                    options:(AgoraVideoSubscriptionOptions* _Nonnull)options
                                 connection:(AgoraRtcConnection* _Nonnull)connection NS_SWIFT_NAME(setRemoteVideoSubscriptionOptionsEx(_:options:connection:));
-
-/**
- * Pushes the encoded external video frame to specified connection in Agora SDK.
- *
- * @note
- * Ensure that you have configured encoded video source before calling this method.
- *
- * @param frame The encoded external video data, which must be the direct buffer.
- * @param info The encoded external video frame info: AgoraEncodedVideoFrameInfo.
- * @param videoTrackId The id of the video track.
- *
- * @return
- * - 0: Success, which means that the encoded external video frame is pushed successfully.
- * - < 0: Failure, which means that the encoded external video frame fails to be pushed.
- */
-- (int)pushExternalEncodedVideoFrameEx:(NSData* _Nonnull)frame
-                                  info:(AgoraEncodedVideoFrameInfo * _Nonnull)info
-                            videoTrackId:(NSUInteger)videoTrackId NS_SWIFT_NAME(pushExternalEncodedVideoFrameEx(_:info:videoTrackId:));
-
-/**
- * Pushes the external video frame.
- *
- * This method pushes the video frame using the AgoraVideoFrame class and
- * passes it to the Agora SDK with the `format` parameter in AgoraVideoFormat.
- *
- * Call \ref setExternalVideoSource:useTexture:pushMode: setExternalVideoSource
- * and set the `pushMode` parameter as `YES` before calling this method.
- * @note
- * In the Communication profile, this method does not support pushing textured
- * video frames.
- * @param frame Video frame containing the SDK's encoded video data to be
- * pushed: #AgoraVideoFrame.
- * @param videoTrackId The id of the video track.
- * @return
- * - `YES`: Success.
- * - `NO`: Failure.
- */
-- (BOOL)pushExternalVideoFrame:(AgoraVideoFrame * _Nonnull)frame videoTrackId:(NSUInteger)videoTrackId NS_SWIFT_NAME(pushExternalVideoFrame(_:videoTrackId:));
 
 /** Gets the user information by passing in the user account.
 
@@ -776,6 +733,30 @@ If the remote user does not receive the data stream within five seconds, the SDK
 
 - (NSInteger)takeSnapshotEx:(AgoraRtcConnection * _Nonnull)connection uid:(NSInteger)uid filePath:(NSString* _Nonnull)filePath NS_SWIFT_NAME(takeSnapshotEx(_:uid:filePath:));
 
+/**
+   * send audio metadata
+   * @since v4.3.1
+   * @param metadata The NSData of metadata
+   * @param connection AgoraRtcConnection.
+   * @return
+   * - 0: success
+   * - <0: failure
+   * @technical preview
+*/
+- (int)sendAudioMetadataEx:(AgoraRtcConnection * _Nonnull)connection metadata:(NSData * _Nonnull)metadata NS_SWIFT_NAME(sendAudioMetadataEx(_:metadata:));
+/** 
+ *  Enables video screenshot and upload with the connection ID.
+ * @param enabled Whether to video screenshot and upload:
+ * - `true`: Yes.
+ * - `false`: No.
+ * @param config The configuration for video screenshot and upload.
+ * @param connection The connection information. See AgoraRtcConnection.
+ * @return
+ * - 0: Success.
+ * - < 0: Failure.
+ */
+- (int)enableContentInspectEx:(BOOL)enabled config:(AgoraContentInspectConfig* _Nonnull)config connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(enableContentInspectEx(_:config:connection:));
+
 /** Publishes the local stream without transcoding to a specified CDN live RTMP address.  (CDN live only.)
   *
   * @param url The CDN streaming URL in the RTMP format. The maximum length of this parameter is 1024 bytes.
@@ -839,35 +820,6 @@ If the remote user does not receive the data stream within five seconds, the SDK
  */
 - (int)startOrUpdateChannelMediaRelayEx:(AgoraChannelMediaRelayConfiguration * _Nonnull)config connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(startOrUpdateChannelMediaRelayEx(_:connection:));
 
-/** Starts to relay media streams across channels.
- *
- * @deprecated v4.2.0 Use `startOrUpdateChannelMediaRelayEx` instead.
- * @param config The configuration of the media stream relay:AgoraChannelMediaRelayConfiguration.
- * @param connection AgoraRtcConnection.
- * @return
- * - 0: Success.
- * - < 0: Failure.
- *   - -1(ERR_FAILED): A general error occurs (no specified reason).
- *   - -2(ERR_INVALID_ARGUMENT): The argument is invalid.
- *   - -5(ERR_REFUSED): The request is rejected.
- *   - -8(ERR_INVALID_STATE): The current status is invalid, only allowed to be called when the role is the broadcaster.
- */
-- (int)startChannelMediaRelayEx:(AgoraChannelMediaRelayConfiguration * _Nonnull)config connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(startChannelMediaRelayEx(_:connection:)) __deprecated_msg("use startOrUpdateChannelMediaRelayEx instead.");
-
-/** Updates the channels for media stream relay
- * @deprecated v4.2.0 Use `startOrUpdateChannelMediaRelayEx` instead.
- * @param config The media stream relay configuration: AgoraChannelMediaRelayConfiguration.
- * @param connection AgoraRtcConnection.
- * @return
- * - 0: Success.
- * - < 0: Failure.
- *   - -1(ERR_FAILED): A general error occurs (no specified reason).
- *   - -2(ERR_INVALID_ARGUMENT): The argument is invalid.
- *   - -5(ERR_REFUSED): The request is rejected.
- *   - -7(ERR_NOT_INITIALIZED): cross channel media streams are not relayed.
- */
-- (int)updateChannelMediaRelayEx:(AgoraChannelMediaRelayConfiguration * _Nonnull)config connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(updateChannelMediaRelayEx(_:connection:)) __deprecated_msg("use startOrUpdateChannelMediaRelayEx instead.");
-
 /** Stops the media stream relay.
  *
  * Once the relay stops, the host quits all the destination
@@ -928,6 +880,75 @@ If the remote user does not receive the data stream within five seconds, the SDK
  */
 - (int)startMediaRenderingTracingEx:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(startMediaRenderingTracingEx(_:));
 
+/** Provides the technical preview functionalities or special customizations by configuring the SDK with JSON options.
+
+ @note  The JSON options are not public by default. Agora is working on making commonly used JSON options public in a standard way. Contact support@agora.io for more information.
+
+ @param options SDK options in JSON format.
+ @param connection AgoraRtcConnection.
+ */
+- (int)setParametersEx:(NSString * _Nonnull)options connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(setParametersEx(_:connection:));
+
+/**
+ * Gets the current call ID.
+ *
+ * When a user joins a channel, a call ID is generated to identify the call.
+ *
+ * After a call ends, you can call `rate` or `complain` to gather feedback from
+ * your customer.
+ *
+ * @param connection The AgoraRtcConnection object.
+ * @return The call ID if the method call is successful.
+ */
+- (NSString * _Nullable)getCallIdEx:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(getCallIdEx(_:));
+
+/** 
+ * Adds multiple SDK delegate.
+ * 
+ * @param delegate The AgoraRtcEngineDelegate object. 
+ * @param connection The AgoraRtcConnection object.
+ */
+- (void)addDelegateEx:(id<AgoraRtcEngineDelegate> _Nonnull)delegate connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(addDelegateEx(_:connection:));
+
+/** 
+ * Removes multiple SDK delegate.
+ * 
+ * @param delegate The AgoraRtcEngineDelegate object. 
+ * @param connection The AgoraRtcConnection object.
+ */
+- (void)removeDelegateEx:(id<AgoraRtcEngineDelegate> _Nonnull)delegate connection:(AgoraRtcConnection * _Nonnull)connection NS_SWIFT_NAME(removeDelegateEx(_:connection:));
+
+/**-----------------------------------------------------------------------------
+ * @name Built-in Encryption
+ * -----------------------------------------------------------------------------
+ */
+
+/** Enables/Disables the built-in encryption.
+
+ In scenarios requiring high security, Agora recommends calling enableEncryption to enable the built-in encryption before joining a channel.
+
+ All users in the same channel must use the same encryption mode and encryption key. Once all users leave the channel, the encryption key of this channel is automatically cleared.
+
+ **Note**
+
+ - If you enable the built-in encryption, you cannot use the RTMP streaming function.
+
+ @param enabled Whether to enable the built-in encryption:
+
+ - YES: Enable the built-in encryption.
+ - NO: Disable the built-in encryption.
+
+ @param config Configurations of built-in encryption schemas. See AgoraEncryptionConfig.
+ @param connection  \ref AgoraRtcConnection by channelId and uid combine
+ 
+ @return - 0: Success.
+ - < 0: Failure.
+
+  - -2 (`AgoraErrorCodeInvalidArgument`): An invalid parameter is used. Set the parameter with a valid value.
+  - -7 (`AgoraErrorCodeNotInitialized`): The SDK is not initialized. Initialize the `AgoraRtcEngineKit` instance before calling this method.
+  - -4 (`AgoraErrorCodeNotSupported`): The encryption mode is incorrect or the SDK fails to load the external encryption library. Check the enumeration or reload the external encryption library.
+ */
+- (int)enableEncryptionEx:(bool)enabled encryptionConfig:(AgoraEncryptionConfig *_Nonnull)config connection:(AgoraRtcConnection* _Nonnull)connection NS_SWIFT_NAME(enableEncryptionEx(_:encryptionConfig:connection:));
 @end
 
 NS_ASSUME_NONNULL_END

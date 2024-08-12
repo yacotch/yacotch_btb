@@ -1,6 +1,6 @@
 {
   "name": "agora_rtm",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "summary": "A new flutter plugin project.",
   "description": "Flutter wrapper around the Agora Real Time Message SDKs for Android and iOS.",
   "homepage": "https://www.agora.io",

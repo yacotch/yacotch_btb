@@ -951,4 +951,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get delete_acc_dialog_content => 'هل انت متأكد انك تريد حذف حسابك؟';
+
+  @override
+  String get check_email => 'تحقق من بريدك';
 }

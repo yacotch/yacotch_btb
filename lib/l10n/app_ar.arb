@@ -377,6 +377,6 @@
 "the_member_decline_the_call":"{name} رفض المكالمة",
 
 "delete_acc":"حذف الحساب",
-"delete_acc_dialog_content":"هل انت متأكد انك تريد حذف حسابك؟"
-
+"delete_acc_dialog_content":"هل انت متأكد انك تريد حذف حسابك؟",
+  "check_email": "تحقق من بريدك"
 }
